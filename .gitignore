@@ -1,0 +1,17 @@
+# compiled output
+/node_modules
+
+# VisualStudio
+/*/**/.vscode
+.vscode
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# IntelliJ
+.idea
+*.ipr
+*.iml
+*.iws
