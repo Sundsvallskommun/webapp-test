@@ -1,5 +1,24 @@
 {
+  "mainmenu": {
+    "select-municipality": "Välj kommun",
+    "select-namespace": "Välj namnutrymme",
+    "search-placeholder": "Skriv för att filtrera",
+    "new-namespace": "Nytt namnutrymme",
+    "swedish": "S",
+    "english": "English"
+  },
+  "submenu": {
+    "categories": "Kategorier",
+    "labels": "Ettiketter",
+    "contactreasons": "Kontaktorsaker",
+    "roles": "Roller",
+    "errandstatuses": "Ärendestatus",
+    "emailconfiguration": "E-postinställningar"
+  },
+  "title": "SupportManagement",
+  "subtitle": "Administration",
   "welcome": "välkommen",
   "login": "logga in",
+  "to": "till",
   "logout": "logga ut"
 }

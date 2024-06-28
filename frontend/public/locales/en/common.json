@@ -1,0 +1,24 @@
+{
+  "mainmenu": {
+    "select-municipality": "Select municipality",
+    "select-namespace": "Select namespace",
+    "search-placeholder": "Type to filter",
+    "new-namespace": "New namespace",
+    "swedish": "Swedish",
+    "english": "English"
+  },
+  "submenu": {
+    "categories": "Categories",
+    "labels": "Labels",
+    "contactreasons":  "Contact reasons",
+    "roles": "Roles",
+    "errandstatuses": "Errand statuses",
+    "emailconfiguration":  "E-mail settings"
+  },
+  "title": "SupportManagement",
+  "subtitle": "Administration",
+  "welcome": "Welcome",
+  "login": "log in",
+  "to": "to",
+  "logout": "log out"
+}
