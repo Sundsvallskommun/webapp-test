@@ -15,6 +15,9 @@
     "errandstatuses": "Errand statuses",
     "emailconfiguration":  "E-mail settings"
   },
+  "buttons": {
+    "close": "Close"
+  },
   "title": "SupportManagement",
   "subtitle": "Administration",
   "welcome": "Welcome",

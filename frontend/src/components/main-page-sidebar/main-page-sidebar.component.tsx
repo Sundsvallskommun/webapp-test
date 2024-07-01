@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 import { useUserStore } from '@services/user-service/user-service';
 import { shallow } from 'zustand/shallow';
 import { useRouter } from 'next/router';
+import { DialogCreateNamespace } from '@components/dialogs/dialog_create_namespace';
 import { MainPageLabelsContent } from '@components/main-page-contents/main-page-labels.component';
 import { MainPageCategoriesContent } from '@components/main-page-contents/main-page-categories.component';
 import { MainPageContactreasonsContent } from '@components/main-page-contents/main-page-contactreasons.component';
@@ -12,7 +13,7 @@ import { MainPageRolesContent } from '@components/main-page-contents/main-page-r
 import { MainPageErrandstatusesContent } from '@components/main-page-contents/main-page-errandstatuses.component';
 import { MainPageEmailsettingsContent } from '@components/main-page-contents/main-page-emailsettings.component';
 
-import { getMunicipalities, getNamespaces } from '@services/supportmanagement-service/supportmanagement-service'
+import { getMunicipalities, getNamespaces } from '@services/supportmanagement-service/supportmanagement-service';
 
 export const MainPageSidebar: React.FC = () => {
   const user = useUserStore((s) => s.user, shallow);
@@ -23,6 +24,7 @@ export const MainPageSidebar: React.FC = () => {
   const [namespaces, setNamespaces] = useState([]);
   const [selectedMunicipalityId, setSelectedMunicipalityId] = useState(null);
   const [selectedNamespace, setSelectedNamespace] = useState('');
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
   const { pathname, asPath, query } = router;  
   const [selectedSubMenu, setSelectedSubMenu] = useState(null);
   const menuItems = [
@@ -46,6 +48,14 @@ export const MainPageSidebar: React.FC = () => {
       const selectedMember = namespaces.find(m => m.displayname === e.target.value);
       setSelectedNamespace(selectedMember.namespace);
     }
+  };
+
+  const openCreateDialogHandler = () => {
+    setIsCreateDialogOpen(true);
+  };
+
+  const closeCreateDialogHandler = () => {
+    setIsCreateDialogOpen(false);
   };
 
   const handleLanguageChange = (langValue: string) => {
@@ -136,6 +146,7 @@ export const MainPageSidebar: React.FC = () => {
 
   return (
   <>
+    <DialogCreateNamespace open={isCreateDialogOpen} municipalityId={selectedMunicipalityId} onClose={closeCreateDialogHandler}/>  
     <aside
       data-cy="overview-aside"
       className="flex-none absolute z-10 bg-vattjom-background-200 h-full min-h-screen max-w-full w-full sm:w-[32rem] sm:min-w-[32rem]"
@@ -234,6 +245,7 @@ export const MainPageSidebar: React.FC = () => {
                   <Button
                     disabled={selectedMunicipalityId === null}
                     color={'vattjom'}
+                    onClick={() => openCreateDialogHandler()}
                   >
                     {t('common:mainmenu.new-namespace')}
                   </Button>
