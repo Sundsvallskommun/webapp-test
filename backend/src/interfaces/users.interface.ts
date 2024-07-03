@@ -5,8 +5,3 @@ export type User = {
   givenName: string;
   surname: string;
 };
-
-export type ClientUser = {
-  name: string;
-  username: string;
-};

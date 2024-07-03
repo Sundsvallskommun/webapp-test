@@ -12,9 +12,35 @@
 export interface User {
   name: string;
   username: string;
+  givenName: string;
+  surname: string;
 }
 
 export interface UserApiResponse {
   data: User;
+  message: string;
+}
+
+export interface Municipality {
+	municipalityId: number;
+	name: string;
+}
+
+export interface MunicipalitiesApiResponse {
+  data: Municipality[];
+  message: string;
+}
+
+export interface Namespace {
+	namespace: string;
+	displayname: string;
+	description: string;
+	shortCode: string;
+	created: string;
+	modified: string;
+}
+ 
+export interface NamespaceApiResponse {
+  data: Namespace[];
   message: string;
 }
