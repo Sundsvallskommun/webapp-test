@@ -1,11 +1,11 @@
 {
   "mainmenu": {
     "select-municipality": "Välj kommun",
-    "select-namespace": "Välj namnutrymme",
+    "select-namespace": "Välj domän",
     "search-placeholder": "Skriv för att filtrera",
-    "new-namespace": "Nytt namnutrymme",
+    "new-namespace": "Ny domän",
     "swedish": "S",
-    "english": "English"
+    "english": "Engelska"
   },
   "submenu": {
     "categories": "Kategorier",
@@ -15,8 +15,30 @@
     "errandstatuses": "Ärendestatus",
     "emailconfiguration": "E-postinställningar"
   },
+  "dialogs": {
+    "manage_namespace": {
+      "header_new_namespace": "Skapa ny domän för",
+      "header_update_namespace": "Uppdatera befintlig domän för",
+      "domain_name_input_heading": "Domännamn",
+      "display_name_input_heading": "Visningsnamn",
+      "displayname_placeholder": "Ange visningsnamn",
+      "description_input_heading": "Beskrivning",
+      "description_placeholder": "Ange kort beskrivning av domänen",
+      "short_code_input_heading": "Kort-kod"
+    }
+  },
   "buttons": {
-    "close": "Stäng"
+    "close": "Stäng",
+    "verify_domain": "Verifiera tillgänglighet",
+    "create_domain": "Lägg till",
+    "update_domain": "Uppdatera"
+  },
+  "errors": {
+    "errorLoadingMunicipalities": "Ett fel inträffade vid laddning av kommuner",
+    "errorLoadingNamespaces": "Ett fel inträffade vid laddning av domäner",
+    "errorVerifyingNamespaceName": "Ett fel inträffade vid kontroll ifall domännamnet är upptaget eller ej",
+    "errorCreatingNamespace": "Ett fel inträffade när domän skulle skapas",
+    "errorUpdatingNamespace": "Ett fel inträffade när domän skulle uppdateras"
   },
   "title": "SupportManagement",
   "subtitle": "Administration",

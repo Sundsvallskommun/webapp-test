@@ -19,8 +19,8 @@ export const MainPageContactreasonsContent: React.FC<MainPageContactreasonsProps
   <div>
     <h3>
       {title}
-  	</h3>
-  	[Implement contract reasons page by generating CRUD-logic for {municipalityId}/{namespace}]
+    </h3>
+    [Implement contract reasons page by generating CRUD-logic for {municipalityId}/{namespace}]
   </div>
   );
 };

@@ -19,8 +19,8 @@ export const MainPageEmailsettingsContent: React.FC<MainPageEmailsettingsProps> 
   <div>
     <h3>
       {title}
-  	</h3>
-  	[Implement email settings page by generating CRUD-logic for {municipalityId}/{namespace}]
+    </h3>
+    [Implement email settings page by generating CRUD-logic for {municipalityId}/{namespace}]
   </div>
   );
 };

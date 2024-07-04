@@ -1,9 +1,9 @@
 {
   "mainmenu": {
     "select-municipality": "Select municipality",
-    "select-namespace": "Select namespace",
+    "select-namespace": "Select domain",
     "search-placeholder": "Type to filter",
-    "new-namespace": "New namespace",
+    "new-namespace": "New domain",
     "swedish": "Swedish",
     "english": "English"
   },
@@ -15,8 +15,30 @@
     "errandstatuses": "Errand statuses",
     "emailconfiguration":  "E-mail settings"
   },
+  "dialogs": {
+    "manage_namespace": {
+      "header_new_namespace": "Add new domain in",
+      "header_update_namespace": "Update existing domain in",
+      "domain_name_input_heading": "Domain name",
+      "display_name_input_heading": "Display name",
+      "displayname_placeholder": "Enter display name",
+      "description_input_heading": "Description",
+      "description_placeholder": "Enter domain description",
+      "short_code_input_heading": "Short code"
+    }
+  },
   "buttons": {
-    "close": "Close"
+    "close": "Close",
+    "verify_domain": "Verify availability",
+    "create_domain": "Add",
+    "update_domain": "Update"
+  },
+  "errors": {
+    "errorLoadingMunicipalities": "An error occurred when loading municipalities",
+    "errorLoadingNamespaces": "An error occurred when loading namespaces",
+    "errorVerifyingNamespaceName": "An error occurred when checking domain name availability",
+    "errorCreatingNamespace": "An error occurred when creating namespace",
+    "errorUpdatingNamespace": "An error occurred when updating namespace"
   },
   "title": "SupportManagement",
   "subtitle": "Administration",
