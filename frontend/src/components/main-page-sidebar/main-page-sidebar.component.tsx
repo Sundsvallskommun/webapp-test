@@ -12,7 +12,6 @@ import { MainPageContactreasonsContent } from '@components/main-page-contents/ma
 import { MainPageRolesContent } from '@components/main-page-contents/main-page-roles.component';
 import { MainPageErrandstatusesContent } from '@components/main-page-contents/main-page-errandstatuses.component';
 import { MainPageEmailsettingsContent } from '@components/main-page-contents/main-page-emailsettings.component';
-
 import { getMunicipalities, getNamespaces } from '@services/supportmanagement-service/supportmanagement-service';
 
 export const MainPageSidebar: React.FC = () => {
@@ -54,7 +53,10 @@ export const MainPageSidebar: React.FC = () => {
     setIsCreateDialogOpen(true);
   };
 
-  const closeCreateDialogHandler = () => {
+  const closeCreateDialogHandler = (confirm: boolean, reloadDropdown: boolean) => {
+    if (reloadDropdown) {
+      reloadNamespaceDropdown();
+    }
     setIsCreateDialogOpen(false);
   };
 
@@ -67,6 +69,18 @@ export const MainPageSidebar: React.FC = () => {
     return false;
   };
 
+  const reloadNamespaceDropdown = () => {
+    setSelectedSubMenu(null);
+    setSelectedNamespace(null);
+    if (selectedMunicipalityId) {
+      getNamespaces(selectedMunicipalityId)
+        .then((res) => setNamespaces(res))
+        .catch((e) => {
+          handleError('Error when loading namespaces:', e, t('common:errors.errorLoadingNamespaces'));
+      });
+    }
+  };
+  
   const showSection = (param: number) => {
     switch (param) {
       case 1:
@@ -129,15 +143,7 @@ export const MainPageSidebar: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setSelectedSubMenu(null);
-    setSelectedNamespace(null);
-    if (selectedMunicipalityId) {
-      getNamespaces(selectedMunicipalityId)
-        .then((res) => setNamespaces(res))
-        .catch((e) => {
-          handleError('Error when loading namespaces:', e, t('common:errors.errorLoadingNamespaces'));
-      });
-	}
+    reloadNamespaceDropdown();
   }, [selectedMunicipalityId]);
 
   useEffect(() => {
@@ -146,7 +152,10 @@ export const MainPageSidebar: React.FC = () => {
 
   return (
   <>
-    <DialogCreateNamespace open={isCreateDialogOpen} municipalityId={selectedMunicipalityId} onClose={closeCreateDialogHandler}/>  
+    <DialogCreateNamespace
+      open={isCreateDialogOpen}
+      municipality={municipalities.find(m => m.municipalityId === selectedMunicipalityId)}
+      onClose={closeCreateDialogHandler}/>  
     <aside
       data-cy="overview-aside"
       className="flex-none absolute z-10 bg-vattjom-background-200 h-full min-h-screen max-w-full w-full sm:w-[32rem] sm:min-w-[32rem]"
@@ -170,7 +179,7 @@ export const MainPageSidebar: React.FC = () => {
           <div className="flex gap-12 justify-between items-center">
             <Avatar
               data-cy="avatar-aside"
-              className="flex-none user-avatar"
+              className="flex-none upper-case"
               size="md"
               initials={`${user.givenName.charAt(0)}${user.surname.charAt(0)}`}
               color="vattjom"
@@ -220,7 +229,8 @@ export const MainPageSidebar: React.FC = () => {
                     onChange={(e) => handleSelectedMunicipalityId(e)}
                   />
                   <Combobox.List>
-                    {municipalities.map(item => <Combobox.Option key={item.municipalityId.toString()} value={item.municipalityId.toString()}>
+                  
+                    {municipalities.map(item => <Combobox.Option key={`cb-municipality-${item.municipalityId.toString()}`} value={item.municipalityId.toString()}>
                       {item.name}
                     </Combobox.Option>)}
                   </Combobox.List>
@@ -236,13 +246,14 @@ export const MainPageSidebar: React.FC = () => {
                     onChange={(e) => handleSelectedNamespace(e)}
                   />
                   <Combobox.List>
-                    {namespaces.map((item) => <Combobox.Option key={item.namespace} value={item.namespace}>
+                    {namespaces.map((item) => <Combobox.Option key={`co-namespace-${item.namespace}`} value={item.namespace}>
                       {item.displayname}
                     </Combobox.Option>)}
                   </Combobox.List>
                 </Combobox>
                 <div className={'left-padded-10'}>
                   <Button
+                    key={'button-create-namespace'}
                     disabled={selectedMunicipalityId === null}
                     color={'vattjom'}
                     onClick={() => openCreateDialogHandler()}
@@ -253,36 +264,36 @@ export const MainPageSidebar: React.FC = () => {
 
               </td>
               <td>
-              <div>
-                <Button.Group>
-                  <Button iconButton onClick={() => handleLanguageChange('sv')}>
-                    <Image
-                      alt="{t('common:mainmenu.swedish')}"
-                      htmlHeight="42"
-                      htmlWidth="26"
-                      src={'/png/se.png'}
-                    />
-                  </Button>
-
-                  <Button iconButton onClick={() => handleLanguageChange('en')}>
-                    <Image
-                      alt="{t('common:mainmenu.english')}"
-                      htmlHeight="42"
-                      htmlWidth="26"
-                      src={'/png/en.png'}
-                    />
-                  </Button>
-
-                  {user.name ?
-                    <Button>
-                      <NextLink href={`/logout`}>
-                        <Link as="span" variant="link" className={'capitalize-first'}>
-                          {t('common:logout')}
-                        </Link>
-                      </NextLink>
+                <div>
+                  <Button.Group>
+                    <Button iconButton onClick={() => handleLanguageChange('sv')}>
+                      <Image
+                        alt="{t('common:mainmenu.swedish')}"
+                        htmlHeight="42"
+                        htmlWidth="26"
+                        src={'/png/se.png'}
+                      />
                     </Button>
-                  : ''}
-                </Button.Group>
+
+                    <Button iconButton onClick={() => handleLanguageChange('en')}>
+                      <Image
+                        alt="{t('common:mainmenu.english')}"
+                        htmlHeight="42"
+                        htmlWidth="26"
+                        src={'/png/en.png'}
+                      />
+                    </Button>
+
+                    {user.name ?
+                      <Button>
+                        <NextLink href={'/logout'}>
+                          <Link as="span" variant="link" className={'capitalize-first'}>
+                            {t('common:logout')}
+                          </Link>
+                        </NextLink>
+                      </Button>
+                    : ''}
+                  </Button.Group>
                 </div>
               </td>
             </tr>

@@ -11,15 +11,3 @@ export interface NamespaceInterface {
   created: string;
   modified?: string;
 }
-
-export interface NamespaceCreateRequestInterface {
-  namespace: string;
-  displayname: string;
-  description: string;
-  shortCode: string;
-}
-
-export interface NamespaceUpdateRequestInterface {
-  displayname: string;
-  description: string;
-}

@@ -19,8 +19,8 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ title, muni
   <div>
     <h3>
       {title}
-  	</h3>
-  	[Implement roles page by generating CRUD-logic for {municipalityId}/{namespace}]
+    </h3>
+    [Implement roles page by generating CRUD-logic for {municipalityId}/{namespace}]
   </div>
   );
 };

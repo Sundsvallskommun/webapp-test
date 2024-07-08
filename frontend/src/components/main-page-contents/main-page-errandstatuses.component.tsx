@@ -19,8 +19,8 @@ export const MainPageErrandstatusesContent: React.FC<MainPageErrandstatusesProps
   <div>
     <h3>
       {title}
-  	</h3>
-  	[Implement errand statuses page by generating CRUD-logic for {municipalityId}/{namespace}]
+    </h3>
+    [Implement errand statuses page by generating CRUD-logic for {municipalityId}/{namespace}]
   </div>
   );
 };

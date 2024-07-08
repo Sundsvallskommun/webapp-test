@@ -27,7 +27,7 @@ body {
   text-transform: lowercase;
 }
 
-.capitalize-first:first-letter, .user-avatar {
+.capitalize-first:first-letter, .upper-case {
   text-transform: uppercase;
 }
 
@@ -90,6 +90,30 @@ body {
   padding-left: 0.5em;
 }
 
+.container-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.container-max-width {
+  width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.input-shortcode {
+  width: 5em;
+  text-align: center;
+}
+
+.d-flex > * {
+  padding-right: 1em;
+}
+
 .sk-menu-vertical-item > a[aria-current="page"] > * {
   text-decoration: none;
 }
@@ -99,6 +123,7 @@ div.main-menu {
   top: 0px;
   width: 100%;
 }
+
 div.main-area {
   position: relative;
   top: 85px;
@@ -108,4 +133,32 @@ div.main-area {
   padding: 2em;
   padding-top: 1.4em;
   padding-left: 22em;
+}
+
+.dialog {
+  padding: 0em;
+  box-shadow: 0 0 10px 2px darkgrey;
+  gap: 0em;
+}
+
+.dialog > .sk-dialog-content {
+  gap: var(--sk-spacing-6);
+  padding: 1em 1.5em 0em 1.5em;
+}
+
+.dialog > .sk-modal-footer {
+  padding: 0em 1.5em 1em;
+}
+
+.dialog > .sk-modal-dialog-header {
+  padding: 0.8em 1em;
+  border-top-right-radius: var(--sk-radius-cards-DEFAULT);
+  border-top-left-radius: var(--sk-radius-cards-DEFAULT);
+  background-color: var(--sk-colors-vattjom-surface-primary-DEFAULT);
+  color: white;
+  font-size: large;
+}
+
+.sk-snackbar {
+  box-shadow: 0 0 10px 2px darkgrey;
 }

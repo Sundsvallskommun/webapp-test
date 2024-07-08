@@ -19,8 +19,8 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ title, mu
   <div>
     <h3>
       {title}
-  	</h3>
-  	[Implement labels page by generating CRUD-logic for {municipalityId}/{namespace}]
+    </h3>
+    [Implement labels page by generating CRUD-logic for {municipalityId}/{namespace}]
   </div>
   );
 };

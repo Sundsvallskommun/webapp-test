@@ -19,8 +19,8 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ t
   <div>
     <h3>
       {title}
-  	</h3>
-  	[Implement category page by generating CRUD-logic for {municipalityId}/{namespace}]
+    </h3>
+    [Implement category page by generating CRUD-logic for {municipalityId}/{namespace}]
   </div>
   );
 };

@@ -1,11 +1,11 @@
 import ApiResponse from '@/interfaces/api-service.interface';
 import { MunicipalityInterface, NamespaceInterface } from '@/interfaces/supportmanagement.interface';
 import { Type } from 'class-transformer';
-import { IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsString, ValidateNested } from 'class-validator';
 
 export class Municipality implements MunicipalityInterface {
-  @IsNumber()
-  municipalityId: number;
+  @IsString()
+  municipalityId: string;
   @IsString()
   name: string;
 }
@@ -30,13 +30,21 @@ export class Namespace implements NamespaceInterface {
   @IsString()
   created: string;
   @IsString()
-  modified: string;
+  modified?: string;
 }
 
 export class NamespacesResponse implements ApiResponse<Namespace[]> {
   @ValidateNested()
   @Type(() => Namespace)
   data: Namespace[];
+  @IsString()
+  message: string;
+}
+
+export class NamespaceResponse implements ApiResponse<Namespace> {
+  @ValidateNested()
+  @Type(() => Namespace)
+  data: Namespace;
   @IsString()
   message: string;
 }
