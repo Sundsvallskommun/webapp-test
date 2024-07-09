@@ -17,7 +17,7 @@
   },
   "dialogs": {
     "manage_namespace": {
-      "header_new_namespace": "Add new domain in",
+      "header_new_namespace": "Create new domain in",
       "header_update_namespace": "Update existing domain in",
       "domain_name_input_heading": "Domain name",
       "display_name_input_heading": "Display name",
@@ -25,20 +25,42 @@
       "description_input_heading": "Description",
       "description_placeholder": "Enter domain description",
       "short_code_input_heading": "Short code"
+    },
+    "manage_role": {
+      "header_prefix": "Create new role for domain",
+      "header_in": "in",
+      "role_input_heading": "Role name"
     }
   },
   "buttons": {
     "close": "Close",
     "verify_domain": "Verify availability",
-    "create_domain": "Add",
-    "update_domain": "Update"
+    "create": "Create",
+    "update": "Update",
+    "add_role": "New role"
   },
   "errors": {
     "errorLoadingMunicipalities": "An error occurred when loading municipalities",
     "errorLoadingNamespaces": "An error occurred when loading namespaces",
     "errorVerifyingNamespaceName": "An error occurred when checking domain name availability",
     "errorCreatingNamespace": "An error occurred when creating namespace",
-    "errorUpdatingNamespace": "An error occurred when updating namespace"
+    "errorUpdatingNamespace": "An error occurred when updating namespace",
+    "errorLoadingRoles": "An error occurred when loading roles",
+    "errorVerifyingRolename": "An error occurred when checking role name availability",
+    "errorCreatingRole": "An error occurred when creating role"
+  },
+  "subpages": {
+    "roles": {
+      "missing": "Roles are missing",
+      "table": {
+        "headers": {
+          "name": "Role name",
+          "created": "Created",
+          "modified": "Modified"
+        },
+        "rows_per_page": "Rows per page"
+      }
+    }
   },
   "title": "SupportManagement",
   "subtitle": "Administration",

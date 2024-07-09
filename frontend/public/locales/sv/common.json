@@ -25,20 +25,43 @@
       "description_input_heading": "Beskrivning",
       "description_placeholder": "Ange kort beskrivning av domänen",
       "short_code_input_heading": "Kort-kod"
+    },
+    "manage_role": {
+      "header_prefix": "Skapa ny roll för domän",
+      "header_in": "i",
+      "role_input_heading": "Rollnamn"
+      
     }
   },
   "buttons": {
     "close": "Stäng",
     "verify_domain": "Verifiera tillgänglighet",
-    "create_domain": "Lägg till",
-    "update_domain": "Uppdatera"
+    "create": "Lägg till",
+    "update": "Uppdatera",
+    "add_role": "Ny roll"
   },
   "errors": {
-    "errorLoadingMunicipalities": "Ett fel inträffade vid laddning av kommuner",
-    "errorLoadingNamespaces": "Ett fel inträffade vid laddning av domäner",
-    "errorVerifyingNamespaceName": "Ett fel inträffade vid kontroll ifall domännamnet är upptaget eller ej",
+    "errorLoadingMunicipalities": "Ett fel inträffade när kommuner skulle hämtas",
+    "errorLoadingNamespaces": "Ett fel inträffade när domäner skulle hämtas",
+    "errorVerifyingNamespaceName": "Ett fel inträffade vid kontroll om domännamnet är tillgängligt",
     "errorCreatingNamespace": "Ett fel inträffade när domän skulle skapas",
-    "errorUpdatingNamespace": "Ett fel inträffade när domän skulle uppdateras"
+    "errorUpdatingNamespace": "Ett fel inträffade när domän skulle uppdateras",
+    "errorLoadingRoles": "Ett fel inträffade när roller skulle hämtas",
+    "errorVerifyingRolename": "Ett fel inträffade vid kontroll om rollnamnet är tillgängligt",
+    "errorCreatingRole": "Ett fel inträffade när roll skulle skapas"
+  },
+  "subpages": {
+    "roles": {
+      "missing": "Roller saknas",
+      "table": {
+        "headers": {
+          "name": "Rollnamn",
+          "created": "Skapad",
+          "modified": "Uppdaterad"
+        },
+        "rows_per_page": "Rader per sida"
+      }
+    }
   },
   "title": "SupportManagement",
   "subtitle": "Administration",
