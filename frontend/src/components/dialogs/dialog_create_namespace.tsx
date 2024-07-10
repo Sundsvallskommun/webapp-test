@@ -214,7 +214,7 @@ export const DialogCreateNamespace: React.FC<CreateNamespaceProps> = ({ open, mu
           disabled={shortCodeInput.length === 0 || displayNameInput.length === 0 || descriptionInput.length === 0 || !shortCodeAvailable}
           loading={savingNamespace}
           onClick={() => handleCreate()}>
-          {t('common:buttons.create_domain')}
+          {t('common:buttons.create')}
         </Button>
         }
         
@@ -223,7 +223,7 @@ export const DialogCreateNamespace: React.FC<CreateNamespaceProps> = ({ open, mu
           loading={savingNamespace}
           color={'vattjom'}
           onClick={() => handleUpdate()}>
-          {t('common:buttons.update_domain')}
+          {t('common:buttons.update')}
         </Button>
         }
         

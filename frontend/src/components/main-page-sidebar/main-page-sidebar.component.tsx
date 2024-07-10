@@ -13,6 +13,7 @@ import { MainPageRolesContent } from '@components/main-page-contents/main-page-r
 import { MainPageErrandstatusesContent } from '@components/main-page-contents/main-page-errandstatuses.component';
 import { MainPageEmailsettingsContent } from '@components/main-page-contents/main-page-emailsettings.component';
 import { getMunicipalities, getNamespaces } from '@services/supportmanagement-service/supportmanagement-service';
+import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
 
 export const MainPageSidebar: React.FC = () => {
   const user = useUserStore((s) => s.user, shallow);
@@ -21,8 +22,8 @@ export const MainPageSidebar: React.FC = () => {
   const { t } = useTranslation();
   const [municipalities, setMunicipalities] = useState([]);
   const [namespaces, setNamespaces] = useState([]);
-  const [selectedMunicipalityId, setSelectedMunicipalityId] = useState(null);
-  const [selectedNamespace, setSelectedNamespace] = useState('');
+  const [selectedMunicipality, setSelectedMunicipality] = useState<MunicipalityInterface>(null);
+  const [selectedNamespace, setSelectedNamespace] = useState<NamespaceInterface>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
   const { pathname, asPath, query } = router;  
   const [selectedSubMenu, setSelectedSubMenu] = useState(null);
@@ -34,18 +35,16 @@ export const MainPageSidebar: React.FC = () => {
     {id: 5, displayName: t('common:submenu.errandstatuses'), link: '/logout'},
     {id: 6, displayName: t('common:submenu.emailconfiguration'), link: '/logout'}
   ];
-  
+
   const handleSelectedMunicipalityId: React.ComponentProps<typeof Combobox.Input>['onChange'] = e => {
     if (e?.target?.value) {
-      const selectedMember = municipalities.find(m => m.name === e.target.value);
-      setSelectedMunicipalityId(selectedMember.municipalityId);
+      setSelectedMunicipality(municipalities.find(m => m.name === e.target.value));
     }
   };
   
   const handleSelectedNamespace: React.ComponentProps<typeof Combobox.Input>['onChange'] = e => {
     if (e?.target?.value) {
-      const selectedMember = namespaces.find(m => m.displayname === e.target.value);
-      setSelectedNamespace(selectedMember.namespace);
+      setSelectedNamespace(namespaces.find(m => m.displayname === e.target.value));
     }
   };
 
@@ -72,8 +71,8 @@ export const MainPageSidebar: React.FC = () => {
   const reloadNamespaceDropdown = () => {
     setSelectedSubMenu(null);
     setSelectedNamespace(null);
-    if (selectedMunicipalityId) {
-      getNamespaces(selectedMunicipalityId)
+    if (selectedMunicipality) {
+      getNamespaces(selectedMunicipality.municipalityId)
         .then((res) => setNamespaces(res))
         .catch((e) => {
           handleError('Error when loading namespaces:', e, t('common:errors.errorLoadingNamespaces'));
@@ -85,39 +84,38 @@ export const MainPageSidebar: React.FC = () => {
     switch (param) {
       case 1:
         return <MainPageCategoriesContent
-          title={menuItems.find(m => m.id === selectedSubMenu).displayName}
-          municipalityId={selectedMunicipalityId}
-          namespace={selectedNamespace}
+          title={selectedNamespace.displayname}
+          municipalityId={selectedMunicipality.municipalityId}
+          namespace={selectedNamespace.namespace}
         />
       case 2:
         return <MainPageLabelsContent
-          title={menuItems.find(m => m.id === selectedSubMenu).displayName}
-          municipalityId={selectedMunicipalityId}
-          namespace={selectedNamespace}
+          title={selectedNamespace.displayname}
+          municipalityId={selectedMunicipality.municipalityId}
+          namespace={selectedNamespace.namespace}
         />
       case 3:
         return <MainPageContactreasonsContent
-          title={menuItems.find(m => m.id === selectedSubMenu).displayName}
-          municipalityId={selectedMunicipalityId}
-          namespace={selectedNamespace}
+          title={selectedNamespace.displayname}
+          municipalityId={selectedMunicipality.municipalityId}
+          namespace={selectedNamespace.namespace}
         />
       case 4:
         return <MainPageRolesContent
-          title={menuItems.find(m => m.id === selectedSubMenu).displayName}
-          municipalityId={selectedMunicipalityId}
+          municipality={selectedMunicipality}
           namespace={selectedNamespace}
         />
       case 5:
         return <MainPageErrandstatusesContent
-          title={menuItems.find(m => m.id === selectedSubMenu).displayName}
-          municipalityId={selectedMunicipalityId}
-          namespace={selectedNamespace}
+          title={selectedNamespace.displayname}
+          municipalityId={selectedMunicipality.municipalityId}
+          namespace={selectedNamespace.namespace}
         />
       case 6:
         return <MainPageEmailsettingsContent
-          title={menuItems.find(m => m.id === selectedSubMenu).displayName}
-          municipalityId={selectedMunicipalityId}
-          namespace={selectedNamespace}
+          title={selectedNamespace.displayname}
+          municipalityId={selectedMunicipality.municipalityId}
+          namespace={selectedNamespace.namespace}
         />
       default:
         return null;
@@ -144,7 +142,7 @@ export const MainPageSidebar: React.FC = () => {
 
   useEffect(() => {
     reloadNamespaceDropdown();
-  }, [selectedMunicipalityId]);
+  }, [selectedMunicipality?.municipalityId]);
 
   useEffect(() => {
     setSelectedSubMenu(null);
@@ -154,11 +152,11 @@ export const MainPageSidebar: React.FC = () => {
   <>
     <DialogCreateNamespace
       open={isCreateDialogOpen}
-      municipality={municipalities.find(m => m.municipalityId === selectedMunicipalityId)}
+      municipality={selectedMunicipality}
       onClose={closeCreateDialogHandler}/>  
     <aside
       data-cy="overview-aside"
-      className="flex-none absolute z-10 bg-vattjom-background-200 h-full min-h-screen max-w-full w-full sm:w-[32rem] sm:min-w-[32rem]"
+      className="flex-none z-10 bg-vattjom-background-200 h-full min-h-screen max-w-full w-full sm:w-[32rem] sm:min-w-[32rem] rounded"
     >
       <div className="h-full w-full p-24">
         <NextLink
@@ -192,7 +190,7 @@ export const MainPageSidebar: React.FC = () => {
         <Divider />
 
         <div className="flex flex-col gap-4">
-          {selectedMunicipalityId && selectedNamespace && 
+          {selectedMunicipality && selectedNamespace && 
           <MenuVertical.Provider current={selectedSubMenu} setCurrent={handleSelectedSubMenu}>
             <MenuVertical.Sidebar>
               <MenuVertical>
@@ -238,11 +236,11 @@ export const MainPageSidebar: React.FC = () => {
 
                 <Combobox className="left-padded-10">
                   <Combobox.Input
-                    disabled={selectedMunicipalityId === null}
+                    disabled={selectedMunicipality === null}
                     placeholder={t('common:mainmenu.select-namespace')}
                     searchPlaceholder={t('common:mainmenu.search-placeholder')}
                     multiple={false}
-                    value={selectedNamespace || ''}
+                    value={selectedNamespace?.namespace || ''}
                     onChange={(e) => handleSelectedNamespace(e)}
                   />
                   <Combobox.List>
@@ -254,7 +252,7 @@ export const MainPageSidebar: React.FC = () => {
                 <div className={'left-padded-10'}>
                   <Button
                     key={'button-create-namespace'}
-                    disabled={selectedMunicipalityId === null}
+                    disabled={selectedMunicipality === null}
                     color={'vattjom'}
                     onClick={() => openCreateDialogHandler()}
                   >

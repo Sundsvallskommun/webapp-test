@@ -23,3 +23,13 @@ export interface NamespaceUpdateRequestInterface {
   displayname: string;
   description: string;
 }
+
+export interface RoleInterface {
+  name: string;
+  created: string;
+  modified?: string;
+}
+
+export interface RoleCreateRequestInterface {
+  name: string;
+}

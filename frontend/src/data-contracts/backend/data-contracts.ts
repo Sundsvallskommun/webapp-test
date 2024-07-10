@@ -37,7 +37,7 @@ export interface Namespace {
   description: string;
   shortCode: string;
   created: string;
-  modified: string;
+  modified?: string;
 }
  
 export interface NamespacesApiResponse {
@@ -60,4 +60,24 @@ export interface NamespaceCreateRequest {
 export interface NamespaceUpdateRequest {
   displayname: string;
   description: string;
+}
+
+export interface Role {
+  name: string;
+  created: string;
+  modified?: string;
+}
+
+export interface RolesApiResponse {
+  data: Role[];
+  message: string;
+}
+
+export interface RoleApiResponse {
+  data: Role;
+  message: string;
+}
+
+export interface RoleCreateRequest {
+  name: string;
 }
