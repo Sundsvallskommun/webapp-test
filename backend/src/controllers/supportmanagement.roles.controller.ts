@@ -49,7 +49,7 @@ export class SupportmanagementRolesController {
 
   @Post('/supportmanagement/municipality/:municipality/namespace/:namespace/roles')
   @OpenAPI({ summary: 'Creates a role for the provided municipality and namespace' })
-  async createNamespace(
+  async createRole(
     @Param('municipality') municipality: string,
     @Param('namespace') namespace: string,
     @Body() request: RoleCreateRequest): Promise<void> {
