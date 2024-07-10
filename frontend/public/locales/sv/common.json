@@ -9,7 +9,7 @@
   },
   "submenu": {
     "categories": "Kategorier",
-    "labels": "Ettiketter",
+    "labels": "Etiketter",
     "contactreasons": "Kontaktorsaker",
     "roles": "Roller",
     "errandstatuses": "Ärendestatus",
@@ -61,7 +61,14 @@
         },
         "rows_per_page": "Rader per sida"
       }
-    }
+    },
+	  "labels": {
+		  "label": {
+			  "classification": "Klassificering",
+			  "name": "Namn",
+			  "displayName": "Visningsnamn"
+		  }
+	  }
   },
   "title": "SupportManagement",
   "subtitle": "Administration",
