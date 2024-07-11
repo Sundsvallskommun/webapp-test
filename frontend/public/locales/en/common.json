@@ -18,7 +18,7 @@
   "dialogs": {
     "manage_namespace": {
       "header_new_namespace": "Create new domain in",
-      "header_update_namespace": "Update existing domain in",
+      "header_update_namespace": "Update domain",
       "domain_name_input_heading": "Domain name",
       "display_name_input_heading": "Display name",
       "displayname_placeholder": "Enter display name",
@@ -28,8 +28,11 @@
     },
     "manage_role": {
       "header_prefix": "Create new role for domain",
-      "header_in": "in",
       "role_input_heading": "Role name"
+    },
+    "manage_category": {
+      "create_header_prefix": "Create new category for domain",
+      "modify_header_prefix": "Modify category"
     }
   },
   "buttons": {
@@ -37,7 +40,8 @@
     "verify_domain": "Verify availability",
     "create": "Create",
     "update": "Update",
-    "add_role": "New role"
+    "add_role": "New role",
+    "add_category": "New category"
   },
   "errors": {
     "errorLoadingMunicipalities": "An error occurred when loading municipalities",
@@ -47,9 +51,19 @@
     "errorUpdatingNamespace": "An error occurred when updating namespace",
     "errorLoadingRoles": "An error occurred when loading roles",
     "errorVerifyingRolename": "An error occurred when checking role name availability",
-    "errorCreatingRole": "An error occurred when creating role"
+    "errorCreatingRole": "An error occurred when creating role",
+    "errorLoadingCategories": "An error occurred when loading categories"
   },
   "subpages": {
+    "categories": {
+      "menuheader": "Categories and types",
+      "category_name": "Category name",
+      "category_type_name": "Type name",
+      "escalation_mail": "Escalation mail",
+      "created": "Created",
+      "modified": "Modified",
+      "missing": "Categories are missing"
+    },
     "roles": {
       "missing": "Roles are missing",
       "table": {
@@ -74,6 +88,9 @@
   "subtitle": "Administration",
   "welcome": "Welcome",
   "login": "log in",
+  "domain": "domain",
+  "in": "in",
+  "for": "for",
   "to": "to",
   "logout": "log out"
 }

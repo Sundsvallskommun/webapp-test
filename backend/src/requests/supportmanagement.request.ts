@@ -1,5 +1,4 @@
-import { NamespaceCreateRequestInterface, NamespaceUpdateRequestInterface, RoleCreateRequestInterface } from '@/interfaces/supportmanagement.interface';
-import { Type } from 'class-transformer';
+import { NamespaceCreateRequestInterface, NamespaceUpdateRequestInterface, RoleCreateRequestInterface, CategoryCreateRequestInterface } from '@/interfaces/supportmanagement.interface';
 import { IsString } from 'class-validator';
 
 export class NamespaceCreateRequest implements NamespaceCreateRequestInterface {
@@ -23,4 +22,7 @@ export class NamespaceUpdateRequest implements NamespaceUpdateRequestInterface {
 export class RoleCreateRequest implements RoleCreateRequestInterface {
   @IsString()
   name: string;
+}
+
+export class CategoryCreateRequest implements CategoryCreateRequestInterface {
 }

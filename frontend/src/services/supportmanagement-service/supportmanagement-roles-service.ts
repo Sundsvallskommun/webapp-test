@@ -28,7 +28,7 @@ export const isRoleAvailable: (municipalityId: string, namespace: string, role: 
 
   return apiService
     .get<RoleApiResponse>(url)
-    .then((res) => res.data.message === 'NOT_FOUND')
+    .then(() => false) // If response is returned, then category is present in backend
     .catch((e) => {
       if (e?.response?.status === 404) { // 404 means that the requested role is not present in backend
 		return true;
