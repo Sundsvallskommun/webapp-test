@@ -32,11 +32,9 @@ class ApiService {
 
     try {
       const res = await axios(preparedConfig);
-      console.log(res);
       return { data: res.data, message: 'success' };
       
     } catch (error: unknown | AxiosError) {
-      console.error('Error in ApiService', error)
       if (axios.isAxiosError(error) && (error as AxiosError).response?.status === 404) {
         throw new HttpException(404, 'Not found');
       }

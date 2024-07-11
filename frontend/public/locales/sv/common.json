@@ -62,13 +62,14 @@
         "rows_per_page": "Rader per sida"
       }
     },
-	  "labels": {
-		  "label": {
-			  "classification": "Klassificering",
-			  "name": "Namn",
-			  "displayName": "Visningsnamn"
-		  }
-	  }
+    "labels": {
+      "label": {
+        "missing": "Etiketter saknas",
+        "classification": "Klassificering",
+        "name": "Namn",
+        "displayName": "Visningsnamn"
+      }
+    }
   },
   "title": "SupportManagement",
   "subtitle": "Administration",

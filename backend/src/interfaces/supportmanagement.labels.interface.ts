@@ -1,4 +1,3 @@
-
 export interface LabelsInterface {
   created: string;
   modified: string;

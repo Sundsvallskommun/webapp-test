@@ -61,14 +61,14 @@
         "rows_per_page": "Rows per page"
       }
     },
-	"labels": {
-		"missing": "No labels to display",
-		"label": {
-			"classification": "Klassificering",
-			"name": "Namn",
-			"displayName": "Visningsnamn"
-		}
-	}
+  "labels": {
+    "missing": "No labels to display",
+    "label": {
+      "classification": "Classification",
+      "name": "Name",
+      "displayName": "Display name"
+    }
+  }
   },
   "title": "SupportManagement",
   "subtitle": "Administration",

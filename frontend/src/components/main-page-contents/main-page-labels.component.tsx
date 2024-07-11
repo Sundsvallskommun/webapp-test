@@ -1,22 +1,20 @@
-import { v4 } from "uuid";
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { getLabels } from '@services/supportmanagement-service/supportmanagement-label-service';
 import { Label } from '@data-contracts/backend/label-contracts';
-import { Card, MenuVertical, useSnackbar} from '@sk-web-gui/react';
+import { Card, MenuVertical, useSnackbar } from '@sk-web-gui/react';
 import { MenuIndex } from '@sk-web-gui/react/dist/types/menu-vertical/src/menu-vertical-context';
 
 interface MainPageLabelsProps {
-	title: string;
-	municipalityId: string;
-	namespace: string;
+  title: string;
+  municipalityId: string;
+  namespace: string;
 }
 
-export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ title, municipalityId, namespace }) => {
-	const { t } = useTranslation();
+export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ title, municipalityId, namespace, }) => {
+  const { t } = useTranslation();
   const snackBar = useSnackbar();
   const [labels, setLabels] = useState<Label[]>([]);
-  //let current: Label | null = null;
   const [current, setCurrent] = React.useState<MenuIndex>();
 
   /**
@@ -31,21 +29,8 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ title, mu
       message: message,
       status: 'error',
       position: 'top',
-      closeable: false
+      closeable: false,
     });
-  };
-
-  /**
-   * Adds a uuid to each label object so we can keep track of them
-   * @param labels the labels to add uuid to
-   */
-  const addUuidToAllLabels = (labels: Label[]) => {
-    labels.map((label) => {
-      label.uuid = v4();
-      if (label.labels != null) {
-        addUuidToAllLabels(label.labels);
-      }
-    })
   };
 
   /**
@@ -55,9 +40,10 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ title, mu
     getLabels(municipalityId, namespace)
       .then((labels) => {
         setLabels(labels.labelStructure);
-        addUuidToAllLabels(labels.labelStructure);
       })
-      .catch((error) => { handleError(`{${t('common:errors.errorLoadingRoles')}`, error, error.message) })
+      .catch((error) => {
+        handleError(`{${t('common:errors.errorLoadingRoles')}`, error, error.message);
+      });
   }, []);
 
   /**
@@ -121,7 +107,7 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ title, mu
           <MenuVertical.Provider current={current} setCurrent={handleSetCurrent}>
             <MenuVertical.Sidebar>
               <MenuVertical.Header>
-                  <h4>{t('common:submenu.labels')}</h4>
+                <h4>{t('common:submenu.labels')}</h4>
               </MenuVertical.Header>
               <MenuVertical>
                 {labels.map(label => renderLabels(label))}
