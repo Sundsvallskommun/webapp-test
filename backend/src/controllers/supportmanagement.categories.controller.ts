@@ -3,8 +3,8 @@ import { logger } from '@/utils/logger';
 
 import { OpenAPI } from 'routing-controllers-openapi';
 import { Controller, Get, Body, Post, Param } from 'routing-controllers';
-import { CategoryCreateRequest } from '@/requests/supportmanagement.request';
-import { CategoriesResponse, CategoryResponse } from '@/responses/supportmanagement.response';
+import { CategoryCreateRequest } from '@/requests/supportmanagement.categories.request';
+import { CategoriesResponse, CategoryResponse } from '@/responses/supportmanagement.categories.response';
 import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
 
 @Controller()
