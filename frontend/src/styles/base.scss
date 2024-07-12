@@ -123,6 +123,14 @@ div.capitalize-first {
   text-decoration: none;
 }
 
+div.label-info {
+  border-radius: var(--sk-radius-button-DEFAULT);
+  border: 1px solid darkgrey;
+  padding: 0.3em;
+  padding-left: 1em;
+  color: darkgray;
+}
+
 div.main-menu {
   position: absolute;
   top: 0px;
@@ -187,3 +195,4 @@ div.main-area > button {
 .sk-table-bottom-section > div:first-child > label {
   margin-right: 1em;
 }
+

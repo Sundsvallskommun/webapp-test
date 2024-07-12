@@ -28,8 +28,8 @@ export class SupportmanagementController {
   @OpenAPI({ summary: 'Returns a list of available municipalities' })
   async getMunicipalities(
   ): Promise<MunicipalitiesResponse> {
-    const url =
-      this.baseUrl + '/muncipality';
+	const url =
+	  this.baseUrl + '/muncipality';
 
     /*
     const res = await this.apiService.get<MunicipalitiesResponse>({ url }).catch(e => {
@@ -55,7 +55,7 @@ export class SupportmanagementController {
     @Param('municipality') municipality: string
   ): Promise<NamespacesResponse> {
 
-    const url = this.baseUrl + `municipality/${municipality}/namespace`;
+	const url = this.baseUrl + `municipality/${municipality}/namespace`;
 
     /*
     const res = await this.apiService.get<NamespacesResponse>({ url }).catch(e => {

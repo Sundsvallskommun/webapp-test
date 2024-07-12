@@ -9,7 +9,7 @@
   },
   "submenu": {
     "categories": "Kategorier",
-    "labels": "Ettiketter",
+    "labels": "Etiketter",
     "contactreasons": "Kontaktorsaker",
     "roles": "Roller",
     "errandstatuses": "Ärendestatus",
@@ -60,6 +60,14 @@
           "modified": "Uppdaterad"
         },
         "rows_per_page": "Rader per sida"
+      }
+    },
+    "labels": {
+      "label": {
+        "missing": "Etiketter saknas",
+        "classification": "Klassificering",
+        "name": "Namn",
+        "displayName": "Visningsnamn"
       }
     }
   },

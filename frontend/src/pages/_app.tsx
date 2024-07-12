@@ -6,7 +6,7 @@ import 'dayjs/locale/sv';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import utc from 'dayjs/plugin/utc';
 import type { AppProps /*, AppContext */ } from 'next/app';
-import { AppWrapper } from '../contexts/app.context';
+import { AppWrapper } from '@contexts/app.context';
 import { appWithTranslation } from 'next-i18next';
 import nextI18NextConfig from '../../next-i18next.config';
 
