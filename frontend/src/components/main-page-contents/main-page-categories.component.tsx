@@ -116,9 +116,26 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
                   
                     <MenuVertical.Item key={category.name + '_created'}>
                       <div className="submenu-info">
-                        <p>{`${t('common:subpages.categories.category_name')}: ${category.name}`}</p>
-                        <p>{category.created && `${t('common:subpages.categories.created')}: ${toReadableTimestamp(category.created)}`}</p>
-                        <p>{category.modified && `${t('common:subpages.categories.modified')}: ${toReadableTimestamp(category.modified)}`}</p>
+                        <p>
+                          <span>{`${t('common:subpages.categories.category_name')}:`}</span>
+                          <b>{`${category.name}`}</b>
+                        </p>
+                        <p>
+                          {category.created &&
+                          <>
+                            <span>{`${t('common:subpages.categories.created')}:`}</span>
+                            <b>{`${toReadableTimestamp(category.created)}`}</b>
+                          </>
+                        }
+                        </p>
+                        <p>
+                          {category.modified &&
+                          <>
+                            <span>{`${t('common:subpages.categories.modified')}:`}</span>
+                            <b>{`${toReadableTimestamp(category.modified)}`}</b>
+                          </>
+                          }
+                        </p>
                       </div>
                     </MenuVertical.Item>
                   
@@ -127,10 +144,35 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
                         <div className="menuitem-div">
                           <b>{`${type.displayName}`}</b>
                           <div className="submenu-info">
-                            <p>{`${t('common:subpages.categories.category_type_name')}: ${type.name}`}</p>
-                            <p>{type.escalationEmail && `${t('common:subpages.categories.escalation_mail')}: ${type.escalationEmail.toLowerCase()}`}</p>
-                            <p>{type.created && `${t('common:subpages.categories.created')}: ${toReadableTimestamp(type.created)}`}</p>
-                            <p>{type.modified && `${t('common:subpages.categories.modified')}: ${toReadableTimestamp(type.modified)}`}</p>
+                          
+                            <p>
+                              <span>{`${t('common:subpages.categories.category_type_name')}:`}</span>
+                              <b>{`${type.name}`}</b>
+                            </p>
+                            <p>
+                              {type.escalationEmail &&
+                              <>
+                                <span>{`${t('common:subpages.categories.escalation_mail')}:`}</span>
+                                <b>{`${type.escalationEmail.toLowerCase()}`}</b>
+                              </>
+                            }
+                            </p>
+                            <p>
+                              {type.created &&
+                              <>
+                                <span>{`${t('common:subpages.categories.created')}:`}</span>
+                                <b>{`${toReadableTimestamp(type.created)}`}</b>
+                              </>
+                            }
+                            </p>
+                            <p>
+                              {type.modified &&
+                              <>
+                                <span>{`${t('common:subpages.categories.modified')}:`}</span>
+                                <b>{`${toReadableTimestamp(type.modified)}`}</b>
+                              </>
+                              }
+                            </p>
                           </div>
                         </div>
                       </MenuVertical.Item>

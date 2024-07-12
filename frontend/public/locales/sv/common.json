@@ -76,8 +76,8 @@
       }
     },
     "labels": {
+      "missing": "Etiketter saknas",
       "label": {
-        "missing": "Etiketter saknas",
         "classification": "Klassificering",
         "name": "Namn",
         "displayName": "Visningsnamn"

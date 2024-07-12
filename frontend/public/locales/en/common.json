@@ -62,10 +62,10 @@
       "escalation_mail": "Escalation mail",
       "created": "Created",
       "modified": "Modified",
-      "missing": "Categories are missing"
+      "missing": "No categories to display"
     },
     "roles": {
-      "missing": "Roles are missing",
+      "missing": "No roles to display",
       "table": {
         "headers": {
           "name": "Role name",
@@ -75,14 +75,14 @@
         "rows_per_page": "Rows per page"
       }
     },
-  "labels": {
-    "missing": "No labels to display",
-    "label": {
-      "classification": "Classification",
-      "name": "Name",
-      "displayName": "Display name"
+    "labels": {
+      "missing": "No labels to display",
+      "label": {
+        "classification": "Classification",
+        "name": "Name",
+        "displayName": "Display name"
+      }
     }
-  }
   },
   "title": "SupportManagement",
   "subtitle": "Administration",

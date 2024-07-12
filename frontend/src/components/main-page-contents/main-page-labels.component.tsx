@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { getLabels } from '@services/supportmanagement-service/supportmanagement-label-service';
 import { Label } from '@data-contracts/backend/label-contracts';
-import { Card, MenuVertical, useSnackbar } from '@sk-web-gui/react';
+import { Card, MenuVertical, Icon, useSnackbar } from '@sk-web-gui/react';
 import { MenuIndex } from '@sk-web-gui/react/dist/types/menu-vertical/src/menu-vertical-context';
 
 interface MainPageLabelsProps {
@@ -81,7 +81,12 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ title, mu
       <MenuVertical.Item key={label.uuid} id={label.uuid}>
         <MenuVertical>
           <MenuVertical.SubmenuButton>
-            <a href={`#${label.uuid}`}>{label.classification + ' - ' + label.name}</a>
+            <a href={`#${label.uuid}`}>
+              <Icon 
+                name={'list-tree'}
+              />
+              <p>{`${label.classification} - ${label.name}`}</p>
+            </a>
           </MenuVertical.SubmenuButton>
           {label.labels.map(subLabel => renderLabels(subLabel))}
         </MenuVertical>
@@ -103,13 +108,13 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ title, mu
   return (
     <>
       {labels && labels.length > 0 ?
-        <div className="w-[70rem]">
+        <div >
           <MenuVertical.Provider current={current} setCurrent={handleSetCurrent}>
             <MenuVertical.Sidebar>
               <MenuVertical.Header>
-                <h4>{t('common:submenu.labels')}</h4>
+                {t('common:submenu.labels')}
               </MenuVertical.Header>
-              <MenuVertical>
+              <MenuVertical id="sk-main-page-menu">
                 {labels.map(label => renderLabels(label))}
               </MenuVertical>
             </MenuVertical.Sidebar>
@@ -117,7 +122,7 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ title, mu
         </div> :
 
         //If no labels, show an error message
-        labels.length === 0 &&
+        (!labels || labels.length === 0) &&
         <Card color={'tertiary'}>
           <Card.Body>
             <Card.Text>
