@@ -1,5 +1,5 @@
 import { apiService } from '../api-service';
-import { Category, CategoriesApiResponse, CategoryApiResponse, CategoryCreateRequest, CategoryType } from '@data-contracts/backend/data-contracts';
+import { Category, CategoriesApiResponse, CategoryApiResponse, CategoryCreateRequest, CategoryType } from '@data-contracts/backend/category-contracts';
 import { CategoryInterface, CategoryTypeInterface } from '@interfaces/supportmanagement';
 
 export const getCategories: (municipalityId: string, namespace: string) => Promise<CategoryInterface[]> = async (municipalityId, namespace) => {
