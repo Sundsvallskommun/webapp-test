@@ -6,6 +6,7 @@ import { DialogModifyCategory } from '@components/dialogs/dialog_modify_category
 import { getCategories } from '@services/supportmanagement-service/supportmanagement-categories-service';
 import { MunicipalityInterface, NamespaceInterface, CategoryInterface } from '@interfaces/supportmanagement';
 import { toReadableTimestamp } from '@utils/dateformat';
+import { MenuIndex } from '@sk-web-gui/react/dist/types/menu-vertical/src/menu-vertical-context';
 
 interface MainPageCategoriesProps {
   municipality: MunicipalityInterface;
@@ -16,7 +17,7 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
   const { t } = useTranslation();
   const [categories, setCategories] = useState<CategoryInterface[]>([]);
   const snackBar = useSnackbar();
-  const [current, setCurrent] = useState<number>(1);
+  const [current, setCurrent] = useState<MenuIndex>();
   const [isManageCategoryDialogOpen, setIsManageCategoryDialogOpen] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<CategoryInterface | null>(null);
   
@@ -117,13 +118,13 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
                     <MenuVertical.Item key={category.name + '_created'}>
                       <div className="submenu-info">
                         <p>
-                          <span>{`${t('common:subpages.categories.category_name')}:`}</span>
+                          <span>{`${t('common:subpages.categories.category_name')}: `}</span>
                           <b>{`${category.name}`}</b>
                         </p>
                         <p>
                           {category.created &&
                           <>
-                            <span>{`${t('common:subpages.categories.created')}:`}</span>
+                            <span>{`${t('common:subpages.categories.created')}: `}</span>
                             <b>{`${toReadableTimestamp(category.created)}`}</b>
                           </>
                         }
@@ -131,7 +132,7 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
                         <p>
                           {category.modified &&
                           <>
-                            <span>{`${t('common:subpages.categories.modified')}:`}</span>
+                            <span>{`${t('common:subpages.categories.modified')}: `}</span>
                             <b>{`${toReadableTimestamp(category.modified)}`}</b>
                           </>
                           }
@@ -146,13 +147,13 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
                           <div className="submenu-info">
                           
                             <p>
-                              <span>{`${t('common:subpages.categories.category_type_name')}:`}</span>
+                              <span>{`${t('common:subpages.categories.category_type_name')}: `}</span>
                               <b>{`${type.name}`}</b>
                             </p>
                             <p>
                               {type.escalationEmail &&
                               <>
-                                <span>{`${t('common:subpages.categories.escalation_mail')}:`}</span>
+                                <span>{`${t('common:subpages.categories.escalation_mail')}: `}</span>
                                 <b>{`${type.escalationEmail.toLowerCase()}`}</b>
                               </>
                             }
@@ -160,7 +161,7 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
                             <p>
                               {type.created &&
                               <>
-                                <span>{`${t('common:subpages.categories.created')}:`}</span>
+                                <span>{`${t('common:subpages.categories.created')}: `}</span>
                                 <b>{`${toReadableTimestamp(type.created)}`}</b>
                               </>
                             }
@@ -168,7 +169,7 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
                             <p>
                               {type.modified &&
                               <>
-                                <span>{`${t('common:subpages.categories.modified')}:`}</span>
+                                <span>{`${t('common:subpages.categories.modified')}: `}</span>
                                 <b>{`${toReadableTimestamp(type.modified)}`}</b>
                               </>
                               }

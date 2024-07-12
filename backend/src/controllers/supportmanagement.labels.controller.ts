@@ -3,11 +3,12 @@ import { logger } from '@/utils/logger';
 import { OpenAPI } from 'routing-controllers-openapi';
 import { Controller, Get, Res, Param, QueryParam } from 'routing-controllers';
 import { LabelsResponse } from '@/responses/supportmanagement.labels.response';
+import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
 
 @Controller()
 export class SupportmanagementLabelController {
   private apiService = new ApiService();
-  private baseUrl = 'supportmanagement/6.1';
+  private baseUrl = BASE_URL_SUPPORTMANAGEMENT;
 
   @Get('/supportmanagement/municipality/:municipality/namespace/:namespace/labels')
   @OpenAPI({ summary: 'Returns a list of labels available for the provided municipalityId and namespace' })

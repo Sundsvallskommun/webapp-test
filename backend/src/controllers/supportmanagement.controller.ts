@@ -3,15 +3,15 @@ import { logger } from '@/utils/logger';
 import { municipalities } from '@/utils/municipalityUtil';
 
 import { OpenAPI } from 'routing-controllers-openapi';
-import { Controller, Get, Body, Post, Patch, Res, Param, QueryParam } from 'routing-controllers';
-import { MunicipalitiesResponse, Municipality, NamespacesResponse, NamespaceResponse, Namespace } from '@/responses/supportmanagement.response';
-import { NamespaceInterface } from '@/interfaces/supportmanagement.interface';
+import { Controller, Get, Body, Post, Patch, Res, Param } from 'routing-controllers';
+import { MunicipalitiesResponse, NamespacesResponse, NamespaceResponse, Namespace } from '@/responses/supportmanagement.response';
 import { NamespaceCreateRequest, NamespaceUpdateRequest } from '@/requests/supportmanagement.request';
+import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
 
 @Controller()
 export class SupportmanagementController {
   private apiService = new ApiService();
-  private baseUrl = 'supportmanagement/6.1/';
+  private baseUrl = BASE_URL_SUPPORTMANAGEMENT;
                    
   private namespaces = [
     {"key": "2281", "value": [

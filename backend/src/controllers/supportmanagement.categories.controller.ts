@@ -5,11 +5,12 @@ import { OpenAPI } from 'routing-controllers-openapi';
 import { Controller, Get, Body, Post, Param } from 'routing-controllers';
 import { CategoryCreateRequest } from '@/requests/supportmanagement.request';
 import { CategoriesResponse, CategoryResponse } from '@/responses/supportmanagement.response';
+import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
 
 @Controller()
 export class SupportmanagementCategoriesController {
   private apiService = new ApiService();
-  private baseUrl = 'supportmanagement/6.1';
+  private baseUrl = BASE_URL_SUPPORTMANAGEMENT;
                    
   @Get('/supportmanagement/municipality/:municipality/namespace/:namespace/categories')
   @OpenAPI({ summary: 'Returns all categories defined within provided municipalityId and namespace' })
