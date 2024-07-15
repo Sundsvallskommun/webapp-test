@@ -22,12 +22,10 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
   const [selectedCategory, setSelectedCategory] = useState<CategoryInterface | null>(null);
   
   const handleSetCurrent = (menuIndex: SetStateAction<number>) => {
-    console.log('handleSetCurrent menuIndex', menuIndex);
     setCurrent(menuIndex);
   };
   
   const handleError = (errorDescription: string, e: Error, message: string) => {
-    console.error(errorDescription, e);
     snackBar({
       message: message,
       status: 'error',
@@ -47,7 +45,7 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
   };
 
   const openManageCategoryDialog = (category: CategoryInterface | null) => {
-	setSelectedCategory(category);
+    setSelectedCategory(category);
     setIsManageCategoryDialogOpen(true);
   };
 

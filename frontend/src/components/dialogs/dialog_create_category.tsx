@@ -1,5 +1,5 @@
 import { Button, Dialog, Input, useSnackbar, Icon } from '@sk-web-gui/react';
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, SetStateAction } from 'react';
 import { useTranslation } from 'next-i18next';
 import { isRoleAvailable, createRole } from '@services/supportmanagement-service/supportmanagement-roles-service';
 import { MunicipalityInterface, NamespaceInterface, CategoryInterface } from '@interfaces/supportmanagement';
