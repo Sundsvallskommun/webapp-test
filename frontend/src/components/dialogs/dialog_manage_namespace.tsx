@@ -4,13 +4,13 @@ import { useTranslation } from 'next-i18next';
 import { MunicipalityInterface } from '@interfaces/supportmanagement';
 import { getNamespace, isShortCodeAvailable, createNamespace, updateNamespace } from '@services/supportmanagement-service/supportmanagement-service';
 
-interface CreateNamespaceProps {
+interface ManageNamespaceProps {
   open: boolean;
   municipality: MunicipalityInterface;
   onClose: (confirm: boolean, reloadDomainNameDropdown: boolean) => void;
 }
 
-export const DialogCreateNamespace: React.FC<CreateNamespaceProps> = ({ open, municipality, onClose }) => {
+export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, municipality, onClose }) => {
   const [namespaceInput, setNamespaceInput] = useState<string>('');
   const [namespaceInputChanged, setNamespaceInputChanged] = useState<boolean>(true);
   const [shortCodeInput, setShortCodeInput] = useState<string>('');
@@ -38,7 +38,7 @@ export const DialogCreateNamespace: React.FC<CreateNamespaceProps> = ({ open, mu
     setNamespaceInput(validNamespace);
   };
   
-  const handleEnter = (e: KeyboardEvent) => {
+  const handleEnter = (e) => {
     if (e.key === 'Enter') {
       handleVerifyNamespace();
     }

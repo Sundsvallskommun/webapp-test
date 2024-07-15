@@ -18,7 +18,7 @@
   "dialogs": {
     "manage_namespace": {
       "header_new_namespace": "Skapa ny domän för",
-      "header_update_namespace": "Uppdatera befintlig domän för",
+      "header_update_namespace": "Uppdatera domän",
       "domain_name_input_heading": "Domännamn",
       "display_name_input_heading": "Visningsnamn",
       "displayname_placeholder": "Ange visningsnamn",
@@ -28,9 +28,11 @@
     },
     "manage_role": {
       "header_prefix": "Skapa ny roll för domän",
-      "header_in": "i",
       "role_input_heading": "Rollnamn"
-      
+    },
+    "manage_category": {
+      "create_header_prefix": "Skapa ny kategori för domän",
+      "modify_header_prefix": "Uppdatera kategori"
     }
   },
   "buttons": {
@@ -38,7 +40,8 @@
     "verify_domain": "Verifiera tillgänglighet",
     "create": "Lägg till",
     "update": "Uppdatera",
-    "add_role": "Ny roll"
+    "add_role": "Ny roll",
+    "add_category": "Ny kategori"
   },
   "errors": {
     "errorLoadingMunicipalities": "Ett fel inträffade när kommuner skulle hämtas",
@@ -48,9 +51,19 @@
     "errorUpdatingNamespace": "Ett fel inträffade när domän skulle uppdateras",
     "errorLoadingRoles": "Ett fel inträffade när roller skulle hämtas",
     "errorVerifyingRolename": "Ett fel inträffade vid kontroll om rollnamnet är tillgängligt",
-    "errorCreatingRole": "Ett fel inträffade när roll skulle skapas"
+    "errorCreatingRole": "Ett fel inträffade när roll skulle skapas",
+    "errorLoadingCategories": "Ett fel inträffade när kategorier skulle hämtas"
   },
   "subpages": {
+    "categories": {
+      "menuheader": "Kategorier och typer",
+      "category_name": "Kategorinamn",
+      "category_type_name": "Typnamn",
+      "escalation_mail": "Mail vid eskalering",
+      "created": "Skapad",
+      "modified": "Uppdaterad",
+      "missing": "Kategorier saknas"
+    },
     "roles": {
       "missing": "Roller saknas",
       "table": {
@@ -63,8 +76,8 @@
       }
     },
     "labels": {
+      "missing": "Etiketter saknas",
       "label": {
-        "missing": "Etiketter saknas",
         "classification": "Klassificering",
         "name": "Namn",
         "displayName": "Visningsnamn"
@@ -75,6 +88,9 @@
   "subtitle": "Administration",
   "welcome": "välkommen",
   "login": "logga in",
+  "domain": "domän",
+  "in": "i",
+  "for": "för",
   "to": "till",
   "logout": "logga ut"
 }

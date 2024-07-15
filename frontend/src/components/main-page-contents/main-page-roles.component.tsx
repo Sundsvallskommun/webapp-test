@@ -1,9 +1,10 @@
 import { Button, Card, useSnackbar, Table, SortMode, Input, Pagination } from '@sk-web-gui/react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
-import { DialogCreateRole } from '@components/dialogs/dialog_create_role';
+import { DialogManageRole } from '@components/dialogs/dialog_manage_role';
 import { getRoles } from '@services/supportmanagement-service/supportmanagement-roles-service';
 import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
+import { toReadableTimestamp } from '@utils/dateformat';
 
 interface MainPageRolesProps {
   municipality: MunicipalityInterface;
@@ -37,11 +38,6 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
     });
   };
   
-  const toReadableTimestamp = (value: string) :string => {
-    const date = new Date(value);
-    return date.toLocaleDateString()  + ' ' + (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
-  };
-
   const loadRoles = () => {
     if (municipality && namespace) {
       getRoles(municipality.municipalityId, namespace.namespace)
@@ -89,7 +85,7 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
   
   return (
     <>
-      <DialogCreateRole
+      <DialogManageRole
         open={isCreateRoleDialogOpen}
         municipality={municipality}
         namespace={namespace}

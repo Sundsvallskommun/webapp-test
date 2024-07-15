@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next';
 import { useUserStore } from '@services/user-service/user-service';
 import { shallow } from 'zustand/shallow';
 import { useRouter } from 'next/router';
-import { DialogCreateNamespace } from '@components/dialogs/dialog_create_namespace';
+import { DialogManageNamespace } from '@components/dialogs/dialog_manage_namespace';
 import { MainPageLabelsContent } from '@components/main-page-contents/main-page-labels.component';
 import { MainPageCategoriesContent } from '@components/main-page-contents/main-page-categories.component';
 import { MainPageContactreasonsContent } from '@components/main-page-contents/main-page-contactreasons.component';
@@ -84,9 +84,8 @@ export const MainPageSidebar: React.FC = () => {
     switch (param) {
       case 1:
         return <MainPageCategoriesContent
-          title={selectedNamespace.displayname}
-          municipalityId={selectedMunicipality.municipalityId}
-          namespace={selectedNamespace.namespace}
+          municipality={selectedMunicipality}
+          namespace={selectedNamespace}
         />
       case 2:
         return <MainPageLabelsContent
@@ -150,7 +149,7 @@ export const MainPageSidebar: React.FC = () => {
 
   return (
   <>
-    <DialogCreateNamespace
+    <DialogManageNamespace
       open={isCreateDialogOpen}
       municipality={selectedMunicipality}
       onClose={closeCreateDialogHandler}/>  

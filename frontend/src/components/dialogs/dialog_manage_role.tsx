@@ -4,14 +4,14 @@ import { useTranslation } from 'next-i18next';
 import { isRoleAvailable, createRole } from '@services/supportmanagement-service/supportmanagement-roles-service';
 import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
 
-interface CreateRoleProps {
+interface ManageRoleProps {
   open: boolean;
   municipality: MunicipalityInterface;
   namespace: NamespaceInterface;
   onClose: (reloadPage: boolean) => void;
 }
 
-export const DialogCreateRole: React.FC<CreateRoleProps> = ({ open, municipality, namespace, onClose }) => {
+export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality, namespace, onClose }) => {
   const [roleInput, setRoleInput] = useState<string>('');
   const [roleAvailable, setRoleAvailable] = useState<boolean>(false);
   const [verified, setVerified] = useState<boolean>(false);
@@ -95,7 +95,7 @@ export const DialogCreateRole: React.FC<CreateRoleProps> = ({ open, municipality
   return (
     <Dialog
       show={open} 
-      label={`${t('common:dialogs.manage_role.header_prefix')} ${namespace?.displayname} ${t('common:dialogs.manage_role.header_in')} ${municipality?.name}`}
+      label={`${t('common:dialogs.manage_role.header_prefix')} ${namespace?.displayname} ${t('common:in')} ${municipality?.name}`}
       className="md:min-w-[60rem] dialog"
     >
       <Dialog.Content>

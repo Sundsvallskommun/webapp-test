@@ -1,15 +1,15 @@
 import ApiService from '@/services/api.service';
 import { logger } from '@/utils/logger';
-
 import { OpenAPI } from 'routing-controllers-openapi';
 import { Controller, Get, Body, Post, Param } from 'routing-controllers';
-import { RoleCreateRequest } from '@/requests/supportmanagement.request';
-import { RolesResponse, RoleResponse } from '@/responses/supportmanagement.response';
+import { RoleCreateRequest } from '@/requests/supportmanagement.roles.request';
+import { RolesResponse, RoleResponse } from '@/responses/supportmanagement.roles.response';
+import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
 
 @Controller()
 export class SupportmanagementRolesController {
   private apiService = new ApiService();
-  private baseUrl = 'supportmanagement/6.1';
+  private baseUrl = BASE_URL_SUPPORTMANAGEMENT;
                    
   @Get('/supportmanagement/municipality/:municipality/namespace/:namespace/roles')
   @OpenAPI({ summary: 'Returns all roles defined within provided municipalityId and namespace' })

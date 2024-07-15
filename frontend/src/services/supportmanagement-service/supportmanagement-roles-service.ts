@@ -1,5 +1,5 @@
 import { apiService } from '../api-service';
-import { Role, RolesApiResponse, RoleApiResponse, RoleCreateRequest } from '@data-contracts/backend/data-contracts';
+import { Role, RolesApiResponse, RoleApiResponse, RoleCreateRequest } from '@data-contracts/backend/role-contracts';
 
 export const getRoles: (municipalityId: string, namespace: string) => Promise<Role[]> = async (municipalityId, namespace) => {
   const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/roles`;
@@ -28,7 +28,7 @@ export const isRoleAvailable: (municipalityId: string, namespace: string, role: 
 
   return apiService
     .get<RoleApiResponse>(url)
-    .then((res) => res.data.message === 'NOT_FOUND')
+    .then(() => false) // If response is returned, then category is present in backend
     .catch((e) => {
       if (e?.response?.status === 404) { // 404 means that the requested role is not present in backend
 		return true;
