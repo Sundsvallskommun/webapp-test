@@ -10,6 +10,19 @@ class ApiResponse<T> {
   message: string;
 }
 
+function getSuccessStatusMessage(status: number) {
+  switch (status) {
+    case 200:
+      return 'success';
+    case 201:
+      return 'created';
+    case 204:
+      return 'success_nocontent';
+    default:
+      return 'unknown';
+  }
+}
+
 class ApiService {
   private apiTokenService = new ApiTokenService();
   private async request<T>(config: AxiosRequestConfig): Promise<ApiResponse<T>> {
@@ -32,8 +45,7 @@ class ApiService {
 
     try {
       const res = await axios(preparedConfig);
-      return { data: res.data, message: 'success' };
-      
+      return { data: res.data, message: getSuccessStatusMessage(res.status) };
     } catch (error: unknown | AxiosError) {
       if (axios.isAxiosError(error) && (error as AxiosError).response?.status === 404) {
         throw new HttpException(404, 'Not found');

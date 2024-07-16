@@ -31,6 +31,10 @@ body {
   text-transform: uppercase;
 }
 
+.lower-case {
+  text-transform: lowercase;
+}
+
 div.capitalize-first {
   position: relative;
   top: 0.15em;
@@ -51,6 +55,10 @@ div.capitalize-first {
 .left-padded-10 {
   display: inline-block;
   padding-left: 10px;
+}
+
+.top-margin-50 {
+  margin-top: 0.5em;
 }
 
 .sk-header table tr td * {
@@ -236,4 +244,12 @@ button.edit-item {
   position: relative;
   right: 1em;
   bottom: 0.1em;
+}
+
+input.email {
+	width: 16em;
+}
+#category-displayname {
+	height: 2.75em;
+	width: 26.75em;
 }

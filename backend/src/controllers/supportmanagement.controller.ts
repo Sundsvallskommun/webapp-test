@@ -3,7 +3,7 @@ import { logger } from '@/utils/logger';
 import { municipalities } from '@/utils/municipalityUtil';
 
 import { OpenAPI } from 'routing-controllers-openapi';
-import { Controller, Get, Body, Post, Patch, Res, Param } from 'routing-controllers';
+import { Controller, Get, Body, Post, Patch, Res, Param, HttpCode } from 'routing-controllers';
 import { MunicipalitiesResponse, NamespacesResponse, NamespaceResponse, Namespace } from '@/responses/supportmanagement.response';
 import { NamespaceCreateRequest, NamespaceUpdateRequest } from '@/requests/supportmanagement.request';
 import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
@@ -125,6 +125,7 @@ export class SupportmanagementController {
 
   @Post('/supportmanagement/municipality/:municipality/namespace')
   @OpenAPI({ summary: 'Creates a namespace for the provided municipality and provided parameters' })
+  @HttpCode(201)
   async createNamespace(
     @Param('municipality') municipality: string,
     @Body() request: NamespaceCreateRequest): Promise<boolean> {

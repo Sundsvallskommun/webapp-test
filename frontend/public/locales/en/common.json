@@ -32,12 +32,21 @@
     },
     "manage_category": {
       "create_header_prefix": "Create new category for domain",
-      "modify_header_prefix": "Modify category"
+      "modify_header_prefix": "Modify category",
+      "category_name_input_heading": "Category name",
+      "category_display_name_input_heading": "Display name",
+      "displayname_placeholder": "Enter display name",
+      "add_categorytype": "Add type",
+      "categorytype_name_input_heading": "Type name",
+      "type_name_placeholder": "Enter type name",
+      "categorytype_display_name_input_heading": "Display name",
+      "categorytype_escalation_email_input_heading": "Escalation email",
+      "escalation_email_placeholder": "Enter optional escalation email"
     }
   },
   "buttons": {
     "close": "Close",
-    "verify_domain": "Verify availability",
+    "verify": "Verify availability",
     "create": "Create",
     "update": "Update",
     "add_role": "New role",
@@ -52,7 +61,9 @@
     "errorLoadingRoles": "An error occurred when loading roles",
     "errorVerifyingRolename": "An error occurred when checking role name availability",
     "errorCreatingRole": "An error occurred when creating role",
-    "errorLoadingCategories": "An error occurred when loading categories"
+    "errorLoadingCategories": "An error occurred when loading categories",
+    "errorVerifyingCategory": "An error occurred when checking cateogory availability",
+    "errorCreatingCategory": "An error occurred when creating category"
   },
   "subpages": {
     "categories": {

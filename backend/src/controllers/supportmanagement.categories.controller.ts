@@ -2,7 +2,7 @@ import ApiService from '@/services/api.service';
 import { logger } from '@/utils/logger';
 
 import { OpenAPI } from 'routing-controllers-openapi';
-import { Controller, Get, Body, Post, Param } from 'routing-controllers';
+import { Controller, Get, Body, Post, Param, HttpCode } from 'routing-controllers';
 import { CategoryCreateRequest } from '@/requests/supportmanagement.categories.request';
 import { CategoriesResponse, CategoryResponse } from '@/responses/supportmanagement.categories.response';
 import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
@@ -50,18 +50,20 @@ export class SupportmanagementCategoriesController {
 
   @Post('/supportmanagement/municipality/:municipality/namespace/:namespace/categories')
   @OpenAPI({ summary: 'Creates a category for the provided municipality and namespace' })
+  @HttpCode(201)
   async createCategory(
     @Param('municipality') municipality: string,
     @Param('namespace') namespace: string,
-    @Body() request: CategoryCreateRequest): Promise<void> {
+    @Body() request: CategoryCreateRequest): Promise<boolean> {
 
     const url = this.baseUrl + `/${namespace}/${municipality}/metadata/categories`;
 
-    await this.apiService.post<undefined>({ url: url, data: request })
-    .catch(e => {
+    await this.apiService.post<undefined>({ url: url, data: request }).catch(e => {
       logger.error('Error when creating category:', e);
       throw e;
     });
+    
+    return true;
   }
 
 };

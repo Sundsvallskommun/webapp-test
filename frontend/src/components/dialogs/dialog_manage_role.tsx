@@ -1,7 +1,7 @@
 import { Button, Dialog, Input, useSnackbar, Icon } from '@sk-web-gui/react';
 import { useState, useEffect } from "react";
 import { useTranslation } from 'next-i18next';
-import { isRoleAvailable, createRole } from '@services/supportmanagement-service/supportmanagement-roles-service';
+import { isRoleAvailable, createRole } from '@services/supportmanagement-service/supportmanagement-role-service';
 import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
 
 interface ManageRoleProps {
