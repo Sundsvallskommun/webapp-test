@@ -37,10 +37,10 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
   };
   
   const handleVerifyCategoryName = () => {
-	if (category.name.length === 0) {
-		return;
-	}
-	
+    if (category.name.length === 0) {
+      return;
+    }
+
     isCategoryAvailable(municipality.municipalityId, namespace.namespace, category.name)
       .then((res) => setCategoryAvailable(res))
       .then(() => setVerified(true))
@@ -71,38 +71,38 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
   };
   
   const handleAddCategoryType = () => {
-	setCategory({...category,
-	  types: [...category.types, {
-		name: '',
-		displayName: '',
-		escalationEmail: ''
-	  }]
-	})
+    setCategory({...category,
+      types: [...category.types, {
+        name: '',
+        displayName: '',
+        escalationEmail: ''
+      }]
+    })
   };
 
   const handleTypeNameInputChange = (idx: number, input: string) => {
     const validatedInput = input.replace(/[^A-Z0-9_]/ig, "");
-	const future = {...category};
-	future.types[idx].name = validatedInput.toUpperCase();
-	setCategory(future);
+    const future = {...category};
+    future.types[idx].name = validatedInput.toUpperCase();
+    setCategory(future);
   };
   
   const handleTypeDisplayNameInputChange = (idx: number, input: string) => {
-	const future = {...category};
-	future.types[idx].displayName = input;
-	setCategory(future);
+    const future = {...category};
+    future.types[idx].displayName = input;
+    setCategory(future);
   };
 
   const handleTypeEscalationEmailInputChange = (idx: number, input: string) => {
-	const future = {...category};
-	future.types[idx].escalationEmail = input.toLowerCase();
-	setCategory(future);
+    const future = {...category};
+    future.types[idx].escalationEmail = input.toLowerCase();
+    setCategory(future);
   }
   
   const handleTypeRemoval = (idx: number) => {
-	const future = {...category};
+    const future = {...category};
     future.types.splice(idx, 1);
-  	setCategory(future);
+    setCategory(future);
   }
 
   const handleCreateCategory = () => {
@@ -122,7 +122,7 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
   const uniqueNames = ():boolean => {
     // Validate that name and displayName is only present once in type-list
     let allValid = true;
-    
+
     category.types.map(m => {
       if (category.types.filter((d) => d.name === m.name).length > 1) {
         allValid = false;
@@ -138,7 +138,7 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
   const validTypes = ():boolean => {
     let allValid = true;
     category.types.map(m => {
-      if (m.name.length == 0 || m.displayName.length == 0 || !validEmail(m.escalationEmail)) {
+      if (m.name.length === 0 || m.displayName.length === 0 || !validEmail(m.escalationEmail)) {
         allValid = false;
       }
     });
@@ -147,7 +147,7 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
   };
 
   useEffect(() => {
-	setCategory({
+    setCategory({
       name: '',
       displayName: '',
       types: []
@@ -164,7 +164,7 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
         <div className="d-flex">
           <div>
             <p>{t('common:dialogs.manage_category.category_name_input_heading')}:</p>
-         </div>
+          </div>
           <div>
             <Input.Group
               invalid={category?.name.length === 0 || !categoryAvailable ? 'true' : undefined} 
