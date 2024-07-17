@@ -34,6 +34,7 @@
       "create_header_prefix": "Create new category for domain",
       "modify_header_prefix": "Modify category",
       "category_name_input_heading": "Category name",
+      "name_placeholder": "Enter category name",
       "category_display_name_input_heading": "Display name",
       "displayname_placeholder": "Enter display name",
       "add_categorytype": "Add type",
@@ -63,7 +64,8 @@
     "errorCreatingRole": "An error occurred when creating role",
     "errorLoadingCategories": "An error occurred when loading categories",
     "errorVerifyingCategory": "An error occurred when checking cateogory availability",
-    "errorCreatingCategory": "An error occurred when creating category"
+    "errorCreatingCategory": "An error occurred when creating category",
+    "errorUpdatingCategory": "An error occurred when updating category"
   },
   "subpages": {
     "categories": {

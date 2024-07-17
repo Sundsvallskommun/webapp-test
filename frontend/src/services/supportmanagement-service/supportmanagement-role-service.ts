@@ -31,9 +31,9 @@ export const isRoleAvailable: (municipalityId: string, namespace: string, role: 
     .then(() => false) // If response is returned, then category is present in backend
     .catch((e) => {
       if (e?.response?.status === 404) { // 404 means that the requested role is not present in backend
-		return true;
-	  }
-	  
+        return true;
+      }
+  
       console.error('Error occurred when fetching roles', e);
       throw e;
     });

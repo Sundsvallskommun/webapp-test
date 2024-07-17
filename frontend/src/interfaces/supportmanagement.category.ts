@@ -18,9 +18,16 @@ export interface CategoryTypeRequestInterface {
   name: string;
   displayName: string;
   escalationEmail?: string;
+  existing?: boolean;
 }
 
-export interface CategoryRequestInterface {
+export interface CategoryCreateRequestInterface {
+  name: string;
+  displayName: string;
+  types?: CategoryTypeRequestInterface[];
+}
+
+export interface CategoryUpdateRequestInterface {
   name: string;
   displayName: string;
   types?: CategoryTypeRequestInterface[];

@@ -24,7 +24,7 @@ export interface CategoryApiResponse {
   message: string;
 }
 
-export interface CategoryTypeCreateRequest {
+export interface CategoryTypeRequest {
   name: string;
   displayName: string;
   escalationEmail?: string;
@@ -33,5 +33,10 @@ export interface CategoryTypeCreateRequest {
 export interface CategoryCreateRequest {
   name: string;
   displayName: string;
-  types?: CategoryTypeCreateRequest[];
+  types?: CategoryTypeRequest[];
+}
+
+export interface CategoryUpdateRequest {
+  displayName: string;
+  types?: CategoryTypeRequest[];
 }

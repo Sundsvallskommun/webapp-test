@@ -2,8 +2,8 @@ import ApiService from '@/services/api.service';
 import { logger } from '@/utils/logger';
 
 import { OpenAPI } from 'routing-controllers-openapi';
-import { Controller, Get, Body, Post, Param, HttpCode } from 'routing-controllers';
-import { CategoryCreateRequest } from '@/requests/supportmanagement.categories.request';
+import { Controller, Get, Body, Post, Patch, Param, HttpCode } from 'routing-controllers';
+import { CategoryCreateRequest, CategoryUpdateRequest } from '@/requests/supportmanagement.categories.request';
 import { CategoriesResponse, CategoryResponse } from '@/responses/supportmanagement.categories.response';
 import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
 
@@ -60,6 +60,26 @@ export class SupportmanagementCategoriesController {
 
     await this.apiService.post<undefined>({ url: url, data: request }).catch(e => {
       logger.error('Error when creating category:', e);
+      throw e;
+    });
+    
+    return true;
+  }
+
+
+  @Patch('/supportmanagement/municipality/:municipality/namespace/:namespace/categories/:category')
+  @OpenAPI({ summary: 'Updates a category matching the provided municipality, namespace and category' })
+  @HttpCode(201)
+  async updateCategory(
+    @Param('municipality') municipality: string,
+    @Param('namespace') namespace: string,
+    @Param('category') category: string,
+    @Body() request: CategoryUpdateRequest): Promise<boolean> {
+
+    const url = this.baseUrl + `/${namespace}/${municipality}/metadata/categories/${category}`;
+
+    await this.apiService.patch<undefined>({ url: url, data: request }).catch(e => {
+      logger.error('Error when updating category:', e);
       throw e;
     });
     

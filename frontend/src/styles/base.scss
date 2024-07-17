@@ -228,7 +228,7 @@ div.main-area > button {
 div.submenu-info {
   border-radius: var(--sk-radius-button-DEFAULT);
   border: 1px solid darkgrey;
-  padding: 0.3em;	
+  padding: 0.3em;
   padding-left: 1em;
   color: darkgray;
 }
@@ -247,9 +247,39 @@ button.edit-item {
 }
 
 input.email {
-	width: 16em;
+  width: 16em;
 }
+
 #category-displayname {
-	height: 2.75em;
-	width: 26.75em;
+  height: 2.75em;
+  width: 26.75em;
+}
+
+.chip-input, .chip-input:hover {
+  padding: 1.4em  1em 1.4em 1em;
+  border-color: var(--sk-colors-primitives-gray-300);
+  background-color: var(--sk-colors-primitives-gray-50);
+  color: var(--sk-colors-primitives-gray-400);
+}
+
+.chip-input-error, .chip-input-error:hover {
+  padding: 1.3em  0.9em 1.3em 0.9em;
+  border-color: var(--sk-colors-error-surface-primary-DEFAULT);
+  border-width: 2px;
+}
+
+.disabled, .disabled:hover {
+  color: var(--sk-colors-primitives-gray-300);
+}
+
+.fixed-height {
+  height: 24em; 
+  display: block;
+  margin-bottom: 1em;
+}
+
+.fixed-height tr th {
+  position: sticky; top: 0;
+  background-color: white;
+  z-index: 1;
 }

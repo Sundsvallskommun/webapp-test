@@ -28,8 +28,7 @@ export class SupportmanagementController {
   @OpenAPI({ summary: 'Returns a list of available municipalities' })
   async getMunicipalities(
   ): Promise<MunicipalitiesResponse> {
-	const url =
-	  this.baseUrl + '/muncipality';
+  const url = this.baseUrl + '/muncipality';
 
     /*
     const res = await this.apiService.get<MunicipalitiesResponse>({ url }).catch(e => {
