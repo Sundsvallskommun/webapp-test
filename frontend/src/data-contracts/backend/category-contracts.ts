@@ -24,6 +24,14 @@ export interface CategoryApiResponse {
   message: string;
 }
 
+export interface CategoryTypeCreateRequest {
+  name: string;
+  displayName: string;
+  escalationEmail?: string;
+}
+
 export interface CategoryCreateRequest {
   name: string;
+  displayName: string;
+  types?: CategoryTypeCreateRequest[];
 }

@@ -1,6 +1,6 @@
 import { apiService } from '../api-service';
 import { Category, CategoriesApiResponse, CategoryApiResponse, CategoryCreateRequest, CategoryType } from '@data-contracts/backend/category-contracts';
-import { CategoryInterface, CategoryTypeInterface } from '@interfaces/supportmanagement';
+import { CategoryInterface, CategoryTypeInterface, CategoryRequestInterface } from '@interfaces/supportmanagement.category';
 
 export const getCategories: (municipalityId: string, namespace: string) => Promise<CategoryInterface[]> = async (municipalityId, namespace) => {
   const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/categories`;
@@ -55,13 +55,15 @@ export const isCategoryAvailable: (municipalityId: string, namespace: string, ro
     });
 };
 
-export const createCategory: (municipalityId: string, namespace: string, request: CategoryCreateRequest) => Promise<void> = async (municipalityId, namespace, request) => {
+export const createCategory: (municipalityId: string, namespace: string, request: CategoryRequestInterface) => Promise<void> = async (municipalityId, namespace, request) => {
   const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/categories`;
 
-  apiService
+  await apiService
     .post<CategoryCreateRequest>(url, request)
     .catch((e) => {
       console.error('Error occurred when creating category', e);
       throw e;
     });
+
+    await new Promise(r => setTimeout(r, 500)); 
 };

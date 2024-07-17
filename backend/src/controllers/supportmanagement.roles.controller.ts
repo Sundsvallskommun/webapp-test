@@ -1,7 +1,7 @@
 import ApiService from '@/services/api.service';
 import { logger } from '@/utils/logger';
 import { OpenAPI } from 'routing-controllers-openapi';
-import { Controller, Get, Body, Post, Param } from 'routing-controllers';
+import { Controller, Get, Body, Post, Param, HttpCode } from 'routing-controllers';
 import { RoleCreateRequest } from '@/requests/supportmanagement.roles.request';
 import { RolesResponse, RoleResponse } from '@/responses/supportmanagement.roles.response';
 import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
@@ -49,18 +49,20 @@ export class SupportmanagementRolesController {
 
   @Post('/supportmanagement/municipality/:municipality/namespace/:namespace/roles')
   @OpenAPI({ summary: 'Creates a role for the provided municipality and namespace' })
+  @HttpCode(201)
   async createRole(
     @Param('municipality') municipality: string,
     @Param('namespace') namespace: string,
-    @Body() request: RoleCreateRequest): Promise<void> {
+    @Body() request: RoleCreateRequest): Promise<boolean> {
 
     const url = this.baseUrl + `/${namespace}/${municipality}/metadata/roles`;
 
-    await this.apiService.post<undefined>({ url: url, data: request })
-    .catch(e => {
+    await this.apiService.post<undefined>({ url: url, data: request }).catch(e => {
       logger.error('Error when creating role:', e);
       throw e;
     });
+    
+    return true;
   }
 
 };

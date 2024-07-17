@@ -204,7 +204,7 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
           color={'vattjom'}
           disabled={!namespaceInput || namespaceInput.length === 0}
           onClick={() => handleVerifyNamespace()}>
-          {t('common:buttons.verify_domain')}
+          {t('common:buttons.verify')}
         </Button>
         }
         

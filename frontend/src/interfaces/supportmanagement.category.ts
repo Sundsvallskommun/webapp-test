@@ -14,14 +14,14 @@ export interface CategoryInterface {
   types?: CategoryTypeInterface[];
 }
 
-export interface CategoryTypeInputInterface {
+export interface CategoryTypeRequestInterface {
   name: string;
-  displayName?: string;
+  displayName: string;
   escalationEmail?: string;
 }
 
-export interface CategoryCreateRequestInterface {
+export interface CategoryRequestInterface {
   name: string;
-  displayName?: string;
-  types?: CategoryTypeInputInterface[];
+  displayName: string;
+  types?: CategoryTypeRequestInterface[];
 }

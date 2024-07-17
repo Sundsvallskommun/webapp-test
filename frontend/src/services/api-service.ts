@@ -44,8 +44,6 @@ const defaultOptions = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const get = <T>(url: string, options?: { [key: string]: any }) => {
-if (url) console.log(url);
-
   return axios.get<T>(apiURL(url), { ...defaultOptions, ...options }).catch(handleError);
 };
 

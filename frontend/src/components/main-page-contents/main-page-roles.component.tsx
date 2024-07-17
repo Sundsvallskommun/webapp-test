@@ -2,7 +2,7 @@ import { Button, Card, useSnackbar, Table, SortMode, Input, Pagination } from '@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import { DialogManageRole } from '@components/dialogs/dialog_manage_role';
-import { getRoles } from '@services/supportmanagement-service/supportmanagement-roles-service';
+import { getRoles } from '@services/supportmanagement-service/supportmanagement-role-service';
 import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
 import { toReadableTimestamp } from '@utils/dateformat';
 
