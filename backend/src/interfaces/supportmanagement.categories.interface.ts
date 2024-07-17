@@ -25,3 +25,8 @@ export interface CategoryCreateRequestInterface {
   displayName?: string;
   types?: CategoryTypeInputInterface[];
 }
+
+export interface CategoryUpdateRequestInterface {
+  displayName?: string;
+  types?: CategoryTypeInputInterface[];
+}

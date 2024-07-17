@@ -22,10 +22,10 @@ export const getLabels: (municipality: string, namespace: string) => Promise<Lab
    * @param labels the labels to add uuid to
    */
   const addUuidToAllLabels = (labels: Label[]) => {
-	if (!labels) {
-		return;
-	} 
-	
+    if (!labels) {
+        return;
+    } 
+
     labels.map((label) => {
       label.uuid = v4();
       if (label.labels != null) {

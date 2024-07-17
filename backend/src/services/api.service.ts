@@ -46,33 +46,44 @@ class ApiService {
     try {
       const res = await axios(preparedConfig);
       return { data: res.data, message: getSuccessStatusMessage(res.status) };
-    } catch (error: unknown | AxiosError) {
+    } catch (error: unknown) {
       if (axios.isAxiosError(error) && (error as AxiosError).response?.status === 404) {
         throw new HttpException(404, 'Not found');
       }
+
+      if (axios.isAxiosError(error) && (error as AxiosError).response?.data) {
+        logger.error(JSON.stringify((error as AxiosError).response.data));
+      } else {
+        logger.error(JSON.stringify(error));
+      }
+
       // NOTE: did you subscribe to the API called?
-      console.log(error);
       throw new HttpException(500, 'Internal server error from gateway');
     }
   }
 
   public async get<T>(config: AxiosRequestConfig): Promise<ApiResponse<T>> {
-    console.log('MAKING GET REQUEST TO URL', config.url);
+    logger.info('MAKING GET REQUEST TO URL ' + config.url);
     return this.request<T>({ ...config, method: 'GET' });
   }
 
   public async post<T>(config: AxiosRequestConfig): Promise<ApiResponse<T>> {
-    console.log('MAKING POST REQUEST TO URL', config.url);
+    logger.info('MAKING POST REQUEST TO URL ' + config.url);
     return this.request<T>({ ...config, method: 'POST' });
   }
 
+  public async put<T>(config: AxiosRequestConfig): Promise<ApiResponse<T>> {
+    logger.info('MAKING PUT REQUEST TO URL ' + config.url);
+    return this.request<T>({ ...config, method: 'PUT' });
+  }
+
   public async patch<T>(config: AxiosRequestConfig): Promise<ApiResponse<T>> {
-    console.log('MAKING PATCH REQUEST TO URL', config.url);
+    logger.info('MAKING PATCH REQUEST TO URL ' + config.url);
     return this.request<T>({ ...config, method: 'PATCH' });
   }
 
   public async delete<T>(config: AxiosRequestConfig): Promise<ApiResponse<T>> {
-    console.log('MAKING DELETE REQUEST TO URL', config.url);
+    logger.info('MAKING DELETE REQUEST TO URL ' + config.url);
     return this.request<T>({ ...config, method: 'DELETE' });
   }
 }

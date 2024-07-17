@@ -28,7 +28,7 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
   };
   
   const handleError = (errorDescription: string, e: Error, message: string) => {
-	console.error(errorDescription, e);
+    console.error(errorDescription, e);
     snackBar({
       message: message,
       status: 'error',
@@ -41,7 +41,6 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
     if (municipality && namespace) {
       getCategories(municipality.municipalityId, namespace.namespace)
         .then((res) => setCategories(res))
-        .then(() => console.log(categories))
         .catch((e) => {
           handleError('Error when loading categories:', e, t('common:errors.errorLoadingCategories'));
         });
@@ -73,7 +72,7 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
         namespace={namespace}
         category={selectedCategory}
         onClose={closeManageCategoryDialog}/>  
-    
+
     :
       <DialogCreateCategory
         key={v4()} 
@@ -92,99 +91,91 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
           <MenuVertical  id="sk-main-page-menu">
 
             {categories.map(category =>
-              <MenuVertical.Item key={category.name} id={category.name}>
-                <MenuVertical>
-                  <MenuVertical.SubmenuButton>
+            <MenuVertical.Item key={category.name} id={category.name}>
+              <MenuVertical>
+                <MenuVertical.SubmenuButton>
 
-                    <a href={`#${category.name}`}>
+                  <a href={`#${category.name}`}>
+                    <Icon 
+                      name={'list-tree'}
+                    />
+
+                    <p>{category.displayName}</p>
+
+                    <Button
+                      className={'edit-item'}
+                      variant={'link'}
+                      color={'vattjom'}
+                      onClick={() => openManageCategoryDialog(category)}
+                    >
                       <Icon 
-                        name={'list-tree'}
+                        name={'wrench'}
+                        size={20}
                       />
+                    </Button>
+                  </a>
+                </MenuVertical.SubmenuButton>
 
-                      <p>{category.displayName}</p>
+                <MenuVertical.Item key={category.name + '_created'}>
+                  <div className="submenu-info">
+                    <p>
+                      <span>{`${t('common:subpages.categories.category_name')}: `}</span>
+                      <b>{`${category.name}`}</b>
+                    </p>
+                    <p>
+                      {category.created &&
+                      <>
+                        <span>{`${t('common:subpages.categories.created')}: `}</span>
+                        <b>{`${toReadableTimestamp(category.created)}`}</b>
+                      </>}
+                    </p>
+                    <p>
+                      {category.modified &&
+                      <>
+                        <span>{`${t('common:subpages.categories.modified')}: `}</span>
+                        <b>{`${toReadableTimestamp(category.modified)}`}</b>
+                      </>}
+                    </p>
+                  </div>
+                </MenuVertical.Item>
 
-                      <Button
-                        className={'edit-item'}
-                        variant={'link'}
-                        color={'vattjom'}
-                        onClick={() => openManageCategoryDialog(category)}
-                      >
-                        <Icon 
-                          name={'wrench'}
-                          size={20}
-                        />
-                      </Button>
-                    </a>
-                  </MenuVertical.SubmenuButton>
-
-                  <MenuVertical.Item key={category.name + '_created'}>
+                {category.types.map(type => 
+                <MenuVertical.Item key={category.name + type.name} id={category.name + type.name}>
+                  <div className="menuitem-div">
+                    <b>{`${type.displayName}`}</b>
                     <div className="submenu-info">
+
                       <p>
-                        <span>{`${t('common:subpages.categories.category_name')}: `}</span>
-                        <b>{`${category.name}`}</b>
+                        <span>{`${t('common:subpages.categories.category_type_name')}: `}</span>
+                        <b>{`${type.name}`}</b>
                       </p>
                       <p>
-                        {category.created &&
-                          <>
-                            <span>{`${t('common:subpages.categories.created')}: `}</span>
-                            <b>{`${toReadableTimestamp(category.created)}`}</b>
-                          </>
-                        }
+                        {type.escalationEmail &&
+                        <>
+                          <span>{`${t('common:subpages.categories.escalation_mail')}: `}</span>
+                          <b>{`${type.escalationEmail.toLowerCase()}`}</b>
+                        </>}
                       </p>
                       <p>
-                        {category.modified &&
-                          <>
-                            <span>{`${t('common:subpages.categories.modified')}: `}</span>
-                            <b>{`${toReadableTimestamp(category.modified)}`}</b>
-                          </>
-                        }
+                        {type.created &&
+                        <>
+                          <span>{`${t('common:subpages.categories.created')}: `}</span>
+                          <b>{`${toReadableTimestamp(type.created)}`}</b>
+                        </>}
+                      </p>
+                      <p>
+                        {type.modified &&
+                        <>
+                          <span>{`${t('common:subpages.categories.modified')}: `}</span>
+                          <b>{`${toReadableTimestamp(type.modified)}`}</b>
+                        </>}
                       </p>
                     </div>
-                  </MenuVertical.Item>
+                  </div>
+                </MenuVertical.Item>)}
                   
-                  {category.types.map(type => 
-                    <MenuVertical.Item key={category.name + type.name} id={category.name + type.name}>
-                      <div className="menuitem-div">
-                        <b>{`${type.displayName}`}</b>
-                        <div className="submenu-info">
-
-                          <p>
-                            <span>{`${t('common:subpages.categories.category_type_name')}: `}</span>
-                            <b>{`${type.name}`}</b>
-                          </p>
-                          <p>
-                            {type.escalationEmail &&
-                              <>
-                                <span>{`${t('common:subpages.categories.escalation_mail')}: `}</span>
-                                <b>{`${type.escalationEmail.toLowerCase()}`}</b>
-                              </>
-                            }
-                          </p>
-                          <p>
-                            {type.created &&
-                              <>
-                                <span>{`${t('common:subpages.categories.created')}: `}</span>
-                                <b>{`${toReadableTimestamp(type.created)}`}</b>
-                              </>
-                            }
-                          </p>
-                          <p>
-                            {type.modified &&
-                              <>
-                                <span>{`${t('common:subpages.categories.modified')}: `}</span>
-                                <b>{`${toReadableTimestamp(type.modified)}`}</b>
-                              </>
-                            }
-                          </p>
-                        </div>
-                      </div>
-                    </MenuVertical.Item>
-                  )}
-                  
-                </MenuVertical>
-              </MenuVertical.Item>
-            )}
-              
+              </MenuVertical>
+            </MenuVertical.Item>)}
           </MenuVertical>
         </MenuVertical.Sidebar>
       </MenuVertical.Provider>
@@ -200,12 +191,11 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
       </Card>
     }
 
-      <Button
-        color={'vattjom'}
-        onClick={() => openManageCategoryDialog(null)}>
-        {t('common:buttons.add_category')}
-      </Button>
-
+    <Button
+      color={'vattjom'}
+      onClick={() => openManageCategoryDialog(null)}>
+      {t('common:buttons.add_category')}
+    </Button>
   </>
   );
 };

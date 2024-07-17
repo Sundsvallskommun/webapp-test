@@ -2,7 +2,7 @@ import { Button, Dialog, Input, useSnackbar, Icon, Table } from '@sk-web-gui/rea
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
-import { CategoryRequestInterface } from '@interfaces/supportmanagement.category';
+import { CategoryCreateRequestInterface } from '@interfaces/supportmanagement.category';
 import { isCategoryAvailable, createCategory } from '@services/supportmanagement-service/supportmanagement-category-service';
 
 interface CreateCategoryProps {
@@ -17,7 +17,7 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
   const snackBar = useSnackbar();
   const [categoryAvailable, setCategoryAvailable] = useState<boolean>(false);
   const [verified, setVerified] = useState<boolean>(false);
-  const [category, setCategory] = useState<CategoryRequestInterface>();
+  const [category, setCategory] = useState<CategoryCreateRequestInterface>();
   const [saving, setSaving] = useState<boolean>(false);
   const { t } = useTranslation();
   
@@ -171,8 +171,8 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
             >
               <Input.RightAddin icon>
                 <Input 
-                  className={'upper-case'}
-                  maxLength={18}
+                  placeholder={t('common:dialogs.manage_category.name_placeholder')}
+                  maxLength={250}
                   value={category?.name}
                   onChange={(e) => handleNameInputChange(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
@@ -185,7 +185,7 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
                 />
               </Input.RightAddin>
             </Input.Group>
-           </div>
+          </div>
 
           <div>
             <p>{t('common:dialogs.manage_category.category_display_name_input_heading')}:</p>
@@ -193,80 +193,84 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
           <div className="d-flex">
             <Input 
               id={'category-displayname'}
-              maxLength={250}
               placeholder={t('common:dialogs.manage_category.displayname_placeholder')}
               invalid={category?.displayName.length === 0 ? 'true' : undefined} 
+              maxLength={250}
               value={category?.displayName}
               onChange={(e) => handleDisplayNameInputChange(e.target.value)}
             />
-           </div>
-         </div>
+          </div>
+        </div>
          
-         {category?.types.length > 0 &&
-         <Table className={'top-margin-50'} background={false} scrollable>
-           <Table.Header>
-             <Table.HeaderColumn 
-               key={'header_name'}>
-                 {t('common:dialogs.manage_category.categorytype_name_input_heading')}
-             </Table.HeaderColumn>)
-             <Table.HeaderColumn 
-               key={'header_display_name'}>
-                 {t('common:dialogs.manage_category.categorytype_display_name_input_heading')}
-             </Table.HeaderColumn>)
-             <Table.HeaderColumn 
-               key={'header_escalation_email'}>
-                 {t('common:dialogs.manage_category.categorytype_escalation_email_input_heading')}
-             </Table.HeaderColumn>)
-           </Table.Header>
-           <Table.Body>
-             {category?.types.map((m, idx) => <Table.Row key={'type_input' + idx}>
-               <Table.Column>
-                 <Input 
-                   placeholder={t('common:dialogs.manage_category.type_name_placeholder')}
-                   invalid={m.name.length === 0 || !uniqueNames() ? 'true' : undefined} 
-                   value={m.name}
-                   onChange={(e) => handleTypeNameInputChange(idx, e.target.value)}
-                 />
-               </Table.Column>
-               <Table.Column>
-                 <Input 
-                   placeholder={t('common:dialogs.manage_category.displayname_placeholder')}
-                   invalid={m.displayName.length === 0 || !uniqueNames() ? 'true' : undefined} 
-                   value={m.displayName}
-                   onChange={(e) => handleTypeDisplayNameInputChange(idx, e.target.value)}
-                 />
-               </Table.Column>
-               <Table.Column>
+        {category?.types.length > 0 &&
+        <Table className={'top-margin-50 fixed-height'} background={false} scrollable>
+          <Table.Header>
+            <Table.HeaderColumn 
+              key={'header_name'}>
+                {t('common:dialogs.manage_category.categorytype_name_input_heading')}
+            </Table.HeaderColumn>)
+            <Table.HeaderColumn 
+              key={'header_display_name'}>
+                {t('common:dialogs.manage_category.categorytype_display_name_input_heading')}
+            </Table.HeaderColumn>)
+            <Table.HeaderColumn 
+              key={'header_escalation_email'}>
+                {t('common:dialogs.manage_category.categorytype_escalation_email_input_heading')}
+            </Table.HeaderColumn>)
+          </Table.Header>
+          <Table.Body>
+          {category?.types.map((m, idx) => 
+            <Table.Row key={'type_input' + idx}>
+              <Table.Column>
+                <Input 
+                  placeholder={t('common:dialogs.manage_category.type_name_placeholder')}
+                  invalid={m.name.length === 0 || !uniqueNames() ? 'true' : undefined} 
+                  maxLength={250}
+                  value={m.name}
+                  onChange={(e) => handleTypeNameInputChange(idx, e.target.value)}
+                />
+              </Table.Column>
+              <Table.Column>
+                <Input 
+                  placeholder={t('common:dialogs.manage_category.displayname_placeholder')}
+                  invalid={m.displayName.length === 0 || !uniqueNames() ? 'true' : undefined} 
+                  maxLength={250}
+                  value={m.displayName}
+                  onChange={(e) => handleTypeDisplayNameInputChange(idx, e.target.value)}
+                />
+              </Table.Column>
+              <Table.Column>
 
-                 <Input.Group invalid={!validEmail(m.escalationEmail) ? 'true' : undefined} >
-                   <Input.RightAddin icon>
+                <Input.Group invalid={!validEmail(m.escalationEmail) ? 'true' : undefined} >
+                  <Input.RightAddin icon>
 
-                     <Input 
-                       className={'email'}
-                       placeholder={t('common:dialogs.manage_category.escalation_email_placeholder')}
-                       value={m.escalationEmail}
-                       onChange={(e) => handleTypeEscalationEmailInputChange(idx, e.target.value)}
-                     />
-
-                    <Icon 
-                      name={validEmail(m.escalationEmail) ? '' : 'shield-x'}
-                      color={'error'}
+                    <Input 
+                      className={'email'}
+                      placeholder={t('common:dialogs.manage_category.escalation_email_placeholder')}
+                      maxLength={250}
+                      value={m.escalationEmail}
+                      onChange={(e) => handleTypeEscalationEmailInputChange(idx, e.target.value)}
                     />
-                  </Input.RightAddin>
+
+                   <Icon 
+                     name={validEmail(m.escalationEmail) ? '' : 'shield-x'}
+                     color={'error'}
+                   />
+                 </Input.RightAddin>
                 </Input.Group>
                
-                 <Button 
-                   className={'delete-button'} 
-                   color={'vattjom'}
-                   variant={'link'}
-                   iconButton 
-                   onClick={() => handleTypeRemoval(idx)}>
-                   <Icon name={'trash-2'} />
-                 </Button>
-               </Table.Column>
-             </Table.Row>)}
-           </Table.Body>
-         </Table>}
+                <Button 
+                  className={'delete-button'} 
+                  color={'vattjom'}
+                  variant={'link'}
+                  iconButton 
+                  onClick={() => handleTypeRemoval(idx)}>
+                  <Icon name={'trash-2'} />
+                </Button>
+              </Table.Column>
+            </Table.Row>)}
+          </Table.Body>
+        </Table>}
         
       </Dialog.Content>
       <br/>
