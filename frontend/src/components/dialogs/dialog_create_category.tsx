@@ -1,5 +1,5 @@
 import { Button, Dialog, Input, useSnackbar, Icon, Table } from '@sk-web-gui/react';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'next-i18next';
 import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
 import { CategoryCreateRequestInterface } from '@interfaces/supportmanagement.category';
@@ -20,7 +20,12 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
   const [category, setCategory] = useState<CategoryCreateRequestInterface>();
   const [saving, setSaving] = useState<boolean>(false);
   const { t } = useTranslation();
-  
+  const escFunction = useCallback((event) => {
+    if (event.key === "Escape") {
+      onClose();
+    }
+  }, []);
+    
   const handleError = (errorDescription: string, e: Error, message: string) => {
     console.error(errorDescription, e);
     displayMessage(message, 'error');
@@ -145,6 +150,14 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
 
     return allValid && uniqueNames();
   };
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, [escFunction]);
 
   useEffect(() => {
     setCategory({

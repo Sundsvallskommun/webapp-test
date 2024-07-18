@@ -83,24 +83,23 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
     }
 
     {categories && categories.length > 0 ?
-      <MenuVertical.Provider current={current} setCurrent={handleSetCurrent}>
         <MenuVertical.Sidebar>
           <MenuVertical.Header>
             {t('common:subpages.categories.menuheader')}
           </MenuVertical.Header>
-          <MenuVertical  id="sk-main-page-menu">
+          <MenuVertical id="sk-main-page-menu">
 
             {categories.map(category =>
             <MenuVertical.Item key={category.name} id={category.name}>
               <MenuVertical>
-                <MenuVertical.SubmenuButton>
+                <MenuVertical.SubmenuButton className='main-content-menu-vertical'>
 
-                  <a href={`#${category.name}`}>
+                  <div>
                     <Icon 
                       name={'list-tree'}
                     />
 
-                    <p>{category.displayName}</p>
+                    <span>{category.displayName}</span>
 
                     <Button
                       className={'edit-item'}
@@ -113,7 +112,7 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
                         size={20}
                       />
                     </Button>
-                  </a>
+                  </div>
                 </MenuVertical.SubmenuButton>
 
                 <MenuVertical.Item key={category.name + '_created'}>
@@ -178,7 +177,6 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
             </MenuVertical.Item>)}
           </MenuVertical>
         </MenuVertical.Sidebar>
-      </MenuVertical.Provider>
     :
       <Card color={'tertiary'}>
         <Card.Body>

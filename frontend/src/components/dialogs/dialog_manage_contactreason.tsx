@@ -1,19 +1,19 @@
 import { Button, Dialog, Input, useSnackbar, Icon } from '@sk-web-gui/react';
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'next-i18next';
-import { isRoleAvailable, createRole } from '@services/supportmanagement-service/supportmanagement-role-service';
+import { isContactreasonAvailable, createContactreason } from '@services/supportmanagement-service/supportmanagement-contactreason-service';
 import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
 
-interface ManageRoleProps {
+interface ManageContactreasonProps {
   open: boolean;
   municipality: MunicipalityInterface;
   namespace: NamespaceInterface;
   onClose: (reloadPage: boolean) => void;
 }
 
-export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality, namespace, onClose }) => {
-  const [roleInput, setRoleInput] = useState<string>('');
-  const [roleAvailable, setRoleAvailable] = useState<boolean>(false);
+export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({ open, municipality, namespace, onClose }) => {
+  const [contactreasonInput, setContactreasonInput] = useState<string>('');
+  const [contactreasonAvailable, setContactreasonAvailable] = useState<boolean>(false);
   const [verified, setVerified] = useState<boolean>(false);
   const [saving, setSaving] = useState<boolean>(false);
   const snackBar = useSnackbar();
@@ -25,52 +25,53 @@ export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality
   }, []);
   
   const handleOnClose = (reloadPage: boolean) => {
-    setRoleInput('');
+    setContactreasonInput('');
     onClose(reloadPage);
   };
 
   const handleEnter = (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
-      handleVerifyRole();
+      handleVerifyContactreason();
     }
   };
   
   const handleInputChange = (input: string) => {
-      setRoleAvailable(true);
+      setContactreasonAvailable(true);
       setVerified(false);
-      setRoleInput(input);
+      setContactreasonInput(input);
   };
   
-  const handleCreateRole = () => {
-    isRoleAvailable(municipality.municipalityId, namespace.namespace, roleInput)
+  const handleCreateContactreason = () => {
+    isContactreasonAvailable(municipality.municipalityId, namespace.namespace, contactreasonInput.trim())
     .then((res) => {
       if (res) {
         setSaving(true)
-        createRole(municipality.municipalityId, namespace.namespace, {
-          "name": roleInput.toUpperCase()
+        createContactreason(municipality.municipalityId, namespace.namespace, {
+          "reason": contactreasonInput.trim()
         })
         .then(() => {
           setSaving(false);
           handleOnClose(true)})
         .catch((e) => {
-          handleError('Error when creating role:', e, t('common:errors.errorCreatingRole'));
+          handleError('Error when creating contactreason:', e, t('common:errors.errorCreatingContactreason'));
         });
       }
     })
     .catch((e) => {
-      handleError('Error when verifying role name availability:', e, t('common:errors.errorVerifyingRolename'));
+      handleError('Error when verifying contactreason availability:', e, t('common:errors.errorVerifyingContactreason'));
     });
   };
   
-  const handleVerifyRole = () => {
-    if (municipality && namespace && !verified && roleInput.length > 0) {
-      isRoleAvailable(municipality.municipalityId, namespace.namespace, roleInput)
+  const handleVerifyContactreason = () => {
+    if (municipality && namespace && !verified && contactreasonInput.length > 0) {
+      isContactreasonAvailable(municipality.municipalityId, namespace.namespace, contactreasonInput.trim())
       .then((res) => {
-        setRoleAvailable(res);
+        setContactreasonAvailable(res);
+        setContactreasonInput(contactreasonInput.trim());
         setVerified(true);
       })
       .catch((e) => {
-        handleError('Error when verifying role name availability:', e, t('common:errors.errorVerifyingRolename'));
+        handleError('Error when verifying contractreason availability:', e, t('common:errors.errorVerifyingContactreason'));
       });
     }
   };
@@ -100,7 +101,7 @@ export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality
   }, [escFunction]);
 
   useEffect(() => {
-    setRoleAvailable(true);
+    setContactreasonAvailable(true);
     setVerified(false);
     setSaving(false);
   }, []);
@@ -108,31 +109,30 @@ export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality
   return (
     <Dialog
       show={open} 
-      label={`${t('common:dialogs.manage_role.header_prefix')} ${namespace?.displayname} ${t('common:in')} ${municipality?.name}`}
+      label={`${t('common:dialogs.manage_contactreason.header_prefix')} ${namespace?.displayname} ${t('common:in')} ${municipality?.name}`}
       className="md:min-w-[60rem] dialog"
     >
       <Dialog.Content>
 
         <div className="d-flex bottom-margin-50">
-          <p>{t('common:dialogs.manage_role.role_input_heading')}:</p> 
+          <p>{t('common:dialogs.manage_contactreason.contactreason_input_heading')}:</p> 
           <div className="fill-available">
             <Input.Group
-              invalid={(roleInput.length === 0) || !roleAvailable ? 'true' : undefined} 
+              invalid={(contactreasonInput.length === 0) || !contactreasonAvailable ? 'true' : undefined} 
             >
               <Input.RightAddin 
                 icon
                 className='fill-available'
               >
                 <Input 
-                  className={'upper-case'}
                   maxLength={250}
-                  value={roleInput}
+                  value={contactreasonInput}
                   onChange={(e) => handleInputChange(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
-                  onBlur={() => handleVerifyRole()}
+                  onBlur={() => handleVerifyContactreason()}
                 />
                 <Icon 
-                  name={roleAvailable ? '' : 'shield-x'}
+                  name={contactreasonAvailable ? '' : 'shield-x'}
                   color={'error'}
                 />
               </Input.RightAddin>
@@ -146,10 +146,10 @@ export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality
       >
 
         <Button
-          disabled={roleInput.length === 0 || !roleAvailable}
+          disabled={contactreasonInput.length === 0 || !contactreasonAvailable}
           loading={saving}
           color={'vattjom'}
-          onClick={() => handleCreateRole()}>
+          onClick={() => handleCreateContactreason()}>
           {t('common:buttons.create')}
         </Button>
 

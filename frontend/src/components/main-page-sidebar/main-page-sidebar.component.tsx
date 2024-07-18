@@ -95,9 +95,8 @@ export const MainPageSidebar: React.FC = () => {
         />
       case 3:
         return <MainPageContactreasonsContent
-          title={selectedNamespace.displayname}
-          municipalityId={selectedMunicipality.municipalityId}
-          namespace={selectedNamespace.namespace}
+          municipality={selectedMunicipality}
+          namespace={selectedNamespace}
         />
       case 4:
         return <MainPageRolesContent

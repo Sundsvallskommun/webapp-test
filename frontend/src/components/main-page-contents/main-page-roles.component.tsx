@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import { DialogManageRole } from '@components/dialogs/dialog_manage_role';
 import { getRoles } from '@services/supportmanagement-service/supportmanagement-role-service';
+import { RoleInterface } from '@interfaces/supportmanagement.role';
 import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
 import { toReadableTimestamp } from '@utils/dateformat';
 
@@ -13,7 +14,7 @@ interface MainPageRolesProps {
 
 export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipality, namespace }) => {
   const { t } = useTranslation();
-  const [roles, setRoles] = useState([]);
+  const [roles, setRoles] = useState<RoleInterface[]>([]);
   const [displayedRoles, setDisplayedRoles] = useState([]);
   const [pageSize, setPageSize] = useState<number>(5);
   const [sortColumn, setSortColumn] = useState<string>('name');
