@@ -29,13 +29,13 @@ export const isRoleAvailable: (municipalityId: string, namespace: string, role: 
 
   return apiService
     .get<RoleApiResponse>(url)
-    .then(() => false) // If response is returned, then category is present in backend
+    .then(() => false) // If response is returned, then role is present in backend
     .catch((e) => {
       if (e?.response?.status === 404) { // 404 means that the requested role is not present in backend
         return true;
       }
   
-      console.error('Error occurred when fetching roles', e);
+      console.error('Error occurred when fetching role', e);
       throw e;
     });
 };

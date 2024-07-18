@@ -29,7 +29,7 @@ export class SupportmanagementContactreasonsController {
   }
 
   @Get('/supportmanagement/municipality/:municipality/namespace/:namespace/contactreasons/:contactreason')
-  @OpenAPI({ summary: 'Returns contactreason matching the provided parameters (or null if no match is found)' })
+  @OpenAPI({ summary: 'Returns contactreason matching the provided parameters' })
   async getContactreason(
     @Param('municipality') municipality: string,
     @Param('namespace') namespace: string,

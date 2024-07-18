@@ -1,32 +1,32 @@
 import { Button, Card, useSnackbar, Table, SortMode, Input, Pagination } from '@sk-web-gui/react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
-import { DialogManageRole } from '@components/dialogs/dialog_manage_role';
-import { getRoles } from '@services/supportmanagement-service/supportmanagement-role-service';
-import { RoleInterface } from '@interfaces/supportmanagement.role';
+import { DialogManageStatus } from '@components/dialogs/dialog_manage_status';
+import { getStatuses } from '@services/supportmanagement-service/supportmanagement-status-service';
+import { StatusInterface } from '@interfaces/supportmanagement.status';
 import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
 import { toReadableTimestamp } from '@utils/dateformat';
 
-interface MainPageRolesProps {
+interface MainPageStatusesProps {
   municipality: MunicipalityInterface;
   namespace: NamespaceInterface;
 }
 
-export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipality, namespace }) => {
+export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ municipality, namespace }) => {
   const { t } = useTranslation();
-  const [roles, setRoles] = useState<RoleInterface[]>([]);
-  const [displayedRoles, setDisplayedRoles] = useState([]);
+  const [statuses, setStatuses] = useState<StatusInterface[]>([]);
+  const [displayedStatuses, setDisplayedStatuses] = useState([]);
   const [pageSize, setPageSize] = useState<number>(5);
   const [sortColumn, setSortColumn] = useState<string>('name');
   const [sortOrder, setSortOrder] = useState(SortMode.ASC);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isCreateRoleDialogOpen, setIsCreateRoleDialogOpen] = useState<boolean>(false);
+  const [isCreateStatusDialogOpen, setIsCreateStatusDialogOpen] = useState<boolean>(false);
   const snackBar = useSnackbar();
 
   const headers = [
-    { label: t('common:subpages.roles.table.headers.name'), property: 'name', isColumnSortable: true },
-    { label: t('common:subpages.roles.table.headers.created'), property: 'created', isColumnSortable: true },
-    { label: t('common:subpages.roles.table.headers.modified'), property: 'mofified', isColumnSortable: true },
+    { label: t('common:subpages.statuses.table.headers.name'), property: 'name', isColumnSortable: true },
+    { label: t('common:subpages.statuses.table.headers.created'), property: 'created', isColumnSortable: true },
+    { label: t('common:subpages.statuses.table.headers.modified'), property: 'mofified', isColumnSortable: true },
   ];
 
   const handleError = (errorDescription: string, e: Error, message: string) => {
@@ -39,12 +39,12 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
     });
   };
   
-  const loadRoles = () => {
+  const loadStatuses = () => {
     if (municipality && namespace) {
-      getRoles(municipality.municipalityId, namespace.namespace)
-        .then((res) => setRoles(res))
+      getStatuses(municipality.municipalityId, namespace.namespace)
+        .then((res) => setStatuses(res))
         .catch((e) => {
-          handleError('Error when loading roles:', e, t('common:errors.errorLoadingRoles'));
+          handleError('Error when loading statuses:', e, t('common:errors.errorLoadingStatuses'));
         });
     }
   };
@@ -57,41 +57,41 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
     }
   };
 
-  const openCreateRoleDialog = () => {
-    setIsCreateRoleDialogOpen(true);
+  const openCreateStatusDialog = () => {
+    setIsCreateStatusDialogOpen(true);
   };
 
-  const closeCreateRoleDialog = (reloadTable: boolean) => {
+  const closeCreateStatusDialog = (reloadTable: boolean) => {
     if (reloadTable) {
-      loadRoles();
+      loadStatuses();
     }
-    setIsCreateRoleDialogOpen(false);
+    setIsCreateStatusDialogOpen(false);
   };
 
   useEffect(() => {
-    loadRoles();
+    loadStatuses();
   } ,[]);
 
   useEffect(() => {
-    setRoles(roles.toSorted((a, b) => {
+    setStatuses(statuses.toSorted((a, b) => {
       const order = sortOrder === SortMode.ASC ? -1 : 1;
       return a[sortColumn] < b[sortColumn] ? order : a[sortColumn] > b[sortColumn] ? order * -1 : 0;
     }));
   }, [sortColumn, sortOrder])
 
   useEffect(() => {
-    setDisplayedRoles(roles.slice((currentPage - 1) * pageSize, currentPage * pageSize));
-  }, [roles, pageSize, currentPage]);
+    setDisplayedStatuses(statuses.slice((currentPage - 1) * pageSize, currentPage * pageSize));
+  }, [statuses, pageSize, currentPage]);
   
   return (
     <>
-      <DialogManageRole
-        open={isCreateRoleDialogOpen}
+      <DialogManageStatus
+        open={isCreateStatusDialogOpen}
         municipality={municipality}
         namespace={namespace}
-        onClose={closeCreateRoleDialog}/>  
+        onClose={closeCreateStatusDialog}/>  
       
-      {roles && roles.length > 0 ? 
+      {statuses && statuses.length > 0 ? 
         <Table background={true}>
           <Table.Header>
             {headers.map((h) => <Table.HeaderColumn key={h.property}>
@@ -106,7 +106,7 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
           </Table.Header>
           
           <Table.Body>
-            {displayedRoles.map(m => <Table.Row key={m.name}>
+            {displayedStatuses.map(m => <Table.Row key={m.name}>
               <Table.Column>{m.name}</Table.Column>
               <Table.Column>{m.created && toReadableTimestamp(m.created)}</Table.Column>
               <Table.Column>{m.modified && toReadableTimestamp(m.modified)}</Table.Column>
@@ -117,7 +117,7 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
             <div className="sk-table-bottom-section">
               <div>
               <label className="sk-table-bottom-section-label" htmlFor="pagePageSize">
-                {t('common:subpages.roles.table.rows_per_page')}:
+                {t('common:subpages.statuses.table.rows_per_page')}:
               </label>
               <Input
                 size="sm"
@@ -134,7 +134,7 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
               </div>
               <div>
                 <Pagination
-                  pages={Math.ceil(roles.length / pageSize)}
+                  pages={Math.ceil(statuses.length / pageSize)}
                   activePage={currentPage}
                   changePage={(page: number) => setCurrentPage(page)}
                 />
@@ -147,7 +147,7 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
           <Card.Body>
             <Card.Text>
               <div className="capitalize-first">
-                {t('common:subpages.roles.missing')}
+                {t('common:subpages.statuses.missing')}
               </div>
             </Card.Text>
           </Card.Body>
@@ -156,8 +156,8 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
         
       <Button
         color={'vattjom'}
-        onClick={() => openCreateRoleDialog()}>
-        {t('common:buttons.add_role')}
+        onClick={() => openCreateStatusDialog()}>
+        {t('common:buttons.add_status')}
       </Button>
     </>    
   );

@@ -30,6 +30,10 @@
       "header_prefix": "Create new role for domain",
       "role_input_heading": "Role name"
     },
+    "manage_status": {
+      "header_prefix": "Create new errand status for domain",
+      "status_input_heading": "Status name"
+    },
     "manage_contactreason": {
       "header_prefix": "Create new contact reason for domain",
       "contactreason_input_heading": "Contact reason"
@@ -56,7 +60,8 @@
     "update": "Update",
     "add_role": "New role",
     "add_contactreason": "New contact reason",
-    "add_category": "New category"
+    "add_category": "New category",
+    "add_status": "New errand status"
   },
   "errors": {
     "errorLoadingMunicipalities": "An error occurred when loading municipalities",
@@ -67,6 +72,9 @@
     "errorLoadingRoles": "An error occurred when loading roles",
     "errorVerifyingRolename": "An error occurred when checking role name availability",
     "errorCreatingRole": "An error occurred when creating role",
+    "errorLoadingStatuses": "An error occurred when loading errand statuses",
+    "errorVerifyingStatus": "An error occurred when checking errand status availability",
+    "errorCreatingStatus": "An error occurred when creating errand status",
     "errorLoadingContactreasons": "An error occurred when loading contactreasons",
     "errorVerifyingContactreason": "An error occurred when checking contact reason availability",
     "errorCreatingContactreason": "An error occurred when creating contact reason",
@@ -90,6 +98,17 @@
       "table": {
         "headers": {
           "name": "Role name",
+          "created": "Created",
+          "modified": "Modified"
+        },
+        "rows_per_page": "Rows per page"
+      }
+    },
+    "statuses": {
+      "missing": "No errand statuses to display",
+      "table": {
+        "headers": {
+          "name": "Status name",
           "created": "Created",
           "modified": "Modified"
         },
