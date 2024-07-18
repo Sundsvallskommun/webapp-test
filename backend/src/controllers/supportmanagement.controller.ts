@@ -54,7 +54,7 @@ export class SupportmanagementController {
     @Param('municipality') municipality: string
   ): Promise<NamespacesResponse> {
 
-	const url = this.baseUrl + `municipality/${municipality}/namespace`;
+    const url = this.baseUrl + `municipality/${municipality}/namespace`;
 
     /*
     const res = await this.apiService.get<NamespacesResponse>({ url }).catch(e => {
