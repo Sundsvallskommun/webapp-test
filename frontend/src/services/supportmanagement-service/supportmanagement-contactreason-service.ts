@@ -30,9 +30,9 @@ export const isContactreasonAvailable: (municipalityId: string, namespace: strin
 
   return apiService
     .get<ContactreasonApiResponse>(url)
-    .then(() => false) // If response is returned, then category is present in backend
+    .then(() => false) // If response is returned, then contract reason is present in backend
     .catch((e) => {
-      if (e?.response?.status === 404) { // 404 means that the requested role is not present in backend
+      if (e?.response?.status === 404) { // 404 means that the requested contract reason is not present in backend
         return true;
       }
   

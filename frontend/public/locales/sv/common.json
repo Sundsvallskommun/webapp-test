@@ -4,7 +4,7 @@
     "select-namespace": "Välj domän",
     "search-placeholder": "Skriv för att filtrera",
     "new-namespace": "Ny domän",
-    "swedish": "S",
+    "swedish": "Svenska",
     "english": "Engelska"
   },
   "submenu": {
@@ -29,6 +29,10 @@
     "manage_role": {
       "header_prefix": "Skapa ny roll för domän",
       "role_input_heading": "Rollnamn"
+    },
+    "manage_status": {
+      "header_prefix": "Skapa nytt ärendestatus för domän",
+      "status_input_heading": "Statusnamn"
     },
     "manage_contactreason": {
       "header_prefix": "Skapa ny kontaktorsak för domän",
@@ -56,7 +60,8 @@
     "update": "Uppdatera",
     "add_role": "Ny roll",
     "add_contactreason": "Ny kontaktorsak",
-    "add_category": "Ny kategori"
+    "add_category": "Ny kategori",
+    "add_status": "Nytt ärendestatus"
   },
   "errors": {
     "errorLoadingMunicipalities": "Ett fel inträffade när kommuner skulle hämtas",
@@ -67,6 +72,9 @@
     "errorLoadingRoles": "Ett fel inträffade när roller skulle hämtas",
     "errorVerifyingRolename": "Ett fel inträffade vid kontroll om rollnamnet är tillgängligt",
     "errorCreatingRole": "Ett fel inträffade när roll skulle skapas",
+    "errorLoadingStatuses": "Ett fel inträffade när ärendestatus skulle hämtas",
+    "errorVerifyingStatus": "Ett fel inträffade vid kontroll om ärendestatus är tillgängligt",
+    "errorCreatingStatus": "Ett fel inträffade när ärendestatus skulle skapas",
     "errorLoadingContactreasons": "Ett fel inträffade när kontaktorsaker skulle hämtas",
     "errorVerifyingContactreason": "Ett fel inträffade vid kontroll om kontakorsak är tillgängligt",
     "errorCreatingContactreason": "Ett fel inträffade när kontaktorsak skulle skapas",
@@ -90,6 +98,17 @@
       "table": {
         "headers": {
           "name": "Rollnamn",
+          "created": "Skapad",
+          "modified": "Uppdaterad"
+        },
+        "rows_per_page": "Rader per sida"
+      }
+    },
+    "statuses": {
+      "missing": "Ärendestatusar saknas",
+      "table": {
+        "headers": {
+          "name": "Statusnamn",
           "created": "Skapad",
           "modified": "Uppdaterad"
         },

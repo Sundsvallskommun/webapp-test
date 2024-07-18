@@ -47,7 +47,7 @@ export const isCategoryAvailable: (municipalityId: string, namespace: string, ro
     .get<CategoryApiResponse>(url)
     .then(() => false) // If response is returned, then category is present in backend
     .catch((e) => {
-      if (e?.response?.status === 404) { // 404 means that the requested role is not present in backend
+      if (e?.response?.status === 404) { // 404 means that the requested category is not present in backend
         return true;
       }
   

@@ -10,7 +10,7 @@ import { MainPageLabelsContent } from '@components/main-page-contents/main-page-
 import { MainPageCategoriesContent } from '@components/main-page-contents/main-page-categories.component';
 import { MainPageContactreasonsContent } from '@components/main-page-contents/main-page-contactreasons.component';
 import { MainPageRolesContent } from '@components/main-page-contents/main-page-roles.component';
-import { MainPageErrandstatusesContent } from '@components/main-page-contents/main-page-errandstatuses.component';
+import { MainPageStatusesContent } from '@components/main-page-contents/main-page-statuses.component';
 import { MainPageEmailsettingsContent } from '@components/main-page-contents/main-page-emailsettings.component';
 import { getMunicipalities, getNamespaces } from '@services/supportmanagement-service/supportmanagement-service';
 import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
@@ -104,10 +104,9 @@ export const MainPageSidebar: React.FC = () => {
           namespace={selectedNamespace}
         />
       case 5:
-        return <MainPageErrandstatusesContent
-          title={selectedNamespace.displayname}
-          municipalityId={selectedMunicipality.municipalityId}
-          namespace={selectedNamespace.namespace}
+        return <MainPageStatusesContent
+          municipality={selectedMunicipality}
+          namespace={selectedNamespace}
         />
       case 6:
         return <MainPageEmailsettingsContent

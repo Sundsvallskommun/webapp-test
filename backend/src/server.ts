@@ -7,6 +7,7 @@ import { SupportmanagementRolesController } from './controllers/supportmanagemen
 import { SupportmanagementLabelController } from '@controllers/supportmanagement.labels.controller';
 import { SupportmanagementCategoriesController } from './controllers/supportmanagement.categories.controller';
 import { SupportmanagementContactreasonsController } from './controllers/supportmanagement.contactreasons.controller';
+import { SupportmanagementStatusesController } from './controllers/supportmanagement.statuses.controller';
 
 validateEnv();
 
@@ -18,6 +19,7 @@ const app = new App([
   SupportmanagementRolesController,
   SupportmanagementCategoriesController,
   SupportmanagementContactreasonsController,
+  SupportmanagementStatusesController,
 ]);
 
 app.listen();

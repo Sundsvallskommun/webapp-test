@@ -29,7 +29,7 @@ export class SupportmanagementRolesController {
   }
 
   @Get('/supportmanagement/municipality/:municipality/namespace/:namespace/roles/:role')
-  @OpenAPI({ summary: 'Returns role matching the provided parameters (or null if no match is found)' })
+  @OpenAPI({ summary: 'Returns role matching the provided parameters' })
   async getRole(
     @Param('municipality') municipality: string,
     @Param('namespace') namespace: string,

@@ -1,19 +1,19 @@
 import { Button, Dialog, Input, useSnackbar, Icon } from '@sk-web-gui/react';
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'next-i18next';
-import { isContactreasonAvailable, createContactreason } from '@services/supportmanagement-service/supportmanagement-contactreason-service';
+import { isStatusAvailable, createStatus } from '@services/supportmanagement-service/supportmanagement-status-service';
 import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
 
-interface ManageContactreasonProps {
+interface ManageStatusProps {
   open: boolean;
   municipality: MunicipalityInterface;
   namespace: NamespaceInterface;
   onClose: (reloadPage: boolean) => void;
 }
 
-export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({ open, municipality, namespace, onClose }) => {
-  const [contactreasonInput, setContactreasonInput] = useState<string>('');
-  const [contactreasonAvailable, setContactreasonAvailable] = useState<boolean>(false);
+export const DialogManageStatus: React.FC<ManageStatusProps> = ({ open, municipality, namespace, onClose }) => {
+  const [statusInput, setStatusInput] = useState<string>('');
+  const [statusAvailable, setStatusAvailable] = useState<boolean>(false);
   const [verified, setVerified] = useState<boolean>(false);
   const [saving, setSaving] = useState<boolean>(false);
   const snackBar = useSnackbar();
@@ -25,53 +25,52 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({ 
   }, []);
   
   const handleOnClose = (reloadPage: boolean) => {
-    setContactreasonInput('');
+    setStatusInput('');
     onClose(reloadPage);
   };
 
   const handleEnter = (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
-      handleVerifyContactreason();
+      handleVerifyStatus();
     }
   };
   
   const handleInputChange = (input: string) => {
-    setContactreasonAvailable(true);
+    setStatusAvailable(true);
     setVerified(false);
-    setContactreasonInput(input);
+    setStatusInput(input.replace(/[^A-Z0-9_]/ig, ""));
   };
   
-  const handleCreateContactreason = () => {
-    isContactreasonAvailable(municipality.municipalityId, namespace.namespace, contactreasonInput.trim())
+  const handleCreateStatus = () => {
+    isStatusAvailable(municipality.municipalityId, namespace.namespace, statusInput)
     .then((res) => {
       if (res) {
         setSaving(true)
-        createContactreason(municipality.municipalityId, namespace.namespace, {
-          "reason": contactreasonInput.trim()
+        createStatus(municipality.municipalityId, namespace.namespace, {
+          "name": statusInput.toUpperCase()
         })
         .then(() => {
           setSaving(false);
           handleOnClose(true)})
         .catch((e) => {
-          handleError('Error when creating contactreason:', e, t('common:errors.errorCreatingContactreason'));
+          handleError('Error when creating status:', e, t('common:errors.errorCreatingStatus'));
         });
       }
     })
     .catch((e) => {
-      handleError('Error when verifying contactreason availability:', e, t('common:errors.errorVerifyingContactreason'));
+      handleError('Error when verifying status availability:', e, t('common:errors.errorVerifyingStatus'));
     });
   };
   
-  const handleVerifyContactreason = () => {
-    if (municipality && namespace && !verified && contactreasonInput.length > 0) {
-      isContactreasonAvailable(municipality.municipalityId, namespace.namespace, contactreasonInput.trim())
+  const handleVerifyStatus = () => {
+    if (municipality && namespace && !verified && statusInput.length > 0) {
+      isStatusAvailable(municipality.municipalityId, namespace.namespace, statusInput)
       .then((res) => {
-        setContactreasonAvailable(res);
-        setContactreasonInput(contactreasonInput.trim());
+        setStatusAvailable(res);
         setVerified(true);
       })
       .catch((e) => {
-        handleError('Error when verifying contractreason availability:', e, t('common:errors.errorVerifyingContactreason'));
+        handleError('Error when verifying status availability:', e, t('common:errors.errorVerifyingStatus'));
       });
     }
   };
@@ -101,7 +100,7 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({ 
   }, [escFunction]);
 
   useEffect(() => {
-    setContactreasonAvailable(true);
+    setStatusAvailable(true);
     setVerified(false);
     setSaving(false);
   }, []);
@@ -109,30 +108,31 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({ 
   return (
     <Dialog
       show={open} 
-      label={`${t('common:dialogs.manage_contactreason.header_prefix')} ${namespace?.displayname} ${t('common:in')} ${municipality?.name}`}
+      label={`${t('common:dialogs.manage_status.header_prefix')} ${namespace?.displayname} ${t('common:in')} ${municipality?.name}`}
       className="md:min-w-[60rem] dialog"
     >
       <Dialog.Content>
 
         <div className="d-flex bottom-margin-50">
-          <p>{t('common:dialogs.manage_contactreason.contactreason_input_heading')}:</p> 
+          <p>{t('common:dialogs.manage_status.status_input_heading')}:</p> 
           <div className="fill-available">
             <Input.Group
-              invalid={(contactreasonInput.length === 0) || !contactreasonAvailable ? 'true' : undefined} 
+              invalid={(statusInput.length === 0) || !statusAvailable ? 'true' : undefined} 
             >
               <Input.RightAddin 
                 icon
                 className='fill-available'
               >
                 <Input 
+                  className={'upper-case'}
                   maxLength={250}
-                  value={contactreasonInput}
+                  value={statusInput}
                   onChange={(e) => handleInputChange(e.target.value)}
                   onKeyDown={(e) => handleEnter(e)}
-                  onBlur={() => handleVerifyContactreason()}
+                  onBlur={() => handleVerifyStatus()}
                 />
                 <Icon 
-                  name={contactreasonAvailable ? '' : 'shield-x'}
+                  name={statusAvailable ? '' : 'shield-x'}
                   color={'error'}
                 />
               </Input.RightAddin>
@@ -146,10 +146,10 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({ 
       >
 
         <Button
-          disabled={contactreasonInput.length === 0 || !contactreasonAvailable}
+          disabled={statusInput.length === 0 || !statusAvailable}
           loading={saving}
           color={'vattjom'}
-          onClick={() => handleCreateContactreason()}>
+          onClick={() => handleCreateStatus()}>
           {t('common:buttons.create')}
         </Button>
 
