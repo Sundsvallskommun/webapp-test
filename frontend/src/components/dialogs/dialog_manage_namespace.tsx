@@ -1,5 +1,5 @@
 import { Button, Dialog, Input, useSnackbar, Icon, Textarea } from '@sk-web-gui/react';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'next-i18next';
 import { MunicipalityInterface } from '@interfaces/supportmanagement';
 import { getNamespace, isShortCodeAvailable, createNamespace, updateNamespace } from '@services/supportmanagement-service/supportmanagement-service';
@@ -21,6 +21,11 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
   const [savingNamespace, setSavingNamespace] = useState<boolean>(false);
   const snackBar = useSnackbar();
   const { t } = useTranslation();
+  const escFunction = useCallback((event) => {
+    if (event.key === "Escape") {
+      handleOnClose(false);
+    }
+  }, []);
   
   const handleOnClose = (reloadDomainNameDropdown: boolean) => {
     handleInputChange('');
@@ -118,6 +123,14 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
     return icon;
   };
   
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, [escFunction]);
+
   useEffect(() => {
     setNamespaceAvailable(false);
   }, []);

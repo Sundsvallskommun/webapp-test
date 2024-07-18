@@ -30,6 +30,10 @@
       "header_prefix": "Skapa ny roll för domän",
       "role_input_heading": "Rollnamn"
     },
+    "manage_contactreason": {
+      "header_prefix": "Skapa ny kontaktorsak för domän",
+      "contactreason_input_heading": "Kontaktorsak"
+    },
     "manage_category": {
       "create_header_prefix": "Skapa ny kategori för domän",
       "modify_header_prefix": "Uppdatera kategori",
@@ -51,6 +55,7 @@
     "create": "Lägg till",
     "update": "Uppdatera",
     "add_role": "Ny roll",
+    "add_contactreason": "Ny kontaktorsak",
     "add_category": "Ny kategori"
   },
   "errors": {
@@ -62,6 +67,9 @@
     "errorLoadingRoles": "Ett fel inträffade när roller skulle hämtas",
     "errorVerifyingRolename": "Ett fel inträffade vid kontroll om rollnamnet är tillgängligt",
     "errorCreatingRole": "Ett fel inträffade när roll skulle skapas",
+    "errorLoadingContactreasons": "Ett fel inträffade när kontaktorsaker skulle hämtas",
+    "errorVerifyingContactreason": "Ett fel inträffade vid kontroll om kontakorsak är tillgängligt",
+    "errorCreatingContactreason": "Ett fel inträffade när kontaktorsak skulle skapas",
     "errorLoadingCategories": "Ett fel inträffade när kategorier skulle hämtas",
     "errorVerifyingCategory": "Ett fel inträffade vid kontroll om kategorinamnet är tillgängligt",
     "errorCreatingCategory": "Ett fel inträffade när kategori skulle skapas",
@@ -86,6 +94,17 @@
           "modified": "Uppdaterad"
         },
         "rows_per_page": "Rader per sida"
+      }
+    },
+    "contactreasons": {
+      "missing": "Kontaktorsaker saknas",
+      "table": {
+        "headers": {
+          "reason": "Kontaktorsak",
+          "created": "Skapad",
+          "modified": "Uppdaterad"
+        },
+        "rows_per_page": "Rows per page"
       }
     },
     "labels": {

@@ -1,5 +1,5 @@
-import { Button, Dialog, Input, useSnackbar, Icon, Table, Chip } from '@sk-web-gui/react';
-import { useState, useEffect } from "react";
+import { Button, Dialog, Input, useSnackbar, Icon, Table } from '@sk-web-gui/react';
+import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'next-i18next';
 import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
 import { CategoryInterface, CategoryUpdateRequestInterface } from '@interfaces/supportmanagement.category';
@@ -19,6 +19,11 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({ open, muni
   const [categoryProspect, setCategoryProspect] = useState<CategoryUpdateRequestInterface>();
   const [saving, setSaving] = useState<boolean>(false);
   const { t } = useTranslation();
+  const escFunction = useCallback((event) => {
+    if (event.key === "Escape") {
+      onClose();
+    }
+  }, []);
     
   const handleError = (errorDescription: string, e: Error, message: string) => {
     console.error(errorDescription, e);
@@ -117,6 +122,14 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({ open, muni
     return allValid && uniqueNames();
   };
   
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, [escFunction]);
+
   useEffect(() => {
     // Initialize update prospect and remove created and modified dates as they is not allowed to be set on update
     const types = category?.types.map(type => ({ 

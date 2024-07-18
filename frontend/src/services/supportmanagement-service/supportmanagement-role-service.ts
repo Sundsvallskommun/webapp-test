@@ -1,23 +1,24 @@
 import { apiService } from '../api-service';
 import { Role, RolesApiResponse, RoleApiResponse, RoleCreateRequest } from '@data-contracts/backend/role-contracts';
+import { RoleInterface } from '@interfaces/supportmanagement.role';
 
-export const getRoles: (municipalityId: string, namespace: string) => Promise<Role[]> = async (municipalityId, namespace) => {
+export const getRoles: (municipalityId: string, namespace: string) => Promise<RoleInterface[]> = async (municipalityId, namespace) => {
   const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/roles`;
 
   return apiService
     .get<RolesApiResponse>(url)
-    .then((res) => mapToRoles(res.data))
+    .then((res) => mapToRoleInterfaces(res.data))
     .catch((e) => {
       console.error('Error occurred when fetching roles', e);
       throw e;
     });
 };
 
-const mapToRoles: (data: any) => Role[] = (data) => {
-  return data.map(mapToRole);
+const mapToRoleInterfaces: (data: any) => RoleInterface[] = (data) => {
+  return data.map(mapToRoleInterface);
 };
 
-const mapToRole: (data: Role) => Role = (data) => ({
+const mapToRoleInterface: (data: Role) => RoleInterface = (data) => ({
   name: data.name,
   created: data.created,
   modified: data.modified,

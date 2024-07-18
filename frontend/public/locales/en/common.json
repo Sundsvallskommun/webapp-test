@@ -30,6 +30,10 @@
       "header_prefix": "Create new role for domain",
       "role_input_heading": "Role name"
     },
+    "manage_contactreason": {
+      "header_prefix": "Create new contact reason for domain",
+      "contactreason_input_heading": "Contact reason"
+    },
     "manage_category": {
       "create_header_prefix": "Create new category for domain",
       "modify_header_prefix": "Modify category",
@@ -51,6 +55,7 @@
     "create": "Create",
     "update": "Update",
     "add_role": "New role",
+    "add_contactreason": "New contact reason",
     "add_category": "New category"
   },
   "errors": {
@@ -62,6 +67,9 @@
     "errorLoadingRoles": "An error occurred when loading roles",
     "errorVerifyingRolename": "An error occurred when checking role name availability",
     "errorCreatingRole": "An error occurred when creating role",
+    "errorLoadingContactreasons": "An error occurred when loading contactreasons",
+    "errorVerifyingContactreason": "An error occurred when checking contact reason availability",
+    "errorCreatingContactreason": "An error occurred when creating contact reason",
     "errorLoadingCategories": "An error occurred when loading categories",
     "errorVerifyingCategory": "An error occurred when checking cateogory availability",
     "errorCreatingCategory": "An error occurred when creating category",
@@ -82,6 +90,17 @@
       "table": {
         "headers": {
           "name": "Role name",
+          "created": "Created",
+          "modified": "Modified"
+        },
+        "rows_per_page": "Rows per page"
+      }
+    },
+    "contactreasons": {
+      "missing": "No contactreasons to display",
+      "table": {
+        "headers": {
+          "reason": "Contact reason",
           "created": "Created",
           "modified": "Modified"
         },

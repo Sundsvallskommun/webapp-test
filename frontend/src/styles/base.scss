@@ -61,6 +61,10 @@ div.capitalize-first {
   margin-top: 0.5em;
 }
 
+.bottom-margin-50 {
+  margin-bottom: 0.5em;
+}
+
 .sk-header table tr td * {
   z-index: 1;
 }
@@ -125,6 +129,15 @@ div.capitalize-first {
 
 .d-flex > * {
   padding-right: 1em;
+}
+
+.main-content-menu-vertical {
+  padding: 0.2em 0em 0.2em 1em;
+}
+
+.main-content-menu-vertical > span {
+  margin: 0.5em 0.5em 0.5em 0em;
+  vertical-align: middle;
 }
 
 .sk-menu-vertical-item > a[aria-current="page"] > * {
@@ -282,4 +295,10 @@ input.email {
   position: sticky; top: 0;
   background-color: white;
   z-index: 1;
+}
+
+.fill-available {
+  width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
 }
