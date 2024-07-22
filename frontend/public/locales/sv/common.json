@@ -13,7 +13,7 @@
     "contactreasons": "Kontaktorsaker",
     "roles": "Roller",
     "errandstatuses": "Ärendestatus",
-    "emailconfiguration": "E-postinställningar"
+    "emailconfiguration": "Konfiguration av E-post"
   },
   "dialogs": {
     "manage_namespace": {
@@ -38,6 +38,25 @@
       "header_prefix": "Skapa ny kontaktorsak för domän",
       "contactreason_input_heading": "Kontaktorsak"
     },
+    "manage_emailconfiguration": {
+      "header_prefix": "Konfigurera epost-inställningar för domän",
+      "enable_configuration": "Aktiverad",
+      "add_sender_as_stakeholder": "Lägg till avsändaren som intressent",
+      "days_of_inactivity_before_reject": "Antal dagar innan inkommen epost avvisas",
+      "errand_channel": "Kanal för skapade ärenden",
+      "errand_channel_placeholder": "Ange kanal",
+      "errand_closed_email_sender": "E-postavsändare för avvisad e-post",
+      "errand_closed_email_template": "E-postsvar vid avvisad inkommande e-post",
+      "errand_closed_email_sender_placeholder": "Ange avsändare",
+      "errand_closed_email_template_placeholder": "Ange meddelande i e-postsvar",
+      "stakeholder_role": "Roll att tilldela intressent",
+      "select_stakeholder_role": "Välj roll",
+      "status_for_new": "Status för skapade ärenden",
+      "trigger_statuschange_on": "Status för att påtvinga en statusändring",
+      "statuschange_to": "Status som sätts på ärende när statusändring genomförs",
+      "inactive_status": "Status för inaktivt ärende",
+      "select_status": "Välj status"
+    },
     "manage_category": {
       "create_header_prefix": "Skapa ny kategori för domän",
       "modify_header_prefix": "Uppdatera kategori",
@@ -61,7 +80,9 @@
     "add_role": "Ny roll",
     "add_contactreason": "Ny kontaktorsak",
     "add_category": "Ny kategori",
-    "add_status": "Nytt ärendestatus"
+    "add_status": "Nytt ärendestatus",
+    "add_emailconfiguration": "Ny konfiguration",
+    "modify_emailconfiguration": "Ändra konfiguration"
   },
   "errors": {
     "errorLoadingMunicipalities": "Ett fel inträffade när kommuner skulle hämtas",
@@ -81,7 +102,10 @@
     "errorLoadingCategories": "Ett fel inträffade när kategorier skulle hämtas",
     "errorVerifyingCategory": "Ett fel inträffade vid kontroll om kategorinamnet är tillgängligt",
     "errorCreatingCategory": "Ett fel inträffade när kategori skulle skapas",
-    "errorUpdatingCategory": "Ett fel inträffade när kategori skulle uppdateras"
+    "errorUpdatingCategory": "Ett fel inträffade när kategori skulle uppdateras",
+    "errorLoadingEmailconfiguration": "Ett fel inträffade när epostkonfiguration skulle hämtas",
+    "errorSavingEmailconfiguration": "Ett fel inträffade när epostkonfiguration skulle sparas"
+    
   },
   "subpages": {
     "categories": {
@@ -92,6 +116,23 @@
       "created": "Skapad",
       "modified": "Uppdaterad",
       "missing": "Kategorier saknas"
+    },
+    "emailconfiguration": {
+      "missing": "Epost-konfiguration saknas",
+      "current_email_configuration": "Nuvarande epost-konfiguration",
+      "configuration_enabled": "Konfigurationen är aktiverad",
+      "add_sender_as_stakeholder": "Avsändaren läggs till som intressent",
+      "days_of_inactivity_before_reject": "Antal dagar innan inkommen e-post avvisas",
+      "errand_channel": "Kanal som sätts för skapade ärenden",
+      "errand_closed_email_sender": "E-postavsändare för avvisad e-post",
+      "errand_closed_email_template": "E-postsvar som skickas när inkommande e-post avvisas",
+      "stakeholder_role": "Roll som tilldelas intressent",
+      "status_for_new": "Status satt på ärende när e-post resulterar i ett nytt ärende",
+      "trigger_statuschange_on": "Status som kommer att påtvinga en statusändring när e-post hänvisar till ett befintligt ärende",
+      "statuschange_to": "Status som sätts på ärende om statusändring genomförs",
+      "inactive_status": "Status för inaktivt ärende",
+      "created": "Skapad",
+      "modified": "Sist ändrad"
     },
     "roles": {
       "missing": "Roller saknas",
@@ -143,5 +184,7 @@
   "in": "i",
   "for": "för",
   "to": "till",
+  "yes": "ja",
+  "no": "nej",
   "logout": "logga ut"
 }

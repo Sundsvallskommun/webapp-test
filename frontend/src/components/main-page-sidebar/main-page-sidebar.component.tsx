@@ -11,9 +11,9 @@ import { MainPageCategoriesContent } from '@components/main-page-contents/main-p
 import { MainPageContactreasonsContent } from '@components/main-page-contents/main-page-contactreasons.component';
 import { MainPageRolesContent } from '@components/main-page-contents/main-page-roles.component';
 import { MainPageStatusesContent } from '@components/main-page-contents/main-page-statuses.component';
-import { MainPageEmailsettingsContent } from '@components/main-page-contents/main-page-emailsettings.component';
-import { getMunicipalities, getNamespaces } from '@services/supportmanagement-service/supportmanagement-service';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
+import { MainPageEmailConfigurationContent } from '@components/main-page-contents/main-page-emailconfiguration.component';
+import { getMunicipalities, getNamespaces } from '@services/supportmanagement-service/supportmanagement-namespace-service';
+import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 
 export const MainPageSidebar: React.FC = () => {
   const user = useUserStore((s) => s.user, shallow);
@@ -28,12 +28,12 @@ export const MainPageSidebar: React.FC = () => {
   const { pathname, asPath, query } = router;  
   const [selectedSubMenu, setSelectedSubMenu] = useState(null);
   const menuItems = [
-    {id: 1, displayName: t('common:submenu.categories'), link: '/logout'},
-    {id: 2, displayName: t('common:submenu.labels'), link: '/logout'},
-    {id: 3, displayName: t('common:submenu.contactreasons'), link: '/logout'},
-    {id: 4, displayName: t('common:submenu.roles'), link: '/logout'},
-    {id: 5, displayName: t('common:submenu.errandstatuses'), link: '/logout'},
-    {id: 6, displayName: t('common:submenu.emailconfiguration'), link: '/logout'}
+    {id: 2, displayName: t('common:submenu.labels')},
+    {id: 1, displayName: t('common:submenu.categories')},
+    {id: 6, displayName: t('common:submenu.emailconfiguration')},
+    {id: 3, displayName: t('common:submenu.contactreasons')},
+    {id: 4, displayName: t('common:submenu.roles')},
+    {id: 5, displayName: t('common:submenu.errandstatuses')},
   ];
 
   const handleSelectedMunicipalityId: React.ComponentProps<typeof Combobox.Input>['onChange'] = e => {
@@ -109,10 +109,9 @@ export const MainPageSidebar: React.FC = () => {
           namespace={selectedNamespace}
         />
       case 6:
-        return <MainPageEmailsettingsContent
-          title={selectedNamespace.displayname}
-          municipalityId={selectedMunicipality.municipalityId}
-          namespace={selectedNamespace.namespace}
+        return <MainPageEmailConfigurationContent
+          municipality={selectedMunicipality}
+          namespace={selectedNamespace}
         />
       default:
         return null;

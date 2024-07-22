@@ -4,12 +4,12 @@ import { municipalities } from '@/utils/municipalityUtil';
 
 import { OpenAPI } from 'routing-controllers-openapi';
 import { Controller, Get, Body, Post, Patch, Res, Param, HttpCode } from 'routing-controllers';
-import { MunicipalitiesResponse, NamespacesResponse, NamespaceResponse, Namespace } from '@/responses/supportmanagement.response';
-import { NamespaceCreateRequest, NamespaceUpdateRequest } from '@/requests/supportmanagement.request';
+import { MunicipalitiesResponse, NamespacesResponse, NamespaceResponse, Namespace } from '@/responses/supportmanagement.namespace.response';
+import { NamespaceCreateRequest, NamespaceUpdateRequest } from '@/requests/supportmanagement.namespace.request';
 import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
 
 @Controller()
-export class SupportmanagementController {
+export class SupportmanagementNamespaceController {
   private apiService = new ApiService();
   private baseUrl = BASE_URL_SUPPORTMANAGEMENT;
                    

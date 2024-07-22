@@ -2,7 +2,7 @@ import { Button, Dialog, Input, useSnackbar, Icon } from '@sk-web-gui/react';
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'next-i18next';
 import { isRoleAvailable, createRole } from '@services/supportmanagement-service/supportmanagement-role-service';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
+import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 
 interface ManageRoleProps {
   open: boolean;

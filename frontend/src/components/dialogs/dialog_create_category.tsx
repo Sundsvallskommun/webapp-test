@@ -1,9 +1,10 @@
 import { Button, Dialog, Input, useSnackbar, Icon, Table } from '@sk-web-gui/react';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'next-i18next';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
+import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import { CategoryCreateRequestInterface } from '@interfaces/supportmanagement.category';
 import { isCategoryAvailable, createCategory } from '@services/supportmanagement-service/supportmanagement-category-service';
+import { isValidEmailOrEmpty } from '@utils/constants';
 
 interface CreateCategoryProps {
   open: boolean;
@@ -13,7 +14,6 @@ interface CreateCategoryProps {
 }
 
 export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, municipality, namespace, onClose }) => {
-  const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
   const snackBar = useSnackbar();
   const [categoryAvailable, setCategoryAvailable] = useState<boolean>(false);
   const [verified, setVerified] = useState<boolean>(false);
@@ -119,11 +119,7 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
       })
       .finally(() => setSaving(false));
   };
-  
-  const validEmail = (email: string) => {
-    return email.length === 0 || RegExp(emailRegex).exec(email);
-  };
-  
+    
   const uniqueNames = ():boolean => {
     // Validate that name and displayName is only present once in type-list
     let allValid = true;
@@ -143,7 +139,7 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
   const validTypes = ():boolean => {
     let allValid = true;
     category.types.map(m => {
-      if (m.name.length === 0 || m.displayName.length === 0 || !validEmail(m.escalationEmail)) {
+      if (m.name.length === 0 || m.displayName.length === 0 || !isValidEmailOrEmpty(m.escalationEmail)) {
         allValid = false;
       }
     });
@@ -254,7 +250,7 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
               </Table.Column>
               <Table.Column>
 
-                <Input.Group invalid={!validEmail(m.escalationEmail) ? 'true' : undefined} >
+                <Input.Group invalid={!isValidEmailOrEmpty(m.escalationEmail) ? 'true' : undefined} >
                   <Input.RightAddin icon>
 
                     <Input 
@@ -266,7 +262,7 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
                     />
 
                    <Icon 
-                     name={validEmail(m.escalationEmail) ? '' : 'shield-x'}
+                     name={isValidEmailOrEmpty(m.escalationEmail) ? '' : 'shield-x'}
                      color={'error'}
                    />
                  </Input.RightAddin>

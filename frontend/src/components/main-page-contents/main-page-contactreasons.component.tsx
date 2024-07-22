@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import { DialogManageContactreason } from '@components/dialogs/dialog_manage_contactreason';
 import { getContactreasons } from '@services/supportmanagement-service/supportmanagement-contactreason-service';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
+import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import { toReadableTimestamp } from '@utils/dateformat';
 import { ContactreasonInterface } from '@interfaces/supportmanagement.contactreason';
 

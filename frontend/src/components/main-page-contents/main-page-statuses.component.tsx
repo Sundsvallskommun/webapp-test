@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next';
 import { DialogManageStatus } from '@components/dialogs/dialog_manage_status';
 import { getStatuses } from '@services/supportmanagement-service/supportmanagement-status-service';
 import { StatusInterface } from '@interfaces/supportmanagement.status';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
+import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import { toReadableTimestamp } from '@utils/dateformat';
 
 interface MainPageStatusesProps {

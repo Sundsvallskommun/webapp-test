@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next';
 import { DialogManageRole } from '@components/dialogs/dialog_manage_role';
 import { getRoles } from '@services/supportmanagement-service/supportmanagement-role-service';
 import { RoleInterface } from '@interfaces/supportmanagement.role';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
+import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import { toReadableTimestamp } from '@utils/dateformat';
 
 interface MainPageRolesProps {
