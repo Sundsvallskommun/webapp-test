@@ -1,6 +1,6 @@
 import { apiService } from '../api-service';
 import { Role, RolesApiResponse, RoleApiResponse, RoleCreateRequest } from '@data-contracts/backend/role-contracts';
-import { RoleInterface } from '@interfaces/supportmanagement.role';
+import { RoleInterface, RoleCreateRequestInterface } from '@interfaces/supportmanagement.role';
 
 export const getRoles: (municipalityId: string, namespace: string) => Promise<RoleInterface[]> = async (municipalityId, namespace) => {
   const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/roles`;
@@ -40,7 +40,7 @@ export const isRoleAvailable: (municipalityId: string, namespace: string, role: 
     });
 };
 
-export const createRole: (municipalityId: string, namespace: string, request: RoleCreateRequest) => Promise<void> = async (municipalityId, namespace, request) => {
+export const createRole: (municipalityId: string, namespace: string, request: RoleCreateRequestInterface) => Promise<void> = async (municipalityId, namespace, request) => {
   const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/roles`;
 
   apiService

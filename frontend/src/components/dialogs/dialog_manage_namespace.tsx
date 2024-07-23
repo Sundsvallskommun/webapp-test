@@ -1,8 +1,8 @@
 import { Button, Dialog, Input, useSnackbar, Icon, Textarea } from '@sk-web-gui/react';
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'next-i18next';
-import { MunicipalityInterface } from '@interfaces/supportmanagement';
-import { getNamespace, isShortCodeAvailable, createNamespace, updateNamespace } from '@services/supportmanagement-service/supportmanagement-service';
+import { MunicipalityInterface } from '@interfaces/supportmanagement.namespace';
+import { getNamespace, isShortCodeAvailable, createNamespace, updateNamespace } from '@services/supportmanagement-service/supportmanagement-namespace-service';
 
 interface ManageNamespaceProps {
   open: boolean;

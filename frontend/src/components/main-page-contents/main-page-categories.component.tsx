@@ -3,7 +3,7 @@ import { useState, useEffect, SetStateAction } from 'react';
 import { useTranslation } from 'next-i18next';
 import { DialogCreateCategory } from '@components/dialogs/dialog_create_category';
 import { DialogModifyCategory } from '@components/dialogs/dialog_modify_category';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
+import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import { CategoryInterface } from '@interfaces/supportmanagement.category';
 import { getCategories } from '@services/supportmanagement-service/supportmanagement-category-service';
 import { toReadableTimestamp } from '@utils/dateformat';

@@ -1,6 +1,6 @@
 import { apiService } from '../api-service';
 import { Status, StatusesApiResponse, StatusApiResponse, StatusCreateRequest } from '@data-contracts/backend/status-contracts';
-import { StatusInterface } from '@interfaces/supportmanagement.status';
+import { StatusInterface, StatusCreateRequestInterface } from '@interfaces/supportmanagement.status';
 
 export const getStatuses: (municipalityId: string, namespace: string) => Promise<StatusInterface[]> = async (municipalityId, namespace) => {
   const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/statuses`;
@@ -40,7 +40,7 @@ export const isStatusAvailable: (municipalityId: string, namespace: string, stat
     });
 };
 
-export const createStatus: (municipalityId: string, namespace: string, request: StatusCreateRequest) => Promise<void> = async (municipalityId, namespace, request) => {
+export const createStatus: (municipalityId: string, namespace: string, request: StatusCreateRequestInterface) => Promise<void> = async (municipalityId, namespace, request) => {
   const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/statuses`;
 
   apiService

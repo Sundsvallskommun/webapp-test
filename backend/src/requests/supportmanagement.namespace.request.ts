@@ -1,4 +1,4 @@
-import { NamespaceCreateRequestInterface, NamespaceUpdateRequestInterface } from '@/interfaces/supportmanagement.interface';
+import { NamespaceCreateRequestInterface, NamespaceUpdateRequestInterface } from '@/interfaces/supportmanagement.namespace.interface';
 import { IsString } from 'class-validator';
 
 export class NamespaceCreateRequest implements NamespaceCreateRequestInterface {

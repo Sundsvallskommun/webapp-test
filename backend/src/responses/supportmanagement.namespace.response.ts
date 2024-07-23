@@ -1,5 +1,5 @@
 import ApiResponse from '@/interfaces/api-service.interface';
-import { MunicipalityInterface, NamespaceInterface } from '@/interfaces/supportmanagement.interface';
+import { MunicipalityInterface, NamespaceInterface } from '@/interfaces/supportmanagement.namespace.interface';
 import { Type } from 'class-transformer';
 import { IsString, ValidateNested } from 'class-validator';
 

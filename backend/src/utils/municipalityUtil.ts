@@ -1,4 +1,4 @@
-import { Municipality } from '@/responses/supportmanagement.response';
+import { Municipality } from '@/responses/supportmanagement.namespace.response';
 
 export const municipalities: Municipality[] = [
   {

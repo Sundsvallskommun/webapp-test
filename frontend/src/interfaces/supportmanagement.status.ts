@@ -3,3 +3,7 @@ export interface StatusInterface {
   created: string;
   modified?: string;
 }
+
+export interface StatusCreateRequestInterface {
+  name: string;
+}

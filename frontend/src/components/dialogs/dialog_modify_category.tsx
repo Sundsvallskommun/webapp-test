@@ -1,7 +1,7 @@
 import { Button, Dialog, Input, useSnackbar, Icon, Table } from '@sk-web-gui/react';
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'next-i18next';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement';
+import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import { CategoryInterface, CategoryUpdateRequestInterface } from '@interfaces/supportmanagement.category';
 import { updateCategory } from '@services/supportmanagement-service/supportmanagement-category-service';
 
@@ -92,7 +92,7 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({ open, muni
   };
   
   const validEmail = (email: string) => {
-    return email.length === 0 || RegExp(emailRegex).exec(email);
+    return !email || email.length === 0 || RegExp(emailRegex).exec(email);
   };
   
   const uniqueNames = ():boolean => {

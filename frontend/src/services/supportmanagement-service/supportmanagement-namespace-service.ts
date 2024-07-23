@@ -1,5 +1,5 @@
 import { apiService } from '../api-service';
-import { Municipality, MunicipalitiesApiResponse, Namespace, NamespaceApiResponse, NamespacesApiResponse, NamespaceCreateRequest, NamespaceUpdateRequest } from '@data-contracts/backend/data-contracts';
+import { Municipality, MunicipalitiesApiResponse, Namespace, NamespaceApiResponse, NamespacesApiResponse, NamespaceCreateRequest, NamespaceUpdateRequest } from '@data-contracts/backend/namespace-contracts';
 
 export const getMunicipalities: () => Promise<Municipality[]> = async () => {
   const url = 'supportmanagement/municipality';
