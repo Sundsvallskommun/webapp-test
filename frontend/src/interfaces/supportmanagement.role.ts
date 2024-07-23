@@ -3,3 +3,7 @@ export interface RoleInterface {
   created: string;
   modified?: string;
 }
+
+export interface RoleCreateRequestInterface {
+  name: string;
+}
