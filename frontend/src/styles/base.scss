@@ -333,19 +333,28 @@ input.email {
 .grid-2-col {
   display: grid;
   grid-template-columns: auto max-content;
-  row-gap: 0.2em;
+  column-gap: 1em;
   padding: 0.2em;
   font-size: var(--sk-fontSize-small);
   color: var(--sk-colors-primitives-gray-400);
 }
 
+.grid-2-col > div:nth-child(odd) {
+  padding-left: 1em;
+}
+
+.grid-2-col > div:nth-child(even) {
+  padding-right: 1em;
+}
+
 .grid-3-col {
   display: grid;
   grid-template-columns: auto auto max-content;
+  column-gap: 1em;
   row-gap: 0.2em;
+  padding: 0.5em 1em 0.5em 1em;
   font-size: var(--sk-fontSize-small);
   color: var(--sk-colors-primitives-gray-400);
-  padding: 0.2em;
 }
 
 .grid-4-col {
@@ -353,61 +362,27 @@ input.email {
   grid-template-columns: auto auto auto max-content;
   row-gap: 0.2em;
   column-gap: 1em;
+  padding: 1.5em 2em 1.5em 2em;
   font-size: var(--sk-fontSize-small);
   color: var(--sk-colors-primitives-gray-400);
-  padding: 1.5em;
-  margin-bottom: 1em;
-}
-
-.grid-2-col > div {
-  border: 1px solid var(--sk-colors-primitives-gray-300);
-  padding: 0.5em;
-  font-size: var(--sk-fontSize-small);
 }
 
 .section {
   border: 1px solid var(--sk-colors-primitives-gray-300);
   border-radius: var(--sk-radius-button-DEFAULT);
-}
-
-.section > div {
-  border: none;
+  margin-bottom: 1em;
 }
 
 .created-span {
-  margin-top: 0.8em;
   font-size: var(--sk-fontSize-small);
 }
 
-.grid-2-col > div:nth-child(odd) {
-  border-top-left-radius: var(--sk-radius-button-DEFAULT);
-  border-bottom-left-radius: var(--sk-radius-button-DEFAULT);
-  padding-left: 1em;
-  border-right: none;
-  color: var(--sk-colors-primitives-gray-400);
+.sk-max-width-40 {
+  max-width: 40em;
 }
 
-.grid-2-col > div:nth-child(even) {
-  border-top-right-radius: var(--sk-radius-button-DEFAULT);
-  border-bottom-right-radius: var(--sk-radius-button-DEFAULT);
-  padding-right: 1em;
-  border-left: none;
-}
-
-.grid-2-col > div:nth-child(odd):hover, .grid-2-col > div:nth-child(odd):hover + div {
-	background-color: var(--sk-colors-primitives-gray-50);
-}
-
-.grid-2-col > .spacer {
-	border: none;
-	min-height: 2em;
-}
 .sk-form-switch-box {
 	left: 0em;
-}
-
-.no-borders > div {
-	border: none;
 }
 
 .number-input {

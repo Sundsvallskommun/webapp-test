@@ -69,7 +69,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
   
   const washInput = (input: string): string => {
     const validatedInput = input.replace(/[^A-Z0-9_]/ig, "");
-    return validatedInput ? String.valueOf(validatedInput).toUpperCase() : validatedInput;	
+    return validatedInput ? String(validatedInput).toUpperCase() : validatedInput;	
   };
   
   const onlyNumbers = (input: string): number => {
@@ -134,7 +134,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
       <Dialog.Content>
         {/* Section for activation and email recipient settings */} 
         <div className="grid-3-col section" >
-          <div className="grid-2-col no-borders" >
+          <div className="grid-2-col" >
             <div>
               {t('common:dialogs.manage_emailconfiguration.enable_configuration')}
             </div>
@@ -150,7 +150,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
               />
             </div>
           </div>              
-          <div className="grid-2-col no-borders" >
+          <div className="grid-2-col" >
             <div>
               {t('common:dialogs.manage_emailconfiguration.add_sender_as_stakeholder')}
             </div>
@@ -162,7 +162,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
               />
             </div>
           </div>
-          <div className="grid-2-col no-borders" >
+          <div className="grid-2-col" >
             <div>
               {t('common:dialogs.manage_emailconfiguration.stakeholder_role')}
             </div>
@@ -192,8 +192,8 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
 
         {/* Section for rejection email */} 
         <div className="section" >
-          <div className="grid-2-col no-borders" >
-            <div className="grid-2-col no-borders">
+          <div className="grid-2-col" >
+            <div className="grid-2-col">
               <div>
                 {t('common:dialogs.manage_emailconfiguration.days_of_inactivity_before_reject')}
               </div>
@@ -211,7 +211,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
                 />
               </div>
             </div>
-            <div className="grid-2-col no-borders">
+            <div className="grid-2-col">
               <div>
                 {t('common:dialogs.manage_emailconfiguration.errand_closed_email_sender')}
               </div>
