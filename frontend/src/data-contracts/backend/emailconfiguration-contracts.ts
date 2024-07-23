@@ -1,4 +1,4 @@
-export interface EmailConfiguration {
+export interface EmailconfigurationResponse {
   enabled: boolean;
   errandClosedEmailSender?: string;
   errandClosedEmailTemplate?: string;
@@ -14,12 +14,7 @@ export interface EmailConfiguration {
   modified?: string;
 }
 
-export interface EmailConfigurationApiResponse {
-  data: EmailConfiguration;
-  message: string;
-}
-
-export interface EmailConfigurationCreateRequest {
+export interface EmailconfigurationCreateRequest {
   enabled: boolean;
   errandClosedEmailSender?: string;
   errandClosedEmailTemplate?: string;
@@ -33,7 +28,7 @@ export interface EmailConfigurationCreateRequest {
   errandChannel?: string;
 }
 
-export interface EmailConfigurationUpdateRequest {
+export interface EmailconfigurationUpdateRequest {
   enabled: boolean;
   errandClosedEmailSender?: string;
   errandClosedEmailTemplate?: string;

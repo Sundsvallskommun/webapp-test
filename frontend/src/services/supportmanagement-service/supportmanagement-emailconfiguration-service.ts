@@ -1,12 +1,12 @@
 import { apiService } from '../api-service';
-import { EmailconfigurationApiResponse, EmailconfigurationCreateRequest, EmailconfigurationUpdateRequest } from '@data-contracts/backend/emailconfiguration-contracts';
+import { EmailconfigurationResponse, EmailconfigurationCreateRequest, EmailconfigurationUpdateRequest } from '@data-contracts/backend/emailconfiguration-contracts';
 import { EmailconfigurationInterface, EmailconfigurationCreateRequestInterface, EmailconfigurationUpdateRequestInterface } from '@interfaces/supportmanagement.emailconfiguration';
 
 export const getEmailconfiguration: (municipalityId: string, namespace: string) => Promise<EmailconfigurationInterface | null> = async (municipalityId, namespace) => {
   const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/emailconfiguration`;
 
   return apiService
-    .get<EmailconfigurationApiResponse>(url)
+    .get<EmailconfigurationResponse>(url)
     .then((res) => mapToEmailconfigurationInterface(res.data))
     .catch((e) => {
       if (e?.response?.status === 404) { // 404 means that the requested email configuration is not present in backend, return null
@@ -18,7 +18,7 @@ export const getEmailconfiguration: (municipalityId: string, namespace: string) 
     });
 };
 
-const mapToEmailconfigurationInterface: (data: EmailconfigurationApiResponse) => EmailconfigurationInterface = (data) => ({
+const mapToEmailconfigurationInterface: (data: EmailconfigurationResponse) => EmailconfigurationInterface = (data) => ({
   enabled: data.enabled,
   errandClosedEmailSender: data.errandClosedEmailSender,
   errandClosedEmailTemplate: data.errandClosedEmailTemplate,

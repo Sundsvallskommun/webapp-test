@@ -8,7 +8,7 @@ import { getRoles } from '@services/supportmanagement-service/supportmanagement-
 import { RoleInterface } from '@interfaces/supportmanagement.role';
 import { getStatuses } from '@services/supportmanagement-service/supportmanagement-status-service';
 import { StatusInterface } from '@interfaces/supportmanagement.status';
-import { isValidEmailOrEmpty } from '@utils/constants';
+import { isValidEmailOrEmpty } from '@utils/validation';
 
 interface ManageEmailconfigurationProps {
   open: boolean;

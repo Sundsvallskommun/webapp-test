@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next';
 import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import { CategoryCreateRequestInterface } from '@interfaces/supportmanagement.category';
 import { isCategoryAvailable, createCategory } from '@services/supportmanagement-service/supportmanagement-category-service';
-import { isValidEmailOrEmpty } from '@utils/constants';
+import { isValidEmailOrEmpty } from '@utils/validation';
 
 interface CreateCategoryProps {
   open: boolean;
