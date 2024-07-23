@@ -54,7 +54,7 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ municipal
 	// Load labels
     getLabels(municipality.municipalityId, namespace.namespace)
       .then((labels) =>  setLabels(labels.labelStructure))
-      .catch((error) =>  handleError(`{${t('common:errors.errorLoadingRoles')}`, error, error.message));
+      .catch((e) => handleError('Error when loading labels:', e, t('common:errors.errorLoadingLabels')));
     
     // Load categories (used for trying to get a displayName translation for categories and types)
     getCategories(municipality.municipalityId, namespace.namespace)

@@ -90,6 +90,7 @@
     "errorVerifyingNamespaceName": "An error occurred when checking domain name availability",
     "errorCreatingNamespace": "An error occurred when creating namespace",
     "errorUpdatingNamespace": "An error occurred when updating namespace",
+    "errorLoadingLabels": "An error occurred when loading labels",
     "errorLoadingRoles": "An error occurred when loading roles",
     "errorVerifyingRolename": "An error occurred when checking role name availability",
     "errorCreatingRole": "An error occurred when creating role",
