@@ -46,10 +46,8 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
     
     response
       .then(() => handleOnClose(true))
-      .catch((e) => {
-        handleError('Error when saving configuration:', e, t('common:errors.errorSavingEmailconfiguration'));
-	  })
-	  .finally(() => setSaving(false));
+      .catch((e) => handleError('Error when saving configuration:', e, t('common:errors.errorSavingEmailconfiguration')))
+      .finally(() => setSaving(false));
   };
 
   const handleError = (errorDescription: string, e: Error, message: string) => {
@@ -69,16 +67,17 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
   
   const washInput = (input: string): string => {
     const validatedInput = input.replace(/[^A-Z0-9_]/ig, "");
-    return validatedInput ? String(validatedInput).toUpperCase() : validatedInput;	
+    return validatedInput ? String(validatedInput).toUpperCase() : validatedInput;
   };
   
   const onlyNumbers = (input: string): number => {
     const validatedInput = input.replace(/[^\d.-]+/g, "");
-    return Number(validatedInput);	
+    return Number(validatedInput);
   };
 
   const handleToggleAddAsStakeholder = () => {
-	const currentSetting = futureEmailConfiguration?.addSenderAsStakeholder || false;
+    const currentSetting = futureEmailConfiguration?.addSenderAsStakeholder || false;
+    
     setFutureEmailConfiguration(
       {
         ...futureEmailConfiguration,
@@ -108,21 +107,16 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
       stakeholderRole: emailConfiguration?.stakeholderRole,
       errandChannel: emailConfiguration?.errandChannel
     });
-	
-	// Load available roles
+
+    // Load available roles
     getRoles(municipality.municipalityId, namespace.namespace)
       .then((res) => setRoles(res))
-      .catch((e) => {
-        handleError('Error when loading roles:', e, t('common:errors.errorLoadingRoles'));
-      });
+      .catch((e) => handleError('Error when loading roles:', e, t('common:errors.errorLoadingRoles')));
 
-	// Load available statuses
+    // Load available statuses
     getStatuses(municipality.municipalityId, namespace.namespace)
       .then((res) => setStatuses(res))
-      .catch((e) => {
-        handleError('Error when loading statuses:', e, t('common:errors.errorLoadingStatuses'));
-      });
-	
+      .catch((e) => handleError('Error when loading statuses:', e, t('common:errors.errorLoadingStatuses')));
   }, []);
   
   return (
