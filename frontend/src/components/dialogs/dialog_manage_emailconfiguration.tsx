@@ -96,7 +96,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
 
   useEffect(() => {
     setFutureEmailConfiguration({
-      enabled: emailConfiguration?.enabled || false,
+      enabled: emailConfiguration?.enabled || true,
       errandClosedEmailSender: emailConfiguration?.errandClosedEmailSender,
       errandClosedEmailTemplate: emailConfiguration?.errandClosedEmailTemplate,
       daysOfInactivityBeforeReject: emailConfiguration?.daysOfInactivityBeforeReject,
@@ -259,6 +259,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
           <div>
             <Input
               disabled={!futureEmailConfiguration?.enabled}
+              placeholder={t('common:dialogs.manage_emailconfiguration.errand_channel_placeholder')}
               value={futureEmailConfiguration?.errandChannel}
               onChange={(e) => setFutureEmailConfiguration(
                 {
