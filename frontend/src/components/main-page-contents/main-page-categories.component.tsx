@@ -19,13 +19,8 @@ export const MainPageCategoriesContent: React.FC<MainPageCategoriesProps> = ({ m
   const { t } = useTranslation();
   const [categories, setCategories] = useState<CategoryInterface[]>([]);
   const snackBar = useSnackbar();
-  const [current, setCurrent] = useState<MenuIndex>();
   const [isManageCategoryDialogOpen, setIsManageCategoryDialogOpen] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<CategoryInterface | null>(null);
-  
-  const handleSetCurrent = (menuIndex: SetStateAction<number>) => {
-    setCurrent(menuIndex);
-  };
   
   const handleError = (errorDescription: string, e: Error, message: string) => {
     console.error(errorDescription, e);

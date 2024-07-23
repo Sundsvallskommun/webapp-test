@@ -100,10 +100,13 @@ div.capitalize-first {
     0 0.027rem 0.082rem 0 rgba(13,13,14, 0.0583) inset;
 }
 
-.sk-menu-vertical-sidebar .sk-menu-vertical {
-  gap: 0px;
+.sk-menu-vertical-sidebar .sk-menu-vertical, .sk-menu-vertical-sidebar .sk-menu-vertical li ul {
+  gap: var(--sk-spacing-0);	
 }
 
+.sk-menu-vertical li ul div.menuitem-div, .sk-menu-vertical li ul p {
+  font-size: var(--sk-fontSize-small);
+}
 .sk-menu-vertical-item-tool-item > * {
   padding: 0em;
   padding-left: 0.5em;
@@ -388,4 +391,10 @@ input.email {
 .number-input {
   width: 4em;
   text-align: center;
+}
+
+.classification {
+  font-size: var(--sk-fontSize-small);
+  font-variant: small-caps;
+  color: var(--sk-colors-primitives-gray-400);
 }
