@@ -35,9 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <GuiProvider /** colorScheme="light"**/>
       <AppWrapper>
-        <LoginGuard>
-          <Component {...pageProps} />
-        </LoginGuard>
+        <Component {...pageProps} />
       </AppWrapper>
     </GuiProvider>
   );

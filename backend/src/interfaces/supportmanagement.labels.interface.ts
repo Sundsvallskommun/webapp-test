@@ -6,7 +6,7 @@ export interface LabelsInterface {
 
 export interface LabelInterface {
   classification: string;
-  displayName: string;
+  displayName?: string;
   name: string;
-  labels: LabelInterface[];
+  labels?: LabelInterface[];
 }

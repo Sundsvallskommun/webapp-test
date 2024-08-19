@@ -6,8 +6,9 @@ export interface LabelsApiResponse {
 
 export interface Label {
   classification: string;
-  displayName: string;
+  displayName?: string;
   name: string;
   uuid: string;
-  labels: Label[];
+  isActualLabel: boolean;
+  labels?: Label[];
 }
