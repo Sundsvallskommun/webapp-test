@@ -70,7 +70,13 @@
       "categorytype_display_name_input_heading": "Visningsnamn",
       "categorytype_escalation_email_input_heading": "Mail vid eskalering",
       "escalation_email_placeholder": "Ange eventuell eskaleringsmail"
-    }
+    },
+		"manage_label": {
+			"header_prefix": "Skapa ny etikett",
+			"name_input_heading": "Etikettnamn",
+			"display_name_input_heading": "Visningsnamn",
+			"classification_input_heading": "Klassificering"
+		}
   },
   "buttons": {
     "close": "Stäng",
@@ -82,7 +88,8 @@
     "add_category": "Ny kategori",
     "add_status": "Nytt ärendestatus",
     "add_emailconfiguration": "Ny konfiguration",
-    "modify_emailconfiguration": "Ändra konfiguration"
+    "modify_emailconfiguration": "Ändra konfiguration",
+		"add_label": "Ny etikett"
   },
   "errors": {
     "errorLoadingMunicipalities": "Ett fel inträffade när kommuner skulle hämtas",
@@ -90,6 +97,7 @@
     "errorVerifyingNamespaceName": "Ett fel inträffade vid kontroll om domännamnet är tillgängligt",
     "errorCreatingNamespace": "Ett fel inträffade när domän skulle skapas",
     "errorUpdatingNamespace": "Ett fel inträffade när domän skulle uppdateras",
+    "errorLoadingLabels": "Ett fel inträffade när etiketter skulle hämtas",
     "errorLoadingRoles": "Ett fel inträffade när roller skulle hämtas",
     "errorVerifyingRolename": "Ett fel inträffade vid kontroll om rollnamnet är tillgängligt",
     "errorCreatingRole": "Ett fel inträffade när roll skulle skapas",

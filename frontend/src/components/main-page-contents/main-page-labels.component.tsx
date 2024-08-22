@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from 'react';
+import { Card, MenuVertical, useSnackbar } from '@sk-web-gui/react';
 import { useTranslation } from 'next-i18next';
 import { getLabels } from '@services/supportmanagement-service/supportmanagement-label-service';
 import { Label } from '@data-contracts/backend/label-contracts';
-import { Card, MenuVertical, Icon, useSnackbar } from '@sk-web-gui/react';
+import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { CategoryInterface } from '@interfaces/supportmanagement.category';
+import {
+  getCategories,
+} from '@services/supportmanagement-service/supportmanagement-category-service';
 import { MenuIndex } from '@sk-web-gui/react/dist/types/menu-vertical/src/menu-vertical-context';
+import Icon from '@sk-web-gui/icon';
 
 interface MainPageLabelsProps {
-  title: string;
-  municipalityId: string;
-  namespace: string;
+  municipality: MunicipalityInterface;
+  namespace: NamespaceInterface;
 }
 
-export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ title, municipalityId, namespace, }) => {
+export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({municipality, namespace}) => {
   const { t } = useTranslation();
   const snackBar = useSnackbar();
   const [labels, setLabels] = useState<Label[]>([]);
+  const [categories, setCategories] = useState<CategoryInterface[]>([]);
   const [current, setCurrent] = React.useState<MenuIndex>();
 
   /**
@@ -33,45 +39,65 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ title, mu
     });
   };
 
+  //TODO For some reason sub-labels aren't getting their display-names (Created UF-9599 for this).
+  const getDisplayname = (category: string, name: string): string => {
+    let matches = categories.filter((item) => item.name === name); // First try to find a match at category level
+
+    if (matches.length === 0) { // If no match on name at category level, extract correct category and match name on type level
+      matches = categories.filter((item) => item.name === category)
+        .map((item) => item.types)
+        .flat()
+        .filter((item) => item.name === name);
+    }
+
+    return matches.length === 0 ? name : matches[0].displayName; // Return displayname if found, otherwise name
+  };
+
   /**
    * Fetch labels from backend and set them
    */
   useEffect(() => {
-    getLabels(municipalityId, namespace)
-      .then((labels) => {
-        setLabels(labels.labelStructure);
-      })
-      .catch((error) => {
-        handleError(`{${t('common:errors.errorLoadingRoles')}`, error, error.message);
-      });
+    // Load labels
+    getLabels(municipality.municipalityId, namespace.namespace)
+      .then((labels) => setLabels(labels.labelStructure))
+      .catch((error) =>  handleError(`{${t('common:errors.errorLoadingRoles')}`, error, error.message));
+
+    // Load categories (used for trying to get a displayName translation for categories and types)
+    getCategories(municipality.municipalityId, namespace.namespace)
+      .then((res) => setCategories(res))
+      .catch((e) => handleError('Error when loading categories:', e, t('common:errors.errorLoadingCategories')));
+
   }, []);
 
   /**
    * Recursively render labels and sublabels
    * @param label the label to render
+   * @param category
    */
-  const renderLabels = (label: Label) => {
+  const renderLabels = (label: Label, category: string) => {
     // If the label doesn't have sublabels, return a simple MenuVertical.Item
     if (!label.labels || label.labels.length === 0) {
       return (
         <MenuVertical.Item key={label.uuid} id={label.uuid}>
-          <div className={'label-info'}>
-            {label.name && label.displayName && label.classification &&
-              <div>
-                <p>
-                  <b>{`${label.displayName}`}</b>
-                </p>
-                <p>
-                  <span>{`${t('common:subpages.labels.label.name')}: `}</span>
-                  <b>{`${label.name}`}</b>
-                </p>
-                <p>
-                  <span>{`${t('common:subpages.labels.label.classification')}: `}</span>
-                  <b>{`${label.classification}`}</b>
-                </p>
+          {label.name && label.displayName && label.classification &&
+            <div className="menuitem-div">
+              <p>
+                <b>{`${label.displayName}`}</b>
+              </p>
+              <div className={'label-info'}>
+                <div>
+                  <p>
+                    <span>{`${t('common:subpages.labels.label.name')}: `}</span>
+                    <b>{`${label.name}`}</b>
+                  </p>
+                  <p>
+                    <span>{`${t('common:subpages.labels.label.classification')}: `}</span>
+                    <b>{`${label.classification}`}</b>
+                  </p>
+                </div>
               </div>
-            }
-          </div>
+            </div>
+          }
         </MenuVertical.Item>
       );
     }
@@ -80,15 +106,15 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ title, mu
     return (
       <MenuVertical.Item key={label.uuid} id={label.uuid}>
         <MenuVertical>
-          <MenuVertical.SubmenuButton>
-            <a href={`#${label.uuid}`}>
-              <Icon 
+          <MenuVertical.SubmenuButton className="main-content-menu-vertical">
+            <div>
+              <Icon
                 name={'list-tree'}
               />
-              <p>{`${label.classification} - ${label.name}`}</p>
-            </a>
+              <b>{getDisplayname(label.classification, label.name)}</b><span className="classification">{`(${label.classification?.toLowerCase()})`}</span>
+            </div>
           </MenuVertical.SubmenuButton>
-          {label.labels.map(subLabel => renderLabels(subLabel))}
+          {label.labels.map(subLabel => renderLabels(subLabel, category))}
         </MenuVertical>
       </MenuVertical.Item>
     );
@@ -107,20 +133,21 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ title, mu
    */
   return (
     <>
-      {labels && labels.length > 0 ?
-        <div >
+      { labels && labels.length > 0 ?
+        <div>
           <MenuVertical.Provider current={current} setCurrent={handleSetCurrent}>
             <MenuVertical.Sidebar>
               <MenuVertical.Header>
                 {t('common:submenu.labels')}
               </MenuVertical.Header>
               <MenuVertical id="sk-main-page-menu">
-                {labels.map(label => renderLabels(label))}
+                {labels.map(label => renderLabels(label, label.classification))}
               </MenuVertical>
             </MenuVertical.Sidebar>
           </MenuVertical.Provider>
-        </div> :
+        </div>
 
+      :
         //If no labels, show an error message
         (!labels || labels.length === 0) &&
         <Card color={'tertiary'}>

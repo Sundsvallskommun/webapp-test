@@ -9,6 +9,8 @@ import type { AppProps /*, AppContext */ } from 'next/app';
 import { AppWrapper } from '@contexts/app.context';
 import { appWithTranslation } from 'next-i18next';
 import nextI18NextConfig from '../../next-i18next.config';
+import { useMemo } from 'react';
+import { defaultTheme, extendTheme, spacing } from '@sk-web-gui/theme';
 
 dayjs.extend(utc);
 dayjs.locale('sv');
@@ -32,8 +34,20 @@ dayjs.updateLocale('sv', {
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const theme = useMemo(
+    () =>
+      extendTheme({
+        colorSchemes: defaultTheme.colorSchemes,
+        spacing: {
+          ...defaultTheme.spacing,
+          'max-content': '1440px',
+        },
+      }),
+    []
+  );
+
   return (
-    <GuiProvider /** colorScheme="light"**/>
+    <GuiProvider theme={theme}>
       <AppWrapper>
         <LoginGuard>
           <Component {...pageProps} />

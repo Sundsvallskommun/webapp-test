@@ -25,10 +25,10 @@ export class Label implements LabelInterface {
   @IsString()
   classification: string;
   @IsString()
-  displayName: string;
+  displayName?: string;
   @IsString()
   name: string;
   @ValidateNested()
   @Type(() => Label)
-  labels: Label[];
+  labels?: Label[];
 }

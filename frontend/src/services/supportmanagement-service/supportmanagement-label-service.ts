@@ -15,7 +15,19 @@ export const getLabels: (municipality: string, namespace: string) => Promise<Lab
       throw e;
     });
 
+  result.then((labels) => markActualLabels(labels.labelStructure));
   result.then((labels) => addUuidToAllLabels(labels.labelStructure));
+
+  function markActualLabels(labelStructure: Label[]) {
+    labelStructure.forEach((label: any) => {
+      if (label.labels === undefined || label.labels.length == 0) {
+        label.isActualLabel = true;
+      } else {
+        label.isActualLabel = false;
+        markActualLabels(label.labels);
+      }
+    });
+  }
 
   /**
    * Adds a uuid to each label object so we can keep track of them
