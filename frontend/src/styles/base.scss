@@ -240,7 +240,8 @@ div.main-area > button {
 }
 
 .sk-menu-vertical-item-submenu {
-  background-color: var(--sk-colors-primitives-gray-100);
+  // Removed this because it was making MenuVertical items look bad with dark theme.
+  //background-color: var(--sk-colors-primitives-gray-100);
   margin-bottom: 0.2em;
 }
 

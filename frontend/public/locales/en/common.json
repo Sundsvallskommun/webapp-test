@@ -71,13 +71,7 @@
       "categorytype_display_name_input_heading": "Display name",
       "categorytype_escalation_email_input_heading": "Escalation email",
       "escalation_email_placeholder": "Enter optional escalation email"
-    },
-		"manage_label": {
-			"header_prefix": "Create new label",
-			"name_input_heading": "Label name",
-			"display_name_input_heading": "Display name",
-			"classification_input_heading": "Classification"
-		}
+    }
   },
   "buttons": {
     "close": "Close",
