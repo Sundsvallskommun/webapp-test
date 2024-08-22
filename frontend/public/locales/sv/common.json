@@ -97,7 +97,7 @@
     "errorVerifyingNamespaceName": "Ett fel inträffade vid kontroll om domännamnet är tillgängligt",
     "errorCreatingNamespace": "Ett fel inträffade när domän skulle skapas",
     "errorUpdatingNamespace": "Ett fel inträffade när domän skulle uppdateras",
-    "errorLoadingLabels": "Ett fel inträffade när ettiketter skulle hämtas",
+    "errorLoadingLabels": "Ett fel inträffade när etiketter skulle hämtas",
     "errorLoadingRoles": "Ett fel inträffade när roller skulle hämtas",
     "errorVerifyingRolename": "Ett fel inträffade vid kontroll om rollnamnet är tillgängligt",
     "errorCreatingRole": "Ett fel inträffade när roll skulle skapas",
