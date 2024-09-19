@@ -34,5 +34,5 @@ export const {
   SAML_PRIVATE_KEY,
   SAML_PUBLIC_KEY,
   ADMIN_GROUP,
-  ViEW_GROUP,
+  VIEW_GROUP,
 } = process.env;

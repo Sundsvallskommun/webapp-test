@@ -37,7 +37,7 @@ export class ActiveDirectoryController {
   @UseBefore(authMiddleware)
   async usersInViewGroup(@Req() req: RequestWithUser, @Res() response: any): Promise<AdUser[]> {
     const domain = 'personal';
-    const url = this.baseUrl + `/groupmembers/${domain}/${process.env.ViEW_GROUP}`;
+    const url = this.baseUrl + `/groupmembers/${domain}/${process.env.VIEW_GROUP}`;
     const res = await this.apiService.get<AdUser[]>({ url });
     return response.status(200).send(res.data.map(u => ({ displayName: u.displayName, name: u.name, guid: u.guid })));
   }
