@@ -14,8 +14,6 @@ import { MainPageStatusesContent } from '@components/main-page-contents/main-pag
 import { MainPageEmailConfigurationContent } from '@components/main-page-contents/main-page-emailconfiguration.component';
 import { getMunicipalities } from '@services/supportmanagement-service/supportmanagement-municipality-service';
 import { getNamespaces } from '@services/supportmanagement-service/supportmanagement-namespace-service';
-import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
-import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 
 export const MainPageSidebar: React.FC = () => {
   const user = useUserStore((s) => s.user, shallow);
