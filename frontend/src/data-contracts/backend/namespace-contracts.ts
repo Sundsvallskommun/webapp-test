@@ -1,17 +1,7 @@
-export interface Municipality {
-  municipalityId: string;
-  name: string;
-}
-
-export interface MunicipalitiesApiResponse {
-  data: Municipality[];
-  message: string;
-}
-
 export interface Namespace {
   namespace: string;
-  displayname: string;
-  description: string;
+  municipalityId: string;
+  displayName: string;
   shortCode: string;
   created: string;
   modified?: string;
@@ -28,13 +18,11 @@ export interface NamespaceApiResponse {
 }
 
 export interface NamespaceCreateRequest {
-  namespace: string;
-  displayname: string;
-  description: string;
+  displayName: string;
   shortCode: string;
 }
 
 export interface NamespaceUpdateRequest {
-  displayname: string;
-  description: string;
+  displayName: string;
+  shortCode: string;
 }

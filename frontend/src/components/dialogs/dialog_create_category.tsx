@@ -1,7 +1,8 @@
 import { Button, Dialog, Input, useSnackbar, Icon, Table } from '@sk-web-gui/react';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'next-i18next';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
 import { CategoryCreateRequestInterface } from '@interfaces/supportmanagement.category';
 import { isCategoryAvailable, createCategory } from '@services/supportmanagement-service/supportmanagement-category-service';
 import { isValidEmailOrEmpty } from '@utils/validation';
@@ -166,7 +167,7 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
   return (
     <Dialog
       show={open} 
-      label={`${t('common:dialogs.manage_category.create_header_prefix')} ${namespace.displayname} ${t('common:in')} ${municipality.name}`}
+      label={`${t('common:dialogs.manage_category.create_header_prefix')} ${namespace.displayName} ${t('common:in')} ${municipality.name}`}
       className="md:min-w-[100rem] dialog"
     >
       <Dialog.Content>

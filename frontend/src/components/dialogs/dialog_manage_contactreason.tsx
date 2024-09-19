@@ -2,7 +2,8 @@ import { Button, Dialog, Input, useSnackbar, Icon } from '@sk-web-gui/react';
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'next-i18next';
 import { isContactreasonAvailable, createContactreason } from '@services/supportmanagement-service/supportmanagement-contactreason-service';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
 
 interface ManageContactreasonProps {
   open: boolean;
@@ -109,7 +110,7 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({ 
   return (
     <Dialog
       show={open} 
-      label={`${t('common:dialogs.manage_contactreason.header_prefix')} ${namespace?.displayname} ${t('common:in')} ${municipality?.name}`}
+      label={`${t('common:dialogs.manage_contactreason.header_prefix')} ${namespace?.displayName} ${t('common:in')} ${municipality?.name}`}
       className="md:min-w-[60rem] dialog"
     >
       <Dialog.Content>

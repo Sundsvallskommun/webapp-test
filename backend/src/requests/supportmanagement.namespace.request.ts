@@ -3,18 +3,14 @@ import { IsString } from 'class-validator';
 
 export class NamespaceCreateRequest implements NamespaceCreateRequestInterface {
   @IsString()
-  namespace: string;
-  @IsString()
-  displayname: string;
-  @IsString()
-  description: string;
+  displayName: string;
   @IsString()
   shortCode: string;
 }
 
 export class NamespaceUpdateRequest implements NamespaceUpdateRequestInterface {
   @IsString()
-  displayname: string;
+  displayName: string;
   @IsString()
-  description: string;
+  shortCode: string;
 }

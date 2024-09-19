@@ -22,8 +22,6 @@
       "domain_name_input_heading": "Domain name",
       "display_name_input_heading": "Display name",
       "displayname_placeholder": "Enter display name",
-      "description_input_heading": "Description",
-      "description_placeholder": "Enter domain description",
       "short_code_input_heading": "Short code"
     },
     "manage_role": {

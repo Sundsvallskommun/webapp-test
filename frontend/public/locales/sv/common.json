@@ -18,12 +18,10 @@
   "dialogs": {
     "manage_namespace": {
       "header_new_namespace": "Skapa ny domän för",
-      "header_update_namespace": "Uppdatera domän",
+      "header_update_namespace": "Uppdatera domän för",
       "domain_name_input_heading": "Domännamn",
       "display_name_input_heading": "Visningsnamn",
       "displayname_placeholder": "Ange visningsnamn",
-      "description_input_heading": "Beskrivning",
-      "description_placeholder": "Ange kort beskrivning av domänen",
       "short_code_input_heading": "Kort-kod"
     },
     "manage_role": {

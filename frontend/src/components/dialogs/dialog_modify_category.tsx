@@ -1,7 +1,8 @@
 import { Button, Dialog, Input, useSnackbar, Icon, Table } from '@sk-web-gui/react';
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'next-i18next';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
 import { CategoryInterface, CategoryUpdateRequestInterface } from '@interfaces/supportmanagement.category';
 import { updateCategory } from '@services/supportmanagement-service/supportmanagement-category-service';
 
@@ -147,7 +148,7 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({ open, muni
   return (
     <Dialog
       show={open} 
-      label={`${t('common:dialogs.manage_category.modify_header_prefix')} ${category.displayName} ${t('common:for')} ${t('common:domain')} ${namespace.displayname} ${t('common:in')} ${municipality.name}`}
+      label={`${t('common:dialogs.manage_category.modify_header_prefix')} ${category.displayName} ${t('common:for')} ${t('common:domain')} ${namespace.displayName} ${t('common:in')} ${municipality.name}`}
       className="md:min-w-[120rem] dialog"
     >
       <Dialog.Content>
