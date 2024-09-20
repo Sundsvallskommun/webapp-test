@@ -19,7 +19,7 @@ export const getLabels: (municipality: string, namespace: string) => Promise<Lab
   result.then((labels) => addUuidToAllLabels(labels.labelStructure));
 
   function markActualLabels(labelStructure: Label[]) {
-    labelStructure.forEach((label: any) => {
+    labelStructure?.forEach((label: any) => {
       if (label.labels === undefined || label.labels.length == 0) {
         label.isActualLabel = true;
       } else {

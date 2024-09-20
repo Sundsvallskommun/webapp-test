@@ -1,7 +1,7 @@
 import { Button, Dialog, Input, useSnackbar, Icon, Textarea } from '@sk-web-gui/react';
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'next-i18next';
-import { MunicipalityInterface } from '@interfaces/supportmanagement.namespace';
+import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
 import { getNamespace, isShortCodeAvailable, createNamespace, updateNamespace } from '@services/supportmanagement-service/supportmanagement-namespace-service';
 
 interface ManageNamespaceProps {
@@ -15,7 +15,6 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
   const [namespaceInputChanged, setNamespaceInputChanged] = useState<boolean>(true);
   const [shortCodeInput, setShortCodeInput] = useState<string>('');
   const [displayNameInput, setDisplayNameInput] = useState<string>('');
-  const [descriptionInput, setDescriptionInput] = useState<string>('');
   const [namespaceAvailable, setNamespaceAvailable] = useState<boolean>(false);
   const [shortCodeAvailable, setShortCodeAvailable] = useState<boolean>(false);
   const [savingNamespace, setSavingNamespace] = useState<boolean>(false);
@@ -38,7 +37,6 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
     setNamespaceAvailable(false);
     setShortCodeInput('');
     setDisplayNameInput('');
-    setDescriptionInput('');
     setNamespaceInputChanged(true);
     setNamespaceInput(validNamespace);
   };
@@ -57,8 +55,7 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
         setNamespaceInputChanged(false);
         setNamespaceAvailable(res === null);
         setShortCodeInput(res?.shortCode || '');
-        setDisplayNameInput(res?.displayname || '');
-        setDescriptionInput(res?.description || '');
+        setDisplayNameInput(res?.displayName || '');
       })
       .catch((e) => {
         handleError('Error when verifying namespace name availability:', e, t('common:errors.errorVerifyingNamespaceName'));
@@ -75,15 +72,13 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
   
   const handleCreate = () => {
     setSavingNamespace(true);
-    createNamespace(municipality.municipalityId, {
-      "namespace": namespaceInput.toUpperCase(),
+    createNamespace(municipality.municipalityId, namespaceInput.toUpperCase(), {
       "shortCode": shortCodeInput, 
-      "displayname": displayNameInput,
-      "description": descriptionInput
+      "displayName": displayNameInput
     })
     .then(() => handleOnClose(true))
     .catch((e) => {
-      handleError('Error when updating namespace:', e, t('common:errors.errorCreatingNamespace'));
+      handleError('Error when creating namespace:', e, t('common:errors.errorCreatingNamespace'));
     })
     .finally(() => setSavingNamespace(false));
   };
@@ -91,12 +86,12 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
   const handleUpdate = () => {
     setSavingNamespace(true);
     updateNamespace(municipality.municipalityId, namespaceInput.toUpperCase(), {
-      "displayname": displayNameInput,
-      "description": descriptionInput
+      "shortCode": shortCodeInput,
+      "displayName": displayNameInput
     })
     .then(() => handleOnClose(true))
     .catch((e) => {
-      handleError('Error when creating namespace:', e, t('common:errors.errorUpdatingNamespace'));
+      handleError('Error when updating namespace:', e, t('common:errors.errorUpdatingNamespace'));
     })
     .finally(() => setSavingNamespace(false));
   };
@@ -191,23 +186,7 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
           value={displayNameInput}
           onChange={(e) => setDisplayNameInput(e.target.value)}
         />
-
-        <div>
-
-          <p>{t('common:dialogs.manage_namespace.description_input_heading')}: </p>
-          <Textarea 
-            disabled={namespaceInputChanged}
-            className={'container-max-width'}
-            invalid={!namespaceInputChanged && descriptionInput.length === 0 ? 'true' : undefined} 
-            showCount={true}
-            rows={5}
-            maxLength={150}
-            placeholder={t('common:dialogs.manage_namespace.description_placeholder')}
-            value={descriptionInput}
-            onChange={(e) => setDescriptionInput(e.target.value)}
-          />
-
-        </div>
+        <div>&nbsp;</div>
       </Dialog.Content>
       <Dialog.Buttons
         className={'container-right'}>
@@ -224,7 +203,7 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
         {!namespaceInputChanged && namespaceAvailable &&
         <Button
           color={'vattjom'}
-          disabled={shortCodeInput.length === 0 || displayNameInput.length === 0 || descriptionInput.length === 0 || !shortCodeAvailable}
+          disabled={shortCodeInput.length === 0 || displayNameInput.length === 0 || !shortCodeAvailable}
           loading={savingNamespace}
           onClick={() => handleCreate()}>
           {t('common:buttons.create')}

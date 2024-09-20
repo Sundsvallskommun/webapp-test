@@ -13,7 +13,7 @@
     "contactreasons":  "Contact reasons",
     "roles": "Roles",
     "errandstatuses": "Errand statuses",
-    "emailconfiguration":  "E-mail settings"
+    "emailconfiguration":  "Email configuration"
   },
   "dialogs": {
     "manage_namespace": {
@@ -22,13 +22,10 @@
       "domain_name_input_heading": "Domain name",
       "display_name_input_heading": "Display name",
       "displayname_placeholder": "Enter display name",
-      "description_input_heading": "Description",
-      "description_placeholder": "Enter domain description",
       "short_code_input_heading": "Short code"
     },
     "manage_role": {
       "header_prefix": "Create new role for domain",
-      "header_in": "in",
       "role_input_heading": "Role name"
     },
     "manage_status": {
@@ -75,7 +72,7 @@
   },
   "buttons": {
     "close": "Close",
-    "verify_domain": "Verify availability",
+    "verify": "Verify availability",
     "create": "Create",
     "update": "Update",
     "add_role": "New role",
@@ -92,11 +89,50 @@
     "errorVerifyingNamespaceName": "An error occurred when checking domain name availability",
     "errorCreatingNamespace": "An error occurred when creating namespace",
     "errorUpdatingNamespace": "An error occurred when updating namespace",
+    "errorLoadingLabels": "An error occurred when loading labels",
     "errorLoadingRoles": "An error occurred when loading roles",
     "errorVerifyingRolename": "An error occurred when checking role name availability",
-    "errorCreatingRole": "An error occurred when creating role"
+    "errorCreatingRole": "An error occurred when creating role",
+    "errorLoadingStatuses": "An error occurred when loading errand statuses",
+    "errorVerifyingStatus": "An error occurred when checking errand status availability",
+    "errorCreatingStatus": "An error occurred when when creating errand status",
+    "errorLoadingContactreasons": "An error occurred when loading contact reasons",
+    "errorVerifyingContactreason": "An error occurred when checking contact reason availability",
+    "errorCreatingContactreason": "An error occurred when creating contact reason",
+    "errorLoadingCategories": "An error occurred when loading categories",
+    "errorVerifyingCategory": "An error occurred when checking category name availability",
+    "errorCreatingCategory": "An error occurred when creating category",
+    "errorUpdatingCategory": "An error occurred when updating category",
+    "errorLoadingEmailconfiguration": "An error occurred when loading email configuration",
+    "errorSavingEmailconfiguration": "An error occurred when saving email configuration"
   },
   "subpages": {
+    "categories": {
+      "missing": "Categories are missing",
+      "menuheader": "Categories and types",
+      "category_name": "Category name",
+      "category_type_name": "Type name",
+      "escalation_mail": "Mail for escalation",
+      "created": "Created",
+      "modified": "Modified"
+    },
+    "emailconfiguration": {
+      "missing": "Email configuration is missing",
+      "current_email_configuration": "Current email configuration",
+      "configuration_enabled": "Configuration is active",
+      "add_sender_as_stakeholder": "The sender is added as stakeholder",
+      "days_of_inactivity_before_reject": "Days of inactivity before emails are rejected",
+      "errand_channel": "Channel to set for created cases",
+      "errand_closed_email_sender": "Email sender used when sending reject email",
+      "errand_closed_email_template": "Email template to use when incoming email is rejected",
+      "stakeholder_role": "Role to use when adding stakeholder",
+      "status_for_new": "Status to set on a case when an email triggers a new case to be created",
+      "trigger_statuschange_on": "Status that will force a status change when an email is referring to an existing case",
+      "statuschange_to": "Status to set on a case when a change of status is performed",
+      "inactive_status": "Status for an inactive case",
+      "created": "Created",
+      "modified": "Modified"
+    },
     "roles": {
       "missing": "Roles are missing",
       "table": {
@@ -108,19 +144,46 @@
         "rows_per_page": "Rows per page"
       }
     },
-  "labels": {
-    "missing": "No labels to display",
-    "label": {
-      "classification": "Classification",
-      "name": "Name",
-      "displayName": "Display name"
+    "statuses": {
+      "missing": "Case statuses are missing",
+      "table": {
+        "headers": {
+          "name": "Status name",
+          "created": "Created",
+          "modified": "Modified"
+        },
+        "rows_per_page": "Rows per page"
+      }
+    },
+    "contactreasons": {
+      "missing": "Contact reasons are missing",
+      "table": {
+        "headers": {
+          "reason": "Contact reason",
+          "created": "Created",
+          "modified": "Modified"
+        },
+        "rows_per_page": "Rows per page"
+      }
+    },
+    "labels": {
+      "missing": "No labels to display",
+      "label": {
+        "classification": "Classification",
+        "name": "Name",
+        "displayName": "Display name"
+      }
     }
-  }
   },
   "title": "SupportManagement",
   "subtitle": "Administration",
   "welcome": "Welcome",
   "login": "log in",
+  "domain": "domain",
+  "in": "in",
+  "for": "for",
   "to": "to",
+  "yes": "yes",
+  "no": "no",
   "logout": "log out"
 }

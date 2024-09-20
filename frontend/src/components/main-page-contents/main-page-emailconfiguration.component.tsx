@@ -1,11 +1,8 @@
-import { Button, Divider, useSnackbar, Card, Link, Logo, Header, Text, Combobox , Avatar, Image, MenuVertical } from '@sk-web-gui/react';
-import NextLink from 'next/link';
+import { Button, useSnackbar, Card, Header, Text } from '@sk-web-gui/react';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
-import { useUserStore } from '@services/user-service/user-service';
-import { shallow } from 'zustand/shallow';
-import { useRouter } from 'next/router';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
 import { getEmailconfiguration } from '@services/supportmanagement-service/supportmanagement-emailconfiguration-service';
 import { EmailconfigurationInterface } from '../../interfaces/supportmanagement.emailconfiguration';
 import { DialogManageEmailconfiguration } from '@components/dialogs/dialog_manage_emailconfiguration';

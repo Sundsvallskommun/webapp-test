@@ -12,8 +12,8 @@ import { MainPageContactreasonsContent } from '@components/main-page-contents/ma
 import { MainPageRolesContent } from '@components/main-page-contents/main-page-roles.component';
 import { MainPageStatusesContent } from '@components/main-page-contents/main-page-statuses.component';
 import { MainPageEmailConfigurationContent } from '@components/main-page-contents/main-page-emailconfiguration.component';
-import { getMunicipalities, getNamespaces } from '@services/supportmanagement-service/supportmanagement-namespace-service';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { getMunicipalities } from '@services/supportmanagement-service/supportmanagement-municipality-service';
+import { getNamespaces } from '@services/supportmanagement-service/supportmanagement-namespace-service';
 
 export const MainPageSidebar: React.FC = () => {
   const user = useUserStore((s) => s.user, shallow);
@@ -22,8 +22,8 @@ export const MainPageSidebar: React.FC = () => {
   const { t } = useTranslation();
   const [municipalities, setMunicipalities] = useState([]);
   const [namespaces, setNamespaces] = useState([]);
-  const [selectedMunicipality, setSelectedMunicipality] = useState<MunicipalityInterface>(null);
-  const [selectedNamespace, setSelectedNamespace] = useState<NamespaceInterface>(null);
+  const [selectedMunicipality, setSelectedMunicipality] = useState(null);
+  const [selectedNamespace, setSelectedNamespace] = useState(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
   const { pathname, asPath, query } = router;  
   const [selectedSubMenu, setSelectedSubMenu] = useState(null);
@@ -44,7 +44,7 @@ export const MainPageSidebar: React.FC = () => {
   
   const handleSelectedNamespace: React.ComponentProps<typeof Combobox.Input>['onChange'] = e => {
     if (e?.target?.value) {
-      setSelectedNamespace(namespaces.find(m => m.displayname === e.target.value));
+      setSelectedNamespace(namespaces.find(m => m.displayName === e.target.value));
     }
   };
 
@@ -137,7 +137,7 @@ export const MainPageSidebar: React.FC = () => {
 
   useEffect(() => {
     reloadNamespaceDropdown();
-  }, [selectedMunicipality?.municipalityId]);
+  }, [selectedMunicipality]);
 
   useEffect(() => {
     setSelectedSubMenu(null);
@@ -240,7 +240,7 @@ export const MainPageSidebar: React.FC = () => {
                   />
                   <Combobox.List>
                     {namespaces.map((item) => <Combobox.Option key={`co-namespace-${item.namespace}`} value={item.namespace}>
-                      {item.displayname}
+                      {item.displayName}
                     </Combobox.Option>)}
                   </Combobox.List>
                 </Combobox>

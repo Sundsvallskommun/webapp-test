@@ -5,21 +5,19 @@ export interface MunicipalityInterface {
 
 export interface NamespaceInterface {
   namespace: string;
-  displayname: string;
-  description: string;
+  municipalityId: string;
+  displayName: string;
   shortCode: string;
   created: string;
   modified?: string;
 }
 
 export interface NamespaceCreateRequestInterface {
-  namespace: string;
-  displayname: string;
-  description: string;
+  displayName: string;
   shortCode: string;
 }
 
 export interface NamespaceUpdateRequestInterface {
-  displayname: string;
-  description: string;
+  displayName: string;
+  shortCode: string;
 }

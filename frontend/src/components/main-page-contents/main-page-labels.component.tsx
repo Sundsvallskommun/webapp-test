@@ -3,11 +3,10 @@ import { Card, MenuVertical, useSnackbar } from '@sk-web-gui/react';
 import { useTranslation } from 'next-i18next';
 import { getLabels } from '@services/supportmanagement-service/supportmanagement-label-service';
 import { Label } from '@data-contracts/backend/label-contracts';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
 import { CategoryInterface } from '@interfaces/supportmanagement.category';
-import {
-  getCategories,
-} from '@services/supportmanagement-service/supportmanagement-category-service';
+import { getCategories } from '@services/supportmanagement-service/supportmanagement-category-service';
 import { MenuIndex } from '@sk-web-gui/react/dist/types/menu-vertical/src/menu-vertical-context';
 import Icon from '@sk-web-gui/icon';
 

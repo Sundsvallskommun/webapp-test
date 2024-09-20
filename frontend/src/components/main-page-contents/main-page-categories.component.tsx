@@ -1,13 +1,13 @@
 import { Button, Card, useSnackbar, Icon, MenuVertical } from '@sk-web-gui/react';
-import { useState, useEffect, SetStateAction } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import { DialogCreateCategory } from '@components/dialogs/dialog_create_category';
 import { DialogModifyCategory } from '@components/dialogs/dialog_modify_category';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
 import { CategoryInterface } from '@interfaces/supportmanagement.category';
 import { getCategories } from '@services/supportmanagement-service/supportmanagement-category-service';
 import { toReadableTimestamp } from '@utils/dateformat';
-import { MenuIndex } from '@sk-web-gui/react/dist/types/menu-vertical/src/menu-vertical-context';
 import { v4 } from 'uuid';
 
 interface MainPageCategoriesProps {

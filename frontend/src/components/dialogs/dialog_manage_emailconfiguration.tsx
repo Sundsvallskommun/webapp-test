@@ -1,7 +1,8 @@
 import { Button, Dialog, Input, Select, useSnackbar, Switch, Icon, Textarea, FormControl  } from '@sk-web-gui/react';
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'next-i18next';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
 import { createEmailconfiguration, updateEmailconfiguration } from '@services/supportmanagement-service/supportmanagement-emailconfiguration-service';
 import { EmailconfigurationInterface, EmailconfigurationCreateRequestInterface, EmailconfigurationUpdateRequestInterface } from '@interfaces/supportmanagement.emailconfiguration';
 import { getRoles } from '@services/supportmanagement-service/supportmanagement-role-service';
@@ -122,7 +123,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
   return (
     <Dialog
       show={open} 
-      label={`${t('common:dialogs.manage_emailconfiguration.header_prefix')} ${namespace?.displayname} ${t('common:in')} ${municipality?.name}`}
+      label={`${t('common:dialogs.manage_emailconfiguration.header_prefix')} ${namespace?.displayName} ${t('common:in')} ${municipality?.name}`}
       className="md:min-w-[100rem] dialog"
     >
       <Dialog.Content>

@@ -50,7 +50,7 @@ export class SupportmanagementEmailconfigurationController {
 
   @Put('/supportmanagement/municipality/:municipality/namespace/:namespace/emailconfiguration')
   @OpenAPI({ summary: 'Replaces existing (or creates new if non existing) email integration configuration matching the provided municipality and namespace' })
-  @HttpCode(201)
+  @HttpCode(204)
   async replaceEmailConfiguration(
     @Param('municipality') municipality: string,
     @Param('namespace') namespace: string,

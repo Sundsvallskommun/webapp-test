@@ -22,9 +22,9 @@ export class Namespace implements NamespaceInterface {
   @IsString()
   namespace: string;
   @IsString()
-  displayname: string;
+  municipalityId: string;
   @IsString()
-  description: string;
+  displayName: string;
   @IsString()
   shortCode: string;
   @IsString()

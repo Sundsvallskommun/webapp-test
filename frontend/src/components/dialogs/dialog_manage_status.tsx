@@ -2,7 +2,8 @@ import { Button, Dialog, Input, useSnackbar, Icon } from '@sk-web-gui/react';
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from 'next-i18next';
 import { isStatusAvailable, createStatus } from '@services/supportmanagement-service/supportmanagement-status-service';
-import { MunicipalityInterface, NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
+import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
 
 interface ManageStatusProps {
   open: boolean;
@@ -108,7 +109,7 @@ export const DialogManageStatus: React.FC<ManageStatusProps> = ({ open, municipa
   return (
     <Dialog
       show={open} 
-      label={`${t('common:dialogs.manage_status.header_prefix')} ${namespace?.displayname} ${t('common:in')} ${municipality?.name}`}
+      label={`${t('common:dialogs.manage_status.header_prefix')} ${namespace?.displayName} ${t('common:in')} ${municipality?.name}`}
       className="md:min-w-[60rem] dialog"
     >
       <Dialog.Content>
