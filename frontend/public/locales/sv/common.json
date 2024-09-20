@@ -68,13 +68,7 @@
       "categorytype_display_name_input_heading": "Visningsnamn",
       "categorytype_escalation_email_input_heading": "Mail vid eskalering",
       "escalation_email_placeholder": "Ange eventuell eskaleringsmail"
-    },
-		"manage_label": {
-			"header_prefix": "Skapa ny etikett",
-			"name_input_heading": "Etikettnamn",
-			"display_name_input_heading": "Visningsnamn",
-			"classification_input_heading": "Klassificering"
-		}
+    }
   },
   "buttons": {
     "close": "Stäng",
@@ -111,7 +105,6 @@
     "errorUpdatingCategory": "Ett fel inträffade när kategori skulle uppdateras",
     "errorLoadingEmailconfiguration": "Ett fel inträffade när epostkonfiguration skulle hämtas",
     "errorSavingEmailconfiguration": "Ett fel inträffade när epostkonfiguration skulle sparas"
-    
   },
   "subpages": {
     "categories": {
@@ -170,7 +163,7 @@
           "created": "Skapad",
           "modified": "Uppdaterad"
         },
-        "rows_per_page": "Rows per page"
+        "rows_per_page": "Rader per sida"
       }
     },
     "labels": {
