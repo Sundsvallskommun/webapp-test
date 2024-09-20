@@ -107,6 +107,11 @@ div.capitalize-first {
 .sk-menu-vertical li ul div.menuitem-div, .sk-menu-vertical li ul p {
   font-size: var(--sk-fontSize-small);
 }
+
+.sk-menu-vertical li ul div.label-menuitem-div {
+	padding-top: 0.9em;
+}
+
 .sk-menu-vertical-item-tool-item > * {
   padding: 0em;
   padding-left: 0.5em;
@@ -152,7 +157,6 @@ div.capitalize-first {
 div.label-info {
   border-radius: var(--sk-radius-button-DEFAULT);
   border: 1px solid darkgrey;
-  padding: 0.3em;
   padding-left: 1em;
   color: darkgray;
 }

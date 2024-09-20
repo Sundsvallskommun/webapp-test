@@ -18,12 +18,16 @@ export class SupportmanagementLabelController {
   ): Promise<LabelsResponse> {
     const url = this.baseUrl + `/${namespace}/${municipality}/metadata/labels`;
 
-    return await this.apiService
-      .get<LabelsResponse>({ url })
+    const response = await this.apiService
+      .get<any>({ url })
       .then(res => res.data)
       .catch(e => {
         logger.error('Error when retrieving Labels:', e);
         throw e;
       });
-  }
+
+	response.labelStructure = response.labelStructure.sort((a, b) => a.displayName.localeCompare(b.displayName)); // Need to sort top level based on display name
+	return response;
+  };
+  
 }
