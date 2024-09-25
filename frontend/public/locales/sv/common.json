@@ -170,7 +170,7 @@
       "missing": "Etiketter saknas",
       "label": {
         "classification": "Klassificering",
-        "name": "Namn",
+        "name": "Etikettnamn",
         "displayName": "Visningsnamn"
       }
     }

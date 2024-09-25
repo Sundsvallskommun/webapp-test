@@ -170,7 +170,7 @@
       "missing": "No labels to display",
       "label": {
         "classification": "Classification",
-        "name": "Name",
+        "name": "Label name",
         "displayName": "Display name"
       }
     }
