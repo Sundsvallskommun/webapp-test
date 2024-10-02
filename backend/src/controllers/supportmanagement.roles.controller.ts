@@ -10,15 +10,11 @@ import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
 export class SupportmanagementRolesController {
   private apiService = new ApiService();
   private baseUrl = BASE_URL_SUPPORTMANAGEMENT;
-                   
+
   @Get('/supportmanagement/municipality/:municipality/namespace/:namespace/roles')
   @OpenAPI({ summary: 'Returns all roles defined within provided municipalityId and namespace' })
-  async getRoles(
-    @Param('municipality') municipality: string,
-    @Param('namespace') namespace: string
-  ): Promise<RolesResponse> {
-
-    const url = this.baseUrl + `/${namespace}/${municipality}/metadata/roles`;
+  async getRoles(@Param('municipality') municipality: string, @Param('namespace') namespace: string): Promise<RolesResponse> {
+    const url = this.baseUrl + `/${municipality}/${namespace}/metadata/roles`;
 
     const res = await this.apiService.get<RolesResponse>({ url }).catch(e => {
       logger.error('Error when retrieving roles:', e);
@@ -33,13 +29,11 @@ export class SupportmanagementRolesController {
   async getRole(
     @Param('municipality') municipality: string,
     @Param('namespace') namespace: string,
-    @Param('role') role: string
+    @Param('role') role: string,
   ): Promise<RoleResponse> {
+    const url = this.baseUrl + `/${municipality}/${namespace}/metadata/roles/${role}`;
 
-    const url = this.baseUrl + `/${namespace}/${municipality}/metadata/roles/${role}`;
-
-    const res = await this.apiService.get<RoleResponse>({ url })
-    .catch(e => {
+    const res = await this.apiService.get<RoleResponse>({ url }).catch(e => {
       logger.error('Error when retrieving role:', e);
       throw e;
     });
@@ -53,16 +47,15 @@ export class SupportmanagementRolesController {
   async createRole(
     @Param('municipality') municipality: string,
     @Param('namespace') namespace: string,
-    @Body() request: RoleCreateRequest): Promise<boolean> {
-
-    const url = this.baseUrl + `/${namespace}/${municipality}/metadata/roles`;
+    @Body() request: RoleCreateRequest,
+  ): Promise<boolean> {
+    const url = this.baseUrl + `/${municipality}/${namespace}/metadata/roles`;
 
     await this.apiService.post<undefined>({ url: url, data: request }).catch(e => {
       logger.error('Error when creating role:', e);
       throw e;
     });
-    
+
     return true;
   }
-
-};
+}

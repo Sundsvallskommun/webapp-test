@@ -12,11 +12,8 @@ export class SupportmanagementLabelController {
 
   @Get('/supportmanagement/municipality/:municipality/namespace/:namespace/labels')
   @OpenAPI({ summary: 'Returns a list of labels available for the provided municipalityId and namespace' })
-  async getLabels(
-    @Param('municipality') municipality: number,
-    @Param('namespace') namespace: string
-  ): Promise<LabelsResponse> {
-    const url = this.baseUrl + `/${namespace}/${municipality}/metadata/labels`;
+  async getLabels(@Param('municipality') municipality: number, @Param('namespace') namespace: string): Promise<LabelsResponse> {
+    const url = this.baseUrl + `/${municipality}/${namespace}/metadata/labels`;
 
     const response = await this.apiService
       .get<any>({ url })
@@ -28,6 +25,5 @@ export class SupportmanagementLabelController {
 
     response.labelStructure = response.labelStructure.sort((a, b) => a.displayName.localeCompare(b.displayName)); // Need to sort top level based on display name
     return response;
-  };
-  
+  }
 }
