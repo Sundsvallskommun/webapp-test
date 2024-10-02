@@ -42,7 +42,7 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ municipal
     // Load labels
     getLabels(municipality.municipalityId, namespace.namespace)
       .then((labels) => setLabels(labels.labelStructure))
-      .catch((error) => handleError(`{${t('common:errors.errorLoadingRoles')}`, error, error.message));
+      .catch((error) => handleError(`{${t('common:errors.errorLoadingLabels')}`, error, error.message));
   }, []);
 
   /**

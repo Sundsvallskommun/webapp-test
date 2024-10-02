@@ -23,7 +23,9 @@ export class SupportmanagementLabelController {
         throw e;
       });
 
-    response.labelStructure = response.labelStructure.sort((a, b) => a.displayName.localeCompare(b.displayName)); // Need to sort top level based on display name
+    if (response.labelStructure) {
+      response.labelStructure = response.labelStructure.sort((a, b) => a.displayName.localeCompare(b.displayName)); // Need to sort top level based on display name
+	}
     return response;
   }
 }
