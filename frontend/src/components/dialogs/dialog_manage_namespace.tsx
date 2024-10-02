@@ -1,8 +1,13 @@
-import { Button, Dialog, Input, useSnackbar, Icon, Textarea } from '@sk-web-gui/react';
-import { useState, useEffect, useCallback } from "react";
+import { Button, Dialog, Input, useSnackbar, Icon, Textarea, SnackbarProps, IconProps } from '@sk-web-gui/react';
+import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'next-i18next';
 import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
-import { getNamespace, isShortCodeAvailable, createNamespace, updateNamespace } from '@services/supportmanagement-service/supportmanagement-namespace-service';
+import {
+  getNamespace,
+  isShortCodeAvailable,
+  createNamespace,
+  updateNamespace,
+} from '@services/supportmanagement-service/supportmanagement-namespace-service';
 
 interface ManageNamespaceProps {
   open: boolean;
@@ -21,18 +26,18 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
   const snackBar = useSnackbar();
   const { t } = useTranslation();
   const escFunction = useCallback((event) => {
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       handleOnClose(false);
     }
   }, []);
-  
+
   const handleOnClose = (reloadDomainNameDropdown: boolean) => {
     handleInputChange('');
     onClose(false, reloadDomainNameDropdown);
   };
 
   const handleInputChange = (value: string) => {
-    const validNamespace = value.replace(/[^A-Z0-9_]/ig, "");
+    const validNamespace = value.replace(/[^A-Z0-9_]/gi, '');
 
     setNamespaceAvailable(false);
     setShortCodeInput('');
@@ -40,115 +45,123 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
     setNamespaceInputChanged(true);
     setNamespaceInput(validNamespace);
   };
-  
+
   const handleEnter = (e) => {
     if (e.key === 'Enter') {
       handleVerifyNamespace();
     }
   };
-  
+
   const handleVerifyNamespace = () => {
     if (namespaceInput.length > 0 && namespaceInputChanged) {
       getNamespace(municipality.municipalityId, namespaceInput.toUpperCase())
-      .then((res) => {
-        setShortCodeAvailable(true);
-        setNamespaceInputChanged(false);
-        setNamespaceAvailable(res === null);
-        setShortCodeInput(res?.shortCode || '');
-        setDisplayNameInput(res?.displayName || '');
-      })
-      .catch((e) => {
-        handleError('Error when verifying namespace name availability:', e, t('common:errors.errorVerifyingNamespaceName'));
-      });
+        .then((res) => {
+          setShortCodeAvailable(true);
+          setNamespaceInputChanged(false);
+          setNamespaceAvailable(res === null);
+          setShortCodeInput(res?.shortCode || '');
+          setDisplayNameInput(res?.displayName || '');
+        })
+        .catch((e) => {
+          handleError(
+            'Error when verifying namespace name availability:',
+            e,
+            t('common:errors.errorVerifyingNamespaceName')
+          );
+        });
     }
   };
 
   const handleVerifyShortCode = () => {
     if (shortCodeInput.length === 0) return;
 
-    isShortCodeAvailable(municipality.municipalityId, shortCodeInput)
-    .then((res) => setShortCodeAvailable(res));
+    isShortCodeAvailable(municipality.municipalityId, shortCodeInput).then((res) => setShortCodeAvailable(res));
   };
-  
+
   const handleCreate = () => {
     setSavingNamespace(true);
     createNamespace(municipality.municipalityId, namespaceInput.toUpperCase(), {
-      "shortCode": shortCodeInput, 
-      "displayName": displayNameInput
+      shortCode: shortCodeInput,
+      displayName: displayNameInput,
     })
-    .then(() => handleOnClose(true))
-    .catch((e) => {
-      handleError('Error when creating namespace:', e, t('common:errors.errorCreatingNamespace'));
-    })
-    .finally(() => setSavingNamespace(false));
+      .then(() => handleOnClose(true))
+      .catch((e) => {
+        handleError('Error when creating namespace:', e, t('common:errors.errorCreatingNamespace'));
+      })
+      .finally(() => setSavingNamespace(false));
   };
 
   const handleUpdate = () => {
     setSavingNamespace(true);
     updateNamespace(municipality.municipalityId, namespaceInput.toUpperCase(), {
-      "shortCode": shortCodeInput,
-      "displayName": displayNameInput
+      shortCode: shortCodeInput,
+      displayName: displayNameInput,
     })
-    .then(() => handleOnClose(true))
-    .catch((e) => {
-      handleError('Error when updating namespace:', e, t('common:errors.errorUpdatingNamespace'));
-    })
-    .finally(() => setSavingNamespace(false));
+      .then(() => handleOnClose(true))
+      .catch((e) => {
+        handleError('Error when updating namespace:', e, t('common:errors.errorUpdatingNamespace'));
+      })
+      .finally(() => setSavingNamespace(false));
   };
-  
+
   const handleError = (errorDescription: string, e: Error, message: string) => {
     console.error(errorDescription, e);
     displayMessage(message, 'error');
   };
 
-  const displayMessage = (message: string, messageType: string) => {
+  const displayMessage = (message: string, messageType: SnackbarProps['status']) => {
     snackBar({
       message: message,
       status: messageType,
       className: 'middle',
       position: 'top',
-      closeable: false
+      closeable: false,
     });
   };
 
-  const showDisplayIcon = (icon: string) :string => {
+  const showDisplayIcon = (icon: string): React.ComponentPropsWithoutRef<IconProps['Component']>['name'] => {
     if (namespaceInputChanged) {
-      return '';
+      return undefined;
     }
-    return icon;
+    if (icon === '') return undefined;
+    return icon as React.ComponentPropsWithoutRef<IconProps['Component']>['name'];
   };
-  
+
   useEffect(() => {
-    document.addEventListener("keydown", escFunction, false);
+    document.addEventListener('keydown', escFunction, false);
 
     return () => {
-      document.removeEventListener("keydown", escFunction, false);
+      document.removeEventListener('keydown', escFunction, false);
     };
   }, [escFunction]);
 
   useEffect(() => {
     setNamespaceAvailable(false);
   }, []);
-   
+
   return (
     <Dialog
-      show={open} 
-      label={namespaceAvailable || namespaceInputChanged ? `${t('common:dialogs.manage_namespace.header_new_namespace')} ${municipality?.name}` : `${t('common:dialogs.manage_namespace.header_update_namespace')} ${municipality?.name}`}
+      show={open}
+      label={
+        namespaceAvailable || namespaceInputChanged ?
+          `${t('common:dialogs.manage_namespace.header_new_namespace')} ${municipality?.name}`
+        : `${t('common:dialogs.manage_namespace.header_update_namespace')} ${municipality?.name}`
+      }
       className="md:min-w-[60rem] dialog"
     >
       <Dialog.Content>
         <div className="d-flex">
           <div>
-            <p>{t('common:dialogs.manage_namespace.domain_name_input_heading')}:</p> 
+            <p>{t('common:dialogs.manage_namespace.domain_name_input_heading')}:</p>
             <Input.Group>
               <Input.RightAddin icon>
-                <Input 
+                <Input
                   className={'upper-case'}
                   value={namespaceInput}
                   onKeyUp={(e) => handleEnter(e)}
                   onChange={(e) => handleInputChange(e.target.value)}
                 />
-                <Icon 
+                <Icon
                   name={namespaceAvailable ? showDisplayIcon('shield-check') : showDisplayIcon('shield-alert')}
                   color={namespaceAvailable ? 'gronsta' : 'warning'}
                 />
@@ -156,13 +169,15 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
             </Input.Group>
           </div>
           <div>
-            <p>{t('common:dialogs.manage_namespace.short_code_input_heading')}:</p> 
+            <p>{t('common:dialogs.manage_namespace.short_code_input_heading')}:</p>
             <Input.Group
               disabled={!namespaceAvailable}
-              invalid={(!namespaceInputChanged && shortCodeInput.length === 0) || !shortCodeAvailable ? 'true' : undefined} 
+              invalid={
+                (!namespaceInputChanged && shortCodeInput.length === 0) || !shortCodeAvailable ? true : undefined
+              }
             >
               <Input.RightAddin icon>
-                <Input 
+                <Input
                   disabled={!namespaceAvailable}
                   className={'input-shortcode'}
                   maxLength={3}
@@ -170,59 +185,55 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
                   onChange={(e) => setShortCodeInput(e.target.value)}
                   onBlur={(e) => handleVerifyShortCode()}
                 />
-                <Icon 
-                  name={shortCodeAvailable || !namespaceAvailable ? showDisplayIcon('') : showDisplayIcon('shield-alert')}
+                <Icon
+                  name={
+                    shortCodeAvailable || !namespaceAvailable ? showDisplayIcon('') : showDisplayIcon('shield-alert')
+                  }
                   color={'warning'}
                 />
               </Input.RightAddin>
             </Input.Group>
           </div>
         </div>
-
-        {t('common:dialogs.manage_namespace.display_name_input_heading')}: <Input 
+        {t('common:dialogs.manage_namespace.display_name_input_heading')}:{' '}
+        <Input
           disabled={namespaceInputChanged}
           placeholder={t('common:dialogs.manage_namespace.displayname_placeholder')}
-          invalid={!namespaceInputChanged && displayNameInput.length === 0 ? 'true' : undefined} 
+          invalid={!namespaceInputChanged && displayNameInput.length === 0 ? true : undefined}
           value={displayNameInput}
           onChange={(e) => setDisplayNameInput(e.target.value)}
         />
         <div>&nbsp;</div>
       </Dialog.Content>
-      <Dialog.Buttons
-        className={'container-right'}>
+      <Dialog.Buttons className={'container-right'}>
+        {namespaceInputChanged && (
+          <Button
+            color={'vattjom'}
+            disabled={!namespaceInput || namespaceInput.length === 0}
+            onClick={() => handleVerifyNamespace()}
+          >
+            {t('common:buttons.verify')}
+          </Button>
+        )}
 
-        {namespaceInputChanged  &&
-        <Button
-          color={'vattjom'}
-          disabled={!namespaceInput || namespaceInput.length === 0}
-          onClick={() => handleVerifyNamespace()}>
-          {t('common:buttons.verify')}
-        </Button>
-        }
-        
-        {!namespaceInputChanged && namespaceAvailable &&
-        <Button
-          color={'vattjom'}
-          disabled={shortCodeInput.length === 0 || displayNameInput.length === 0 || !shortCodeAvailable}
-          loading={savingNamespace}
-          onClick={() => handleCreate()}>
-          {t('common:buttons.create')}
-        </Button>
-        }
-        
-        {!namespaceInputChanged && !namespaceAvailable &&
-        <Button
-          loading={savingNamespace}
-          color={'vattjom'}
-          onClick={() => handleUpdate()}>
-          {t('common:buttons.update')}
-        </Button>
-        }
-        
-        <Button
-          variant={'tertiary'}
-          color={'vattjom'}
-          onClick={() => handleOnClose(false)}>
+        {!namespaceInputChanged && namespaceAvailable && (
+          <Button
+            color={'vattjom'}
+            disabled={shortCodeInput.length === 0 || displayNameInput.length === 0 || !shortCodeAvailable}
+            loading={savingNamespace}
+            onClick={() => handleCreate()}
+          >
+            {t('common:buttons.create')}
+          </Button>
+        )}
+
+        {!namespaceInputChanged && !namespaceAvailable && (
+          <Button loading={savingNamespace} color={'vattjom'} onClick={() => handleUpdate()}>
+            {t('common:buttons.update')}
+          </Button>
+        )}
+
+        <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnClose(false)}>
           {t('common:buttons.close')}
         </Button>
       </Dialog.Buttons>

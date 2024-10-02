@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Card, MenuVertical, useSnackbar } from '@sk-web-gui/react';
+import { Card, MenuVertical, MenuVerticalProps, useSnackbar } from '@sk-web-gui/react';
 import { useTranslation } from 'next-i18next';
 import { getLabels } from '@services/supportmanagement-service/supportmanagement-label-service';
 import { Label } from '@data-contracts/backend/label-contracts';
 import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
-import { MenuIndex } from '@sk-web-gui/react/dist/types/menu-vertical/src/menu-vertical-context';
 import Icon from '@sk-web-gui/icon';
 
 interface MainPageLabelsProps {
@@ -13,11 +12,12 @@ interface MainPageLabelsProps {
   namespace: NamespaceInterface;
 }
 
-export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({municipality, namespace}) => {
+export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({ municipality, namespace }) => {
   const { t } = useTranslation();
   const snackBar = useSnackbar();
   const [labels, setLabels] = useState<Label[]>([]);
-  const [current, setCurrent] = React.useState<MenuIndex>();
+  const [current, setCurrent] =
+    React.useState<React.ComponentPropsWithoutRef<MenuVerticalProps['Item']>['menuIndex']>();
 
   /**
    * Display an error message in the snackbar
@@ -42,7 +42,7 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({municipali
     // Load labels
     getLabels(municipality.municipalityId, namespace.namespace)
       .then((labels) => setLabels(labels.labelStructure))
-      .catch((error) =>  handleError(`{${t('common:errors.errorLoadingRoles')}`, error, error.message));
+      .catch((error) => handleError(`{${t('common:errors.errorLoadingRoles')}`, error, error.message));
   }, []);
 
   /**
@@ -54,7 +54,7 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({municipali
     if (!label.labels || label.labels.length === 0) {
       return (
         <MenuVertical.Item key={label.uuid} id={label.uuid}>
-          {label.name && label.classification &&
+          {label.name && label.classification && (
             <div className="menuitem-div">
               <p>
                 <b>{`${label.displayName}`}</b>
@@ -70,7 +70,7 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({municipali
                 </p>
               </div>
             </div>
-          }
+          )}
         </MenuVertical.Item>
       );
     }
@@ -81,13 +81,12 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({municipali
         <MenuVertical>
           <MenuVertical.SubmenuButton className="main-content-menu-vertical">
             <div>
-              <Icon
-                name={'list-tree'}
-              />
-              <span>{label.displayName}</span><span className="classification">{`(${label.classification?.toLowerCase()})`}</span>
+              <Icon name={'list-tree'} />
+              <span>{label.displayName}</span>
+              <span className="classification">{`(${label.classification?.toLowerCase()})`}</span>
             </div>
           </MenuVertical.SubmenuButton>
-          {label.labels.map(subLabel => renderLabels(subLabel))}
+          {label.labels.map((subLabel) => renderLabels(subLabel))}
         </MenuVertical>
       </MenuVertical.Item>
     );
@@ -98,31 +97,25 @@ export const MainPageLabelsContent: React.FC<MainPageLabelsProps> = ({municipali
    */
   return (
     <>
-      { labels && labels.length > 0 ?
-        <div>
-          <MenuVertical.Provider current={current} setCurrent={setCurrent}>
-            <MenuVertical.Sidebar>
-              <MenuVertical.Header>
-                {t('common:submenu.labels')}
-              </MenuVertical.Header>
-              <MenuVertical id="sk-main-page-menu">
-                {labels.map(label => renderLabels(label))}
-              </MenuVertical>
-            </MenuVertical.Sidebar>
-          </MenuVertical.Provider>
-        </div>
+      {
+        labels && labels.length > 0 ?
+          <div>
+            <MenuVertical.Provider current={current} setCurrent={setCurrent}>
+              <MenuVertical.Sidebar>
+                <MenuVertical.Header>{t('common:submenu.labels')}</MenuVertical.Header>
+                <MenuVertical id="sk-main-page-menu">{labels.map((label) => renderLabels(label))}</MenuVertical>
+              </MenuVertical.Sidebar>
+            </MenuVertical.Provider>
+          </div>
+          //If no labels, show an error message
+        : <Card color={'tertiary'}>
+            <Card.Body>
+              <Card.Text>
+                <div className="capitalize-first">{t('common:subpages.labels.missing')}</div>
+              </Card.Text>
+            </Card.Body>
+          </Card>
 
-      :
-        //If no labels, show an error message
-        <Card color={'tertiary'}>
-          <Card.Body>
-            <Card.Text>
-              <div className="capitalize-first">
-                {t('common:subpages.labels.missing')}
-              </div>
-            </Card.Text>
-          </Card.Body>
-        </Card>
       }
     </>
   );
