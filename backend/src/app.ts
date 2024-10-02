@@ -84,7 +84,9 @@ const samlStrategy = new Strategy(
       });
     }
     const { givenName, surname, citizenIdentifier, username } = profile;
-
+    
+    console.log(profile); // TODO: Remove when problem with profile is corrected
+    
     if (!givenName || !surname || !citizenIdentifier) {
       return done({
         name: 'SAML_MISSING_ATTRIBUTES',
