@@ -10,15 +10,11 @@ import { StatusesResponse, StatusResponse } from '@/responses/supportmanagement.
 export class SupportmanagementStatusesController {
   private apiService = new ApiService();
   private baseUrl = BASE_URL_SUPPORTMANAGEMENT;
-                   
+
   @Get('/supportmanagement/municipality/:municipality/namespace/:namespace/statuses')
   @OpenAPI({ summary: 'Returns all statuses defined within provided municipalityId and namespace' })
-  async getStatuses(
-    @Param('municipality') municipality: string,
-    @Param('namespace') namespace: string
-  ): Promise<StatusesResponse> {
-
-    const url = this.baseUrl + `/${namespace}/${municipality}/metadata/statuses`;
+  async getStatuses(@Param('municipality') municipality: string, @Param('namespace') namespace: string): Promise<StatusesResponse> {
+    const url = this.baseUrl + `/${municipality}/${namespace}/metadata/statuses`;
 
     const res = await this.apiService.get<StatusesResponse>({ url }).catch(e => {
       logger.error('Error when retrieving statuses:', e);
@@ -33,13 +29,11 @@ export class SupportmanagementStatusesController {
   async getStatus(
     @Param('municipality') municipality: string,
     @Param('namespace') namespace: string,
-    @Param('status') status: string
+    @Param('status') status: string,
   ): Promise<StatusResponse> {
+    const url = this.baseUrl + `/${municipality}/${namespace}/metadata/statuses/${status}`;
 
-    const url = this.baseUrl + `/${namespace}/${municipality}/metadata/statuses/${status}`;
-
-    const res = await this.apiService.get<StatusResponse>({ url })
-    .catch(e => {
+    const res = await this.apiService.get<StatusResponse>({ url }).catch(e => {
       logger.error('Error when retrieving status:', e);
       throw e;
     });
@@ -53,16 +47,15 @@ export class SupportmanagementStatusesController {
   async createStatus(
     @Param('municipality') municipality: string,
     @Param('namespace') namespace: string,
-    @Body() request: StatusCreateRequest): Promise<boolean> {
-
-    const url = this.baseUrl + `/${namespace}/${municipality}/metadata/statuses`;
+    @Body() request: StatusCreateRequest,
+  ): Promise<boolean> {
+    const url = this.baseUrl + `/${municipality}/${namespace}/metadata/statuses`;
 
     await this.apiService.post<undefined>({ url: url, data: request }).catch(e => {
       logger.error('Error when creating status:', e);
       throw e;
     });
-    
+
     return true;
   }
-
-};
+}

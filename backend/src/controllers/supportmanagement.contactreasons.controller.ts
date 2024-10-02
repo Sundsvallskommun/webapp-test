@@ -10,15 +10,11 @@ import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
 export class SupportmanagementContactreasonsController {
   private apiService = new ApiService();
   private baseUrl = BASE_URL_SUPPORTMANAGEMENT;
-                   
+
   @Get('/supportmanagement/municipality/:municipality/namespace/:namespace/contactreasons')
   @OpenAPI({ summary: 'Returns all contactreasons defined within provided municipalityId and namespace' })
-  async getContactreasons(
-    @Param('municipality') municipality: string,
-    @Param('namespace') namespace: string
-  ): Promise<ContactreasonsResponse> {
-
-    const url = this.baseUrl + `/${namespace}/${municipality}/metadata/contactreasons`;
+  async getContactreasons(@Param('municipality') municipality: string, @Param('namespace') namespace: string): Promise<ContactreasonsResponse> {
+    const url = this.baseUrl + `/${municipality}/${namespace}/metadata/contactreasons`;
 
     const res = await this.apiService.get<ContactreasonsResponse>({ url }).catch(e => {
       logger.error('Error when retrieving contactreasons:', e);
@@ -33,13 +29,11 @@ export class SupportmanagementContactreasonsController {
   async getContactreason(
     @Param('municipality') municipality: string,
     @Param('namespace') namespace: string,
-    @Param('contactreason') contactreason: string
+    @Param('contactreason') contactreason: string,
   ): Promise<ContactreasonResponse> {
+    const url = this.baseUrl + `/${municipality}/${namespace}/metadata/contactreasons/${contactreason}`;
 
-    const url = this.baseUrl + `/${namespace}/${municipality}/metadata/contactreasons/${contactreason}`;
-
-    const res = await this.apiService.get<ContactreasonResponse>({ url })
-    .catch(e => {
+    const res = await this.apiService.get<ContactreasonResponse>({ url }).catch(e => {
       logger.error('Error when retrieving contactreason:', e);
       throw e;
     });
@@ -53,16 +47,15 @@ export class SupportmanagementContactreasonsController {
   async createContactreason(
     @Param('municipality') municipality: string,
     @Param('namespace') namespace: string,
-    @Body() request: ContactreasonCreateRequest): Promise<boolean> {
-
-    const url = this.baseUrl + `/${namespace}/${municipality}/metadata/contactreasons`;
+    @Body() request: ContactreasonCreateRequest,
+  ): Promise<boolean> {
+    const url = this.baseUrl + `/${municipality}/${namespace}/metadata/contactreasons`;
 
     await this.apiService.post<undefined>({ url: url, data: request }).catch(e => {
       logger.error('Error when creating contactreason:', e);
       throw e;
     });
-    
+
     return true;
   }
-
-};
+}

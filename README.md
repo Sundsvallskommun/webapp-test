@@ -1,10 +1,10 @@
 # Sundsvalls kommun - SupporManagement Admin-UI
 
-## APIer som används
+## APIer som anvï¿½nds
 
 | API               | Version |
 | ----------------- | ------: |
-| SupportManagement |     6.1 |
+| SupportManagement |     8.1 |
 
 ## Utveckling
 
@@ -13,7 +13,7 @@
 - Node >= 20 LTS
 - Yarn
 
-### Steg för steg
+### Steg fï¿½r steg
 
 1. Klona ner repot
 
@@ -21,7 +21,7 @@
 git clone git@github.com:Sundsvallskommun/web-app-support-management-admin.git
 ```
 
-2. Installera dependencies för både `backend` och `frontend`
+2. Installera dependencies fï¿½r bï¿½de `backend` och `frontend`
 
 ```
 cd web-app-support-management-admin/frontend
@@ -31,16 +31,16 @@ cd web-app-support-management-admin/backend
 yarn install
 ```
 
-3. Skapa .env-fil för `frontend`
+3. Skapa .env-fil fï¿½r `frontend`
 
 ```
 cd web-app-support-management-admin/frontend
 cp .env-example .env
 ```
 
-Redigera `.env` för behov, för utveckling bör exempelvärdet fungera.
+Redigera `.env` fï¿½r behov, fï¿½r utveckling bï¿½r exempelvï¿½rdet fungera.
 
-4. Skapa .env-fil för `backend`
+4. Skapa .env-fil fï¿½r `backend`
 
 ```
 cd web-app-support-management-admin/backend
@@ -48,16 +48,15 @@ cp .env.example.local .env.development.local
 cp .env.example.local .env.test.local
 ```
 
-Redigera `.env.development.local` för behov. URLer, nycklar och cert behöver fyllas i korrekt.
+Redigera `.env.development.local` fï¿½r behov. URLer, nycklar och cert behï¿½ver fyllas i korrekt.
 
-- `CLIENT_KEY` och `CLIENT_SECRET` måste fyllas i för att APIerna ska fungera, du måste ha en applikation från WSO2-portalen som abonnerar på de microtjänster du anropar
-- `SAML_ENTRY_SSO` behöver pekas till en SAML IDP
-- `SAML_IDP_PUBLIC_CERT` ska stämma överens med IDPens cert
-- `SAML_PRIVATE_KEY` och `SAML_PUBLIC_KEY` behöver bara fyllas i korrekt om man kör mot en riktig IDP
+- `CLIENT_KEY` och `CLIENT_SECRET` mï¿½ste fyllas i fï¿½r att APIerna ska fungera, du mï¿½ste ha en applikation frï¿½n WSO2-portalen som abonnerar pï¿½ de microtjï¿½nster du anropar
+- `SAML_ENTRY_SSO` behï¿½ver pekas till en SAML IDP
+- `SAML_IDP_PUBLIC_CERT` ska stï¿½mma ï¿½verens med IDPens cert
+- `SAML_PRIVATE_KEY` och `SAML_PUBLIC_KEY` behï¿½ver bara fyllas i korrekt om man kï¿½r mot en riktig IDP
 
+### Sprï¿½kstï¿½d
 
-### Språkstöd
+Fï¿½r sprï¿½kstï¿½d anvï¿½nds [next-i18next](https://github.com/i18next/next-i18next).
 
-För språkstöd används [next-i18next](https://github.com/i18next/next-i18next).
-
-Språkfiler är placerade i `frontend/public/locales/<locale>/<namespace>.json`.
+Sprï¿½kfiler ï¿½r placerade i `frontend/public/locales/<locale>/<namespace>.json`.

@@ -1,10 +1,13 @@
-import { Button, Dialog, Input, useSnackbar, Icon, Table } from '@sk-web-gui/react';
+import { Button, Dialog, Input, useSnackbar, Icon, Table, SnackbarProps } from '@sk-web-gui/react';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'next-i18next';
 import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
 import { CategoryCreateRequestInterface } from '@interfaces/supportmanagement.category';
-import { isCategoryAvailable, createCategory } from '@services/supportmanagement-service/supportmanagement-category-service';
+import {
+  isCategoryAvailable,
+  createCategory,
+} from '@services/supportmanagement-service/supportmanagement-category-service';
 import { isValidEmailOrEmpty } from '@utils/validation';
 
 interface CreateCategoryProps {
@@ -22,26 +25,26 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
   const [saving, setSaving] = useState<boolean>(false);
   const { t } = useTranslation();
   const escFunction = useCallback((event) => {
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       onClose();
     }
   }, []);
-    
+
   const handleError = (errorDescription: string, e: Error, message: string) => {
     console.error(errorDescription, e);
     displayMessage(message, 'error');
   };
 
-  const displayMessage = (message: string, messageType: string) => {
+  const displayMessage = (message: string, messageType: SnackbarProps['status']) => {
     snackBar({
       message: message,
       status: messageType,
       className: 'middle',
       position: 'top',
-      closeable: false
+      closeable: false,
     });
   };
-  
+
   const handleVerifyCategoryName = () => {
     if (category.name.length === 0) {
       return;
@@ -55,61 +58,62 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
       });
   };
 
-  const handleEnter = (e: KeyboardEvent) => {
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleVerifyCategoryName();
     }
   };
-  
+
   const handleNameInputChange = (input: string) => {
-    const validatedInput = input.replace(/[^A-Z0-9_]/ig, "");
+    const validatedInput = input.replace(/[^A-Z0-9_]/gi, '');
 
     setCategoryAvailable(true);
     setVerified(false);
-    setCategory({...category,
-      name: validatedInput.toUpperCase()
-    });
+    setCategory({ ...category, name: validatedInput.toUpperCase() });
   };
-  
+
   const handleDisplayNameInputChange = (input: string) => {
-    setCategory({...category,
-      displayName: input});
+    setCategory({ ...category, displayName: input });
   };
-  
+
   const handleAddCategoryType = () => {
-    setCategory({...category,
-      types: [...category.types, {
-        name: '',
-        displayName: '',
-        escalationEmail: ''
-      }]
-    })
+    setCategory({
+      ...category,
+      types: [
+        ...category.types,
+        {
+          name: '',
+          displayName: '',
+          escalationEmail: '',
+        },
+      ],
+    });
   };
 
   const handleTypeNameInputChange = (idx: number, input: string) => {
-    const validatedInput = input.replace(/[^A-Z0-9_]/ig, "");
-    const future = {...category};
+    const validatedInput = input.replace(/[^A-Z0-9_]/gi, '');
+    const future = { ...category };
     future.types[idx].name = validatedInput.toUpperCase();
     setCategory(future);
   };
-  
+
   const handleTypeDisplayNameInputChange = (idx: number, input: string) => {
-    const future = {...category};
+    const future = { ...category };
     future.types[idx].displayName = input;
     setCategory(future);
   };
 
   const handleTypeEscalationEmailInputChange = (idx: number, input: string) => {
-    const future = {...category};
+    const future = { ...category };
     future.types[idx].escalationEmail = input.toLowerCase();
     setCategory(future);
-  }
-  
+  };
+
   const handleTypeRemoval = (idx: number) => {
-    const future = {...category};
+    const future = { ...category };
     future.types.splice(idx, 1);
     setCategory(future);
-  }
+  };
 
   const handleCreateCategory = () => {
     setSaving(true);
@@ -120,12 +124,12 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
       })
       .finally(() => setSaving(false));
   };
-    
-  const uniqueNames = ():boolean => {
+
+  const uniqueNames = (): boolean => {
     // Validate that name and displayName is only present once in type-list
     let allValid = true;
 
-    category.types.map(m => {
+    category.types.map((m) => {
       if (category.types.filter((d) => d.name === m.name).length > 1) {
         allValid = false;
       }
@@ -133,13 +137,13 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
         allValid = false;
       }
     });
-    
+
     return allValid;
   };
 
-  const validTypes = ():boolean => {
+  const validTypes = (): boolean => {
     let allValid = true;
-    category.types.map(m => {
+    category.types.map((m) => {
       if (m.name.length === 0 || m.displayName.length === 0 || !isValidEmailOrEmpty(m.escalationEmail)) {
         allValid = false;
       }
@@ -149,10 +153,10 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
   };
 
   useEffect(() => {
-    document.addEventListener("keydown", escFunction, false);
+    document.addEventListener('keydown', escFunction, false);
 
     return () => {
-      document.removeEventListener("keydown", escFunction, false);
+      document.removeEventListener('keydown', escFunction, false);
     };
   }, [escFunction]);
 
@@ -160,13 +164,13 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
     setCategory({
       name: '',
       displayName: '',
-      types: []
+      types: [],
     });
   }, []);
 
   return (
     <Dialog
-      show={open} 
+      show={open}
       label={`${t('common:dialogs.manage_category.create_header_prefix')} ${namespace.displayName} ${t('common:in')} ${municipality.name}`}
       className="md:min-w-[100rem] dialog"
     >
@@ -176,11 +180,9 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
             <p>{t('common:dialogs.manage_category.category_name_input_heading')}:</p>
           </div>
           <div>
-            <Input.Group
-              invalid={category?.name.length === 0 || !categoryAvailable ? 'true' : undefined} 
-            >
+            <Input.Group invalid={category?.name.length === 0 || !categoryAvailable ? true : undefined}>
               <Input.RightAddin icon>
-                <Input 
+                <Input
                   placeholder={t('common:dialogs.manage_category.name_placeholder')}
                   maxLength={250}
                   value={category?.name}
@@ -189,10 +191,7 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
                   onBlur={() => handleVerifyCategoryName()}
                 />
 
-                <Icon 
-                  name={!verified || categoryAvailable ? '' : 'shield-x'}
-                  color={'error'}
-                />
+                <Icon name={!verified || categoryAvailable ? undefined : 'shield-x'} color={'error'} />
               </Input.RightAddin>
             </Input.Group>
           </div>
@@ -201,111 +200,109 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
             <p>{t('common:dialogs.manage_category.category_display_name_input_heading')}:</p>
           </div>
           <div className="d-flex">
-            <Input 
+            <Input
               id={'category-displayname'}
               placeholder={t('common:dialogs.manage_category.displayname_placeholder')}
-              invalid={category?.displayName.length === 0 ? 'true' : undefined} 
+              invalid={category?.displayName.length === 0 ? true : undefined}
               maxLength={250}
               value={category?.displayName}
               onChange={(e) => handleDisplayNameInputChange(e.target.value)}
             />
           </div>
         </div>
-         
-        {category?.types.length > 0 &&
-        <Table className={'top-margin-50 fixed-height'} background={false} scrollable>
-          <Table.Header>
-            <Table.HeaderColumn 
-              key={'header_name'}>
+
+        {category?.types.length > 0 && (
+          <Table className={'top-margin-50 fixed-height'} background={false} scrollable>
+            <Table.Header>
+              <Table.HeaderColumn key={'header_name'}>
                 {t('common:dialogs.manage_category.categorytype_name_input_heading')}
-            </Table.HeaderColumn>)
-            <Table.HeaderColumn 
-              key={'header_display_name'}>
+              </Table.HeaderColumn>
+              )
+              <Table.HeaderColumn key={'header_display_name'}>
                 {t('common:dialogs.manage_category.categorytype_display_name_input_heading')}
-            </Table.HeaderColumn>)
-            <Table.HeaderColumn 
-              key={'header_escalation_email'}>
+              </Table.HeaderColumn>
+              )
+              <Table.HeaderColumn key={'header_escalation_email'}>
                 {t('common:dialogs.manage_category.categorytype_escalation_email_input_heading')}
-            </Table.HeaderColumn>)
-          </Table.Header>
-          <Table.Body>
-          {category?.types.map((m, idx) => 
-            <Table.Row key={'type_input' + idx}>
-              <Table.Column>
-                <Input 
-                  placeholder={t('common:dialogs.manage_category.type_name_placeholder')}
-                  invalid={m.name.length === 0 || !uniqueNames() ? 'true' : undefined} 
-                  maxLength={250}
-                  value={m.name}
-                  onChange={(e) => handleTypeNameInputChange(idx, e.target.value)}
-                />
-              </Table.Column>
-              <Table.Column>
-                <Input 
-                  placeholder={t('common:dialogs.manage_category.displayname_placeholder')}
-                  invalid={m.displayName.length === 0 || !uniqueNames() ? 'true' : undefined} 
-                  maxLength={250}
-                  value={m.displayName}
-                  onChange={(e) => handleTypeDisplayNameInputChange(idx, e.target.value)}
-                />
-              </Table.Column>
-              <Table.Column>
-
-                <Input.Group invalid={!isValidEmailOrEmpty(m.escalationEmail) ? 'true' : undefined} >
-                  <Input.RightAddin icon>
-
-                    <Input 
-                      className={'email'}
-                      placeholder={t('common:dialogs.manage_category.escalation_email_placeholder')}
+              </Table.HeaderColumn>
+              )
+            </Table.Header>
+            <Table.Body>
+              {category?.types.map((m, idx) => (
+                <Table.Row key={'type_input' + idx}>
+                  <Table.Column>
+                    <Input
+                      placeholder={t('common:dialogs.manage_category.type_name_placeholder')}
+                      invalid={m.name.length === 0 || !uniqueNames() ? true : undefined}
                       maxLength={250}
-                      value={m.escalationEmail}
-                      onChange={(e) => handleTypeEscalationEmailInputChange(idx, e.target.value)}
+                      value={m.name}
+                      onChange={(e) => handleTypeNameInputChange(idx, e.target.value)}
                     />
+                  </Table.Column>
+                  <Table.Column>
+                    <Input
+                      placeholder={t('common:dialogs.manage_category.displayname_placeholder')}
+                      invalid={m.displayName.length === 0 || !uniqueNames() ? true : undefined}
+                      maxLength={250}
+                      value={m.displayName}
+                      onChange={(e) => handleTypeDisplayNameInputChange(idx, e.target.value)}
+                    />
+                  </Table.Column>
+                  <Table.Column>
+                    <Input.Group invalid={!isValidEmailOrEmpty(m.escalationEmail) ? true : undefined}>
+                      <Input.RightAddin icon>
+                        <Input
+                          className={'email'}
+                          placeholder={t('common:dialogs.manage_category.escalation_email_placeholder')}
+                          maxLength={250}
+                          value={m.escalationEmail}
+                          onChange={(e) => handleTypeEscalationEmailInputChange(idx, e.target.value)}
+                        />
 
-                   <Icon 
-                     name={isValidEmailOrEmpty(m.escalationEmail) ? '' : 'shield-x'}
-                     color={'error'}
-                   />
-                 </Input.RightAddin>
-                </Input.Group>
-               
-                <Button 
-                  className={'delete-button'} 
-                  color={'vattjom'}
-                  variant={'link'}
-                  iconButton 
-                  onClick={() => handleTypeRemoval(idx)}>
-                  <Icon name={'trash-2'} />
-                </Button>
-              </Table.Column>
-            </Table.Row>)}
-          </Table.Body>
-        </Table>}
-        
+                        <Icon name={isValidEmailOrEmpty(m.escalationEmail) ? undefined : 'shield-x'} color={'error'} />
+                      </Input.RightAddin>
+                    </Input.Group>
+
+                    <Button
+                      className={'delete-button'}
+                      color={'vattjom'}
+                      variant={'link'}
+                      iconButton
+                      onClick={() => handleTypeRemoval(idx)}
+                    >
+                      <Icon name={'trash-2'} />
+                    </Button>
+                  </Table.Column>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        )}
       </Dialog.Content>
-      <br/>
-      <Dialog.Buttons
-        className={'container-right'}
-      >
-        <Button
-          disabled={saving}
-          color={'vattjom'}
-          onClick={() => handleAddCategoryType()}>
+      <br />
+      <Dialog.Buttons className={'container-right'}>
+        <Button disabled={saving} color={'vattjom'} onClick={() => handleAddCategoryType()}>
           {t('common:dialogs.manage_category.add_categorytype')}
         </Button>
 
         <Button
           loading={saving}
-          disabled={!(verified && categoryAvailable && category?.name.length > 0 && category?.displayName.length > 0 && validTypes())}
+          disabled={
+            !(
+              verified &&
+              categoryAvailable &&
+              category?.name.length > 0 &&
+              category?.displayName.length > 0 &&
+              validTypes()
+            )
+          }
           color={'vattjom'}
-          onClick={() => handleCreateCategory()}>
+          onClick={() => handleCreateCategory()}
+        >
           {t('common:buttons.create')}
         </Button>
 
-        <Button
-          variant={'tertiary'}
-          color={'vattjom'}
-          onClick={() => onClose()}>
+        <Button variant={'tertiary'} color={'vattjom'} onClick={() => onClose()}>
           {t('common:buttons.close')}
         </Button>
       </Dialog.Buttons>

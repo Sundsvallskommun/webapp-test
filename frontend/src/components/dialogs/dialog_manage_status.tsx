@@ -1,5 +1,5 @@
-import { Button, Dialog, Input, useSnackbar, Icon } from '@sk-web-gui/react';
-import { useState, useEffect, useCallback } from "react";
+import { Button, Dialog, Input, useSnackbar, Icon, SnackbarProps } from '@sk-web-gui/react';
+import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'next-i18next';
 import { isStatusAvailable, createStatus } from '@services/supportmanagement-service/supportmanagement-status-service';
 import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
@@ -20,59 +20,60 @@ export const DialogManageStatus: React.FC<ManageStatusProps> = ({ open, municipa
   const snackBar = useSnackbar();
   const { t } = useTranslation();
   const escFunction = useCallback((event) => {
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       handleOnClose(false);
     }
   }, []);
-  
+
   const handleOnClose = (reloadPage: boolean) => {
     setStatusInput('');
     onClose(reloadPage);
   };
 
-  const handleEnter = (e: KeyboardEvent) => {
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleVerifyStatus();
     }
   };
-  
+
   const handleInputChange = (input: string) => {
     setStatusAvailable(true);
     setVerified(false);
-    setStatusInput(input.replace(/[^A-Z0-9_]/ig, ""));
+    setStatusInput(input.replace(/[^A-Z0-9_]/gi, ''));
   };
-  
+
   const handleCreateStatus = () => {
     isStatusAvailable(municipality.municipalityId, namespace.namespace, statusInput)
-    .then((res) => {
-      if (res) {
-        setSaving(true)
-        createStatus(municipality.municipalityId, namespace.namespace, {
-          "name": statusInput.toUpperCase()
-        })
-        .then(() => {
-          setSaving(false);
-          handleOnClose(true)})
-        .catch((e) => {
-          handleError('Error when creating status:', e, t('common:errors.errorCreatingStatus'));
-        });
-      }
-    })
-    .catch((e) => {
-      handleError('Error when verifying status availability:', e, t('common:errors.errorVerifyingStatus'));
-    });
-  };
-  
-  const handleVerifyStatus = () => {
-    if (municipality && namespace && !verified && statusInput.length > 0) {
-      isStatusAvailable(municipality.municipalityId, namespace.namespace, statusInput)
       .then((res) => {
-        setStatusAvailable(res);
-        setVerified(true);
+        if (res) {
+          setSaving(true);
+          createStatus(municipality.municipalityId, namespace.namespace, {
+            name: statusInput.toUpperCase(),
+          })
+            .then(() => {
+              setSaving(false);
+              handleOnClose(true);
+            })
+            .catch((e) => {
+              handleError('Error when creating status:', e, t('common:errors.errorCreatingStatus'));
+            });
+        }
       })
       .catch((e) => {
         handleError('Error when verifying status availability:', e, t('common:errors.errorVerifyingStatus'));
       });
+  };
+
+  const handleVerifyStatus = () => {
+    if (municipality && namespace && !verified && statusInput.length > 0) {
+      isStatusAvailable(municipality.municipalityId, namespace.namespace, statusInput)
+        .then((res) => {
+          setStatusAvailable(res);
+          setVerified(true);
+        })
+        .catch((e) => {
+          handleError('Error when verifying status availability:', e, t('common:errors.errorVerifyingStatus'));
+        });
     }
   };
 
@@ -82,21 +83,21 @@ export const DialogManageStatus: React.FC<ManageStatusProps> = ({ open, municipa
     setSaving(false);
   };
 
-  const displayMessage = (message: string, messageType: string) => {
+  const displayMessage = (message: string, messageType: SnackbarProps['status']) => {
     snackBar({
       message: message,
       status: messageType,
       className: 'middle',
       position: 'top',
-      closeable: false
+      closeable: false,
     });
   };
 
   useEffect(() => {
-    document.addEventListener("keydown", escFunction, false);
+    document.addEventListener('keydown', escFunction, false);
 
     return () => {
-      document.removeEventListener("keydown", escFunction, false);
+      document.removeEventListener('keydown', escFunction, false);
     };
   }, [escFunction]);
 
@@ -108,23 +109,17 @@ export const DialogManageStatus: React.FC<ManageStatusProps> = ({ open, municipa
 
   return (
     <Dialog
-      show={open} 
+      show={open}
       label={`${t('common:dialogs.manage_status.header_prefix')} ${namespace?.displayName} ${t('common:in')} ${municipality?.name}`}
       className="md:min-w-[60rem] dialog"
     >
       <Dialog.Content>
-
         <div className="d-flex bottom-margin-50">
-          <p>{t('common:dialogs.manage_status.status_input_heading')}:</p> 
+          <p>{t('common:dialogs.manage_status.status_input_heading')}:</p>
           <div className="fill-available">
-            <Input.Group
-              invalid={(statusInput.length === 0) || !statusAvailable ? 'true' : undefined} 
-            >
-              <Input.RightAddin 
-                icon
-                className='fill-available'
-              >
-                <Input 
+            <Input.Group invalid={statusInput.length === 0 || !statusAvailable ? true : undefined}>
+              <Input.RightAddin icon className="fill-available">
+                <Input
                   className={'upper-case'}
                   maxLength={250}
                   value={statusInput}
@@ -132,32 +127,23 @@ export const DialogManageStatus: React.FC<ManageStatusProps> = ({ open, municipa
                   onKeyDown={(e) => handleEnter(e)}
                   onBlur={() => handleVerifyStatus()}
                 />
-                <Icon 
-                  name={statusAvailable ? '' : 'shield-x'}
-                  color={'error'}
-                />
+                <Icon name={statusAvailable ? undefined : 'shield-x'} color={'error'} />
               </Input.RightAddin>
             </Input.Group>
           </div>
         </div>
-
       </Dialog.Content>
-      <Dialog.Buttons
-        className={'container-right'}
-      >
-
+      <Dialog.Buttons className={'container-right'}>
         <Button
           disabled={statusInput.length === 0 || !statusAvailable}
           loading={saving}
           color={'vattjom'}
-          onClick={() => handleCreateStatus()}>
+          onClick={() => handleCreateStatus()}
+        >
           {t('common:buttons.create')}
         </Button>
 
-        <Button
-          variant={'tertiary'}
-          color={'vattjom'}
-          onClick={() => handleOnClose(false)}>
+        <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnClose(false)}>
           {t('common:buttons.close')}
         </Button>
       </Dialog.Buttons>

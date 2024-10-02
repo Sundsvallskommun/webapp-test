@@ -10,7 +10,10 @@ const sortLabels = (labelStructure: Label[]) => {
     }
   });
 
-  return labelStructure.toSorted((a, b) => compareLabels(a, b));
+  if (labelStructure) {
+	labelStructure = labelStructure.toSorted((a, b) => compareLabels(a, b));
+  }
+  return labelStructure;
 };
 
 const compareLabels = (a: Label, b: Label) => {
