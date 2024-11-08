@@ -65,7 +65,6 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
 
   const handleOnSave = () => {
     setSaving(true);
-    console.log(futureEmailConfiguration);
 
     let response =
       emailConfiguration ?
@@ -96,7 +95,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
   };
 
   const washInput = (input: string): string => {
-    const validatedInput = input.replace(/[^A-Z0-9_]/gi, '');
+    const validatedInput = input.replace(/[^A-Z0-9_\\.]/gi, '');
     return validatedInput ? String(validatedInput).toUpperCase() : validatedInput;
   };
 
@@ -124,7 +123,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
 
   useEffect(() => {
     setFutureEmailConfiguration({
-      enabled: emailConfiguration?.enabled || true,
+      enabled: emailConfiguration?.enabled && emailConfiguration.enabled == true,
       errandClosedEmailSender: emailConfiguration?.errandClosedEmailSender,
       errandClosedEmailTemplate: emailConfiguration?.errandClosedEmailTemplate,
       daysOfInactivityBeforeReject: emailConfiguration?.daysOfInactivityBeforeReject,
@@ -161,6 +160,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
             <div>{t('common:dialogs.manage_emailconfiguration.enable_configuration')}</div>
             <div>
               <Switch
+                color='gronsta'
                 checked={futureEmailConfiguration?.enabled || false}
                 onChange={() =>
                   setFutureEmailConfiguration({
@@ -175,7 +175,8 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
             <div>{t('common:dialogs.manage_emailconfiguration.add_sender_as_stakeholder')}</div>
             <div>
               <Switch
-                disabled={!futureEmailConfiguration?.enabled || !roles || roles?.length === 0}
+                color='gronsta'
+                disabled={!roles || roles?.length === 0}
                 checked={futureEmailConfiguration?.addSenderAsStakeholder || false}
                 onChange={() => handleToggleAddAsStakeholder()}
               />
@@ -189,7 +190,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
                   futureEmailConfiguration?.addSenderAsStakeholder &&
                   futureEmailConfiguration?.stakeholderRole === undefined
                 }
-                disabled={!futureEmailConfiguration?.enabled || !futureEmailConfiguration?.addSenderAsStakeholder}
+                disabled={!futureEmailConfiguration?.addSenderAsStakeholder}
                 size={'sm'}
                 value={futureEmailConfiguration?.stakeholderRole}
                 onChange={(e) =>
@@ -219,7 +220,6 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
               <div>{t('common:dialogs.manage_emailconfiguration.days_of_inactivity_before_reject')}</div>
               <div>
                 <Input
-                  disabled={!futureEmailConfiguration?.enabled}
                   className={'number-input'}
                   value={futureEmailConfiguration?.daysOfInactivityBeforeReject?.toString()}
                   onChange={(e) =>
@@ -236,7 +236,6 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
               <div>
                 <Input
                   invalid={!isValidEmailOrEmpty(futureEmailConfiguration?.errandClosedEmailSender)}
-                  disabled={!futureEmailConfiguration?.enabled}
                   placeholder={t('common:dialogs.manage_emailconfiguration.errand_closed_email_sender_placeholder')}
                   value={futureEmailConfiguration?.errandClosedEmailSender}
                   onChange={(e) =>
@@ -253,7 +252,6 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
           <div className="small-text">
             <div>{t('common:dialogs.manage_emailconfiguration.errand_closed_email_template')}</div>
             <Textarea
-              disabled={!futureEmailConfiguration?.enabled}
               placeholder={t('common:dialogs.manage_emailconfiguration.errand_closed_email_template_placeholder')}
               value={futureEmailConfiguration?.errandClosedEmailTemplate}
               className={'fill-available'}
@@ -272,7 +270,6 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
           <div>{t('common:dialogs.manage_emailconfiguration.errand_channel')}</div>
           <div>
             <Input
-              disabled={!futureEmailConfiguration?.enabled}
               placeholder={t('common:dialogs.manage_emailconfiguration.errand_channel_placeholder')}
               value={futureEmailConfiguration?.errandChannel}
               onChange={(e) =>
@@ -290,7 +287,6 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
           <div>
             <Select
               size={'sm'}
-              disabled={!futureEmailConfiguration?.enabled}
               invalid={!futureEmailConfiguration?.statusForNew}
               value={futureEmailConfiguration?.statusForNew}
               onChange={(e) =>
@@ -313,7 +309,6 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
           <div>
             <Select
               size={'sm'}
-              disabled={!futureEmailConfiguration?.enabled}
               value={futureEmailConfiguration?.triggerStatusChangeOn}
               onChange={(e) =>
                 setFutureEmailConfiguration({
@@ -335,7 +330,6 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
           <div>
             <Select
               size={'sm'}
-              disabled={!futureEmailConfiguration?.enabled}
               value={futureEmailConfiguration?.inactiveStatus}
               onChange={(e) =>
                 setFutureEmailConfiguration({
@@ -357,7 +351,6 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
           <div>
             <Select
               size={'sm'}
-              disabled={!futureEmailConfiguration?.enabled}
               value={futureEmailConfiguration?.statusChangeTo}
               onChange={(e) =>
                 setFutureEmailConfiguration({

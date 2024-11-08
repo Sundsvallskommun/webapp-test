@@ -25,6 +25,7 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
   const snackBar = useSnackbar();
 
   const headers = [
+    { label: t('common:index'), property: 'index', isColumnSortable: true },
     { label: t('common:subpages.roles.table.headers.name'), property: 'name', isColumnSortable: true },
     { label: t('common:subpages.roles.table.headers.created'), property: 'created', isColumnSortable: true },
     { label: t('common:subpages.roles.table.headers.modified'), property: 'mofified', isColumnSortable: true },
@@ -58,6 +59,12 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
     }
   };
 
+  const handlePageSizeChanged = (newPageSize: number) => {
+    if (newPageSize > 0) {
+      setPageSize(newPageSize);
+	}
+  };
+
   const openCreateRoleDialog = () => {
     setIsCreateRoleDialogOpen(true);
   };
@@ -69,6 +76,13 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
     setIsCreateRoleDialogOpen(false);
   };
 
+  const getPaginationText = () => {
+    const start = (currentPage - 1) * pageSize + 1;
+    const end = Math.min(start + pageSize - 1, roles.length);
+
+    return `${t('common:showing')} ${t('common:entry')} ${start} ${t('common:to')} ${end} ${t('common:of')} ${roles.length}`;
+  }
+
   useEffect(() => {
     loadRoles();
   } ,[]);
@@ -79,6 +93,10 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
       return a[sortColumn] < b[sortColumn] ? order : a[sortColumn] > b[sortColumn] ? order * -1 : 0;
     }));
   }, [sortColumn, sortOrder])
+
+  useEffect(() => {
+	setCurrentPage(1);
+  }, [pageSize]);
 
   useEffect(() => {
     setDisplayedRoles(roles.slice((currentPage - 1) * pageSize, currentPage * pageSize));
@@ -108,6 +126,7 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
           
           <Table.Body>
             {displayedRoles.map(m => <Table.Row key={m.name}>
+              <Table.Column>{m.index}</Table.Column>
               <Table.Column>{m.name}</Table.Column>
               <Table.Column>{m.created && toReadableTimestamp(m.created)}</Table.Column>
               <Table.Column>{m.modified && toReadableTimestamp(m.modified)}</Table.Column>
@@ -117,21 +136,19 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
           <Table.Footer>
             <div className="sk-table-bottom-section">
               <div>
-              <label className="sk-table-bottom-section-label" htmlFor="pagePageSize">
-                {t('common:subpages.roles.table.rows_per_page')}:
-              </label>
-              <Input
-                size="sm"
-                id="pagePageSize"
-                type="number"
-                min={1}
-                max={100}
-                className="max-w-[6rem]"
-                value={`${pageSize}`}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  event.target.value && setPageSize(parseInt(event.target.value))
-                }
-              />
+                <label className="sk-table-bottom-section-label" htmlFor="pagePageSize">
+                  {t('common:subpages.roles.table.rows_per_page')}:
+                </label>
+                <Input
+                  size="sm"
+                  id="pagePageSize"
+                  type="number"
+                  className="max-w-[6rem]"
+                  value={`${pageSize}`}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    event.target.value && handlePageSizeChanged(parseInt(event.target.value))
+                  }
+                />
               </div>
               <div>
                 <Pagination
@@ -140,6 +157,11 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
                   changePage={(page: number) => setCurrentPage(page)}
                 />
               </div>
+              {displayedRoles[0] != undefined && <div>
+                <label className="sk-table-bottom-section-label capitalize-first">
+                  {getPaginationText()}
+                </label>
+              </div>}
             </div>
           </Table.Footer>
         </Table>
@@ -153,7 +175,7 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
             </Card.Text>
           </Card.Body>
         </Card>
-       }
+      }
         
       <Button
         color={'vattjom'}

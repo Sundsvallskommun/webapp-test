@@ -25,6 +25,7 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
   const snackBar = useSnackbar();
 
   const headers = [
+    { label: t('common:index'), property: 'index', isColumnSortable: true },
     { label: t('common:subpages.contactreasons.table.headers.reason'), property: 'reason', isColumnSortable: true },
     { label: t('common:subpages.contactreasons.table.headers.created'), property: 'created', isColumnSortable: true },
     { label: t('common:subpages.contactreasons.table.headers.modified'), property: 'mofified', isColumnSortable: true },
@@ -58,6 +59,12 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
     }
   };
 
+  const handlePageSizeChanged = (newPageSize: number) => {
+    if (newPageSize > 0) {
+      setPageSize(newPageSize);
+	}
+  };
+  
   const openCreateContactreasonDialog = () => {
     setIsCreateContactreasonDialogOpen(true);
   };
@@ -69,6 +76,13 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
     setIsCreateContactreasonDialogOpen(false);
   };
 
+  const getPaginationText = () => {
+    const start = (currentPage - 1) * pageSize + 1;
+    const end = Math.min(start + pageSize - 1, contactreasons.length);
+
+    return `${t('common:showing')} ${t('common:entry')} ${start} ${t('common:to')} ${end} ${t('common:of')} ${contactreasons.length}`;
+  }
+
   useEffect(() => {
     loadContactreasons();
   } ,[]);
@@ -78,12 +92,17 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
       const order = sortOrder === SortMode.ASC ? -1 : 1;
       return a[sortColumn] < b[sortColumn] ? order : a[sortColumn] > b[sortColumn] ? order * -1 : 0;
     }));
+    
   }, [sortColumn, sortOrder])
+
+  useEffect(() => {
+	setCurrentPage(1);
+  }, [pageSize]);
 
   useEffect(() => {
     setDisplayedContactreasons(contactreasons.slice((currentPage - 1) * pageSize, currentPage * pageSize));
   }, [contactreasons, pageSize, currentPage]);
-  
+
   return (
     <>
       <DialogManageContactreason
@@ -109,6 +128,7 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
           
           <Table.Body>
             {displayedContactreasons.map(m => <Table.Row key={m.reason}>
+              <Table.Column>{m.index}</Table.Column>
               <Table.Column>{m.reason}</Table.Column>
               <Table.Column>{m.created && toReadableTimestamp(m.created)}</Table.Column>
               <Table.Column>{m.modified && toReadableTimestamp(m.modified) !== toReadableTimestamp(m.created) && toReadableTimestamp(m.modified)}</Table.Column>
@@ -118,21 +138,19 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
           <Table.Footer>
             <div className="sk-table-bottom-section">
               <div>
-              <label className="sk-table-bottom-section-label" htmlFor="pagePageSize">
-                {t('common:subpages.contactreasons.table.rows_per_page')}:
-              </label>
-              <Input
-                size="sm"
-                id="pagePageSize"
-                type="number"
-                min={1}
-                max={100}
-                className="max-w-[6rem]"
-                value={`${pageSize}`}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  event.target.value && setPageSize(parseInt(event.target.value))
-                }
-              />
+                <label className="sk-table-bottom-section-label" htmlFor="pagePageSize">
+                  {t('common:subpages.contactreasons.table.rows_per_page')}:
+                </label>
+                <Input
+                  size="sm"
+                  id="pagePageSize"
+                  type="number"
+                  className="max-w-[6rem]"
+                  value={`${pageSize}`}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    event.target.value && handlePageSizeChanged(parseInt(event.target.value))
+                  }
+                />
               </div>
               <div>
                 <Pagination
@@ -141,6 +159,11 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
                   changePage={(page: number) => setCurrentPage(page)}
                 />
               </div>
+              {displayedContactreasons[0] != undefined && <div>
+                <label className="sk-table-bottom-section-label capitalize-first">
+                  {getPaginationText()}
+                </label>
+              </div>}
             </div>
           </Table.Footer>
         </Table>
@@ -154,7 +177,7 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
             </Card.Text>
           </Card.Body>
         </Card>
-       }
+      }
         
       <Button
         color={'vattjom'}

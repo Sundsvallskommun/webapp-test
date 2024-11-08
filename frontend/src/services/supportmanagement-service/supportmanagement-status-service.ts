@@ -15,13 +15,15 @@ export const getStatuses: (municipalityId: string, namespace: string) => Promise
 };
 
 const mapToStatusInterfaces: (data: any) => StatusInterface[] = (data) => {
-  return data.map(mapToStatusInterface);
+  let i: number = 1;
+  return data.map(entry => mapToStatusInterface(entry, i++));
 };
 
-const mapToStatusInterface: (data: Status) => StatusInterface = (data) => ({
+const mapToStatusInterface: (data: Status, i: number) => StatusInterface = (data, i) => ({
   name: data.name,
   created: data.created,
   modified: data.modified,
+  index: i,
 });
 
 export const isStatusAvailable: (municipalityId: string, namespace: string, status: string) => Promise<boolean> = async (municipalityId, namespace, status) => {

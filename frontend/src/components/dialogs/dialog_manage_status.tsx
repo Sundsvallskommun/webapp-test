@@ -39,7 +39,7 @@ export const DialogManageStatus: React.FC<ManageStatusProps> = ({ open, municipa
   const handleInputChange = (input: string) => {
     setStatusAvailable(true);
     setVerified(false);
-    setStatusInput(input.replace(/[^A-Z0-9_]/gi, ''));
+    setStatusInput(input.replace(/[^A-Z0-9_\\.]/gi, ''));
   };
 
   const handleCreateStatus = () => {
