@@ -185,5 +185,9 @@
   "to": "to",
   "yes": "yes",
   "no": "no",
+  "index": "Index",
+  "showing": "displaying",
+  "entry": "row",
+  "of": "of",
   "logout": "log out"
 }

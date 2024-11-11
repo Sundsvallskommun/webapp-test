@@ -37,7 +37,7 @@ export const DialogManageNamespace: React.FC<ManageNamespaceProps> = ({ open, mu
   };
 
   const handleInputChange = (value: string) => {
-    const validNamespace = value.replace(/[^A-Z0-9_]/gi, '');
+    const validNamespace = value.replace(/[^A-Z0-9_\\.]/gi, '');
 
     setNamespaceAvailable(false);
     setShortCodeInput('');

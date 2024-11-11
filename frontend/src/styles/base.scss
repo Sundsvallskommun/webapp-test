@@ -218,6 +218,10 @@ div.main-area > button {
   position: absolute;
   left: 1em;
 }
+.sk-table-bottom-section > div:last-child {
+  position: absolute;
+  right: 1em;
+}
 .sk-table-bottom-section > div:first-child > label {
   margin-right: 1em;
 }
@@ -329,7 +333,6 @@ input.email {
   padding-left: 2em;
   padding-right: 2em;
   font-size: var(--sk-fontSize-small);
-  color: var(--sk-colors-primitives-gray-400);
 }
 
 .grid-2-col {
@@ -338,7 +341,6 @@ input.email {
   column-gap: 1em;
   padding: 0.2em;
   font-size: var(--sk-fontSize-small);
-  color: var(--sk-colors-primitives-gray-400);
 }
 
 .grid-2-col > div:nth-child(odd) {
@@ -356,7 +358,6 @@ input.email {
   row-gap: 0.2em;
   padding: 0.5em 1em 0.5em 1em;
   font-size: var(--sk-fontSize-small);
-  color: var(--sk-colors-primitives-gray-400);
 }
 
 .grid-4-col {
@@ -366,7 +367,6 @@ input.email {
   column-gap: 1em;
   padding: 1.5em 2em 1.5em 2em;
   font-size: var(--sk-fontSize-small);
-  color: var(--sk-colors-primitives-gray-400);
 }
 
 .section {

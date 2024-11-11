@@ -68,7 +68,7 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({
   };
 
   const handleTypeNameInputChange = (idx: number, input: string) => {
-    const validatedInput = input.replace(/[^A-Z0-9_]/gi, '');
+    const validatedInput = input.replace(/[^A-Z0-9_\\.]/gi, '');
     const future = { ...categoryProspect };
     future.types[idx].name = validatedInput.toUpperCase();
     setCategoryProspect(future);

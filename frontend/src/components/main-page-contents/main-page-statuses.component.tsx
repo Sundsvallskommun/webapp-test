@@ -25,6 +25,7 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
   const snackBar = useSnackbar();
 
   const headers = [
+    { label: t('common:index'), property: 'index', isColumnSortable: true },
     { label: t('common:subpages.statuses.table.headers.name'), property: 'name', isColumnSortable: true },
     { label: t('common:subpages.statuses.table.headers.created'), property: 'created', isColumnSortable: true },
     { label: t('common:subpages.statuses.table.headers.modified'), property: 'mofified', isColumnSortable: true },
@@ -58,6 +59,12 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
     }
   };
 
+  const handlePageSizeChanged = (newPageSize: number) => {
+    if (newPageSize > 0) {
+      setPageSize(newPageSize);
+	}
+  };
+
   const openCreateStatusDialog = () => {
     setIsCreateStatusDialogOpen(true);
   };
@@ -69,6 +76,13 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
     setIsCreateStatusDialogOpen(false);
   };
 
+  const getPaginationText = () => {
+    const start = (currentPage - 1) * pageSize + 1;
+    const end = Math.min(start + pageSize - 1, statuses.length);
+
+    return `${t('common:showing')} ${t('common:entry')} ${start} ${t('common:to')} ${end} ${t('common:of')} ${statuses.length}`;
+  }
+  
   useEffect(() => {
     loadStatuses();
   } ,[]);
@@ -80,6 +94,10 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
     }));
   }, [sortColumn, sortOrder])
 
+  useEffect(() => {
+	setCurrentPage(1);
+  }, [pageSize]);
+  
   useEffect(() => {
     setDisplayedStatuses(statuses.slice((currentPage - 1) * pageSize, currentPage * pageSize));
   }, [statuses, pageSize, currentPage]);
@@ -108,6 +126,7 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
           
           <Table.Body>
             {displayedStatuses.map(m => <Table.Row key={m.name}>
+              <Table.Column>{m.index}</Table.Column>
               <Table.Column>{m.name}</Table.Column>
               <Table.Column>{m.created && toReadableTimestamp(m.created)}</Table.Column>
               <Table.Column>{m.modified && toReadableTimestamp(m.modified)}</Table.Column>
@@ -117,21 +136,19 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
           <Table.Footer>
             <div className="sk-table-bottom-section">
               <div>
-              <label className="sk-table-bottom-section-label" htmlFor="pagePageSize">
-                {t('common:subpages.statuses.table.rows_per_page')}:
-              </label>
-              <Input
-                size="sm"
-                id="pagePageSize"
-                type="number"
-                min={1}
-                max={100}
-                className="max-w-[6rem]"
-                value={`${pageSize}`}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  event.target.value && setPageSize(parseInt(event.target.value))
-                }
-              />
+                <label className="sk-table-bottom-section-label" htmlFor="pagePageSize">
+                  {t('common:subpages.statuses.table.rows_per_page')}:
+                </label>
+                <Input
+                  size="sm"
+                  id="pagePageSize"
+                  type="number"
+                  className="max-w-[6rem]"
+                  value={`${pageSize}`}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                    event.target.value && handlePageSizeChanged(parseInt(event.target.value))
+                  }
+                />
               </div>
               <div>
                 <Pagination
@@ -140,6 +157,11 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
                   changePage={(page: number) => setCurrentPage(page)}
                 />
               </div>
+              {displayedStatuses[0] != undefined && <div>
+                <label className="sk-table-bottom-section-label capitalize-first">
+                  {getPaginationText()}
+                </label>
+              </div>}
             </div>
           </Table.Footer>
         </Table>
@@ -153,7 +175,7 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
             </Card.Text>
           </Card.Body>
         </Card>
-       }
+      }
         
       <Button
         color={'vattjom'}

@@ -29,7 +29,7 @@
       "role_input_heading": "Rollnamn"
     },
     "manage_status": {
-      "header_prefix": "Skapa nytt ärendestatus för domän",
+      "header_prefix": "Skapa ny ärendestatus för domän",
       "status_input_heading": "Statusnamn"
     },
     "manage_contactreason": {
@@ -78,7 +78,7 @@
     "add_role": "Ny roll",
     "add_contactreason": "Ny kontaktorsak",
     "add_category": "Ny kategori",
-    "add_status": "Nytt ärendestatus",
+    "add_status": "Ny ärendestatus",
     "add_emailconfiguration": "Ny konfiguration",
     "modify_emailconfiguration": "Ändra konfiguration",
 		"add_label": "Ny etikett"
@@ -185,5 +185,9 @@
   "to": "till",
   "yes": "ja",
   "no": "nej",
+  "index": "Index",
+  "showing": "visar",
+  "entry": "rad",
+  "of": "av",
   "logout": "logga ut"
 }

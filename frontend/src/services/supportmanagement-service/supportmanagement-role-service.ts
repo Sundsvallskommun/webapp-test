@@ -15,13 +15,15 @@ export const getRoles: (municipalityId: string, namespace: string) => Promise<Ro
 };
 
 const mapToRoleInterfaces: (data: any) => RoleInterface[] = (data) => {
-  return data.map(mapToRoleInterface);
+  let i: number = 1;
+  return data.map(entry => mapToRoleInterface(entry, i++));
 };
 
-const mapToRoleInterface: (data: Role) => RoleInterface = (data) => ({
+const mapToRoleInterface: (data: Role, i: number) => RoleInterface = (data, i) => ({
   name: data.name,
   created: data.created,
   modified: data.modified,
+  index: i,
 });
 
 export const isRoleAvailable: (municipalityId: string, namespace: string, role: string) => Promise<boolean> = async (municipalityId, namespace, role) => {

@@ -65,7 +65,7 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
   };
 
   const handleNameInputChange = (input: string) => {
-    const validatedInput = input.replace(/[^A-Z0-9_]/gi, '');
+    const validatedInput = input.replace(/[^A-Z0-9_\\.]/gi, '');
 
     setCategoryAvailable(true);
     setVerified(false);
@@ -85,13 +85,14 @@ export const DialogCreateCategory: React.FC<CreateCategoryProps> = ({ open, muni
           name: '',
           displayName: '',
           escalationEmail: '',
+          existing: false,
         },
       ],
     });
   };
 
   const handleTypeNameInputChange = (idx: number, input: string) => {
-    const validatedInput = input.replace(/[^A-Z0-9_]/gi, '');
+    const validatedInput = input.replace(/[^A-Z0-9_\\.]/gi, '');
     const future = { ...category };
     future.types[idx].name = validatedInput.toUpperCase();
     setCategory(future);

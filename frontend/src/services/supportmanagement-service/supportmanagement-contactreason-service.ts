@@ -16,13 +16,15 @@ export const getContactreasons: (municipalityId: string, namespace: string) => P
 
 
 const mapToContactreasonInterfaces: (data: any) => ContactreasonInterface[] = (data) => {
-  return data.map(mapToContactreasonInterface);
+  let i: number = 1;
+  return data.map(entry => mapToContactreasonInterface(entry, i++));
 };
 
-const mapToContactreasonInterface: (data: Contactreason) => ContactreasonInterface = (data) => ({
+const mapToContactreasonInterface: (data: Contactreason, i: number) => ContactreasonInterface = (data, i) => ({
   reason: data.reason,
   created: data.created,
   modified: data.modified,
+  index: i,
 });
 
 export const isContactreasonAvailable: (municipalityId: string, namespace: string, contactreason: string) => Promise<boolean> = async (municipalityId, namespace, contactreason) => {

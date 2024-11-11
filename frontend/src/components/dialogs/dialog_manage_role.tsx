@@ -39,7 +39,7 @@ export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality
   const handleInputChange = (input: string) => {
     setRoleAvailable(true);
     setVerified(false);
-    setRoleInput(input.replace(/[^A-Z0-9_]/gi, ''));
+    setRoleInput(input.replace(/[^A-Z0-9_\\.]/gi, ''));
   };
 
   const handleCreateRole = () => {
