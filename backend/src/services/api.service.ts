@@ -26,7 +26,7 @@ function getSuccessStatusMessage(status: number) {
 class ApiService {
   private apiTokenService = new ApiTokenService();
   private async request<T>(config: AxiosRequestConfig): Promise<ApiResponse<T>> {
-    const token = 'not-needed'; //await this.apiTokenService.getToken(); TODO: Remove before flight (change back)
+    const token = this.apiTokenService.getToken();
 
     const defaultHeaders = {
       'Authorization': `Bearer ${token}`,
