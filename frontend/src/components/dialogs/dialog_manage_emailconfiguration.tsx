@@ -5,9 +5,8 @@ import {
   Select,
   useSnackbar,
   Switch,
-  Icon,
+  Tabs,
   Textarea,
-  FormControl,
   SnackbarProps,
 } from '@sk-web-gui/react';
 import { useState, useEffect, useCallback } from 'react';
@@ -17,6 +16,7 @@ import { MunicipalityInterface } from '@interfaces/supportmanagement.municipalit
 import {
   createEmailconfiguration,
   updateEmailconfiguration,
+  deleteEmailconfiguration,
 } from '@services/supportmanagement-service/supportmanagement-emailconfiguration-service';
 import {
   EmailconfigurationInterface,
@@ -51,7 +51,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
   const [saving, setSaving] = useState<boolean>(false);
   const [roles, setRoles] = useState<RoleInterface[]>([]);
   const [statuses, setStatuses] = useState<StatusInterface[]>([]);
-
+  const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
   const snackBar = useSnackbar();
   const escFunction = useCallback((event) => {
     if (event.key === 'Escape') {
@@ -72,13 +72,32 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
       : createEmailconfiguration(municipality.municipalityId, namespace.namespace, futureEmailConfiguration);
 
     response
-      .then(() => handleOnClose(true))
-      .catch((e) =>
-        handleError('Error when saving configuration:', e, t('common:errors.errorSavingEmailconfiguration'))
-      )
-      .finally(() => setSaving(false));
+    .then(() => handleOnClose(true))
+    .catch((e) =>
+      handleError('Error when saving configuration:', e, t('common:errors.errorSavingEmailconfiguration'))
+    )
+    .finally(() => setSaving(false));
   };
 
+  const confirmDelete = () => {
+	setConfirmOpen(true);
+  };
+
+  const handleOnAbort = () => {
+	setConfirmOpen(false);
+  };
+    
+  const handleOnDelete = () => {
+	setConfirmOpen(false);
+	
+    deleteEmailconfiguration(municipality.municipalityId, namespace.namespace)
+    .then(() => handleOnClose(true))
+    .catch((e) =>
+      handleError('Error when deleting configuration:', e, t('common:errors.errorDeletingEmailconfiguration'))
+    )
+    .finally(() => setSaving(false));
+  };
+  
   const handleError = (errorDescription: string, e: Error, message: string) => {
     console.error(errorDescription, e);
     displayMessage(message, 'error');
@@ -123,9 +142,11 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
 
   useEffect(() => {
     setFutureEmailConfiguration({
-      enabled: emailConfiguration?.enabled && emailConfiguration.enabled == true,
+      enabled: emailConfiguration?.enabled || false,
       errandClosedEmailSender: emailConfiguration?.errandClosedEmailSender,
       errandClosedEmailTemplate: emailConfiguration?.errandClosedEmailTemplate,
+      errandNewEmailSender: emailConfiguration?.errandNewEmailSender,
+      errandNewEmailTemplate: emailConfiguration?.errandNewEmailTemplate,
       daysOfInactivityBeforeReject: emailConfiguration?.daysOfInactivityBeforeReject,
       statusForNew: emailConfiguration?.statusForNew,
       triggerStatusChangeOn: emailConfiguration?.triggerStatusChangeOn,
@@ -154,6 +175,26 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
       className="md:min-w-[100rem] dialog"
     >
       <Dialog.Content>
+        <Dialog
+          label={t('common:dialogs.confirm_header')}
+          className="dialog"
+          show={confirmOpen}
+        >
+          <Dialog.Content>
+            <div className="bottom-margin-50">
+              {t('common:dialogs.manage_emailconfiguration.confirm_delete')}
+            </div>
+          </Dialog.Content>
+          <Dialog.Buttons className={'container-right'}>
+            <Button color={'vattjom'} onClick={() => handleOnDelete()}>
+              {t('common:buttons.confirm')}
+            </Button>
+            <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnAbort()}>
+              {t('common:buttons.abort')}
+            </Button>
+          </Dialog.Buttons>
+        </Dialog>      
+
         {/* Section for activation and email recipient settings */}
         <div className="grid-3-col section">
           <div className="grid-2-col">
@@ -213,58 +254,103 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
           </div>
         </div>
 
-        {/* Section for rejection email */}
-        <div className="section">
-          <div className="grid-2-col">
-            <div className="grid-2-col">
-              <div>{t('common:dialogs.manage_emailconfiguration.days_of_inactivity_before_reject')}</div>
-              <div>
-                <Input
-                  className={'number-input'}
-                  value={futureEmailConfiguration?.daysOfInactivityBeforeReject?.toString()}
+        <Tabs 
+          color={'vattjom'}
+          size='sm'
+          showBackground={true}>
+
+          {/* Section for incoming email reply*/}
+          <Tabs.Item>
+            <Tabs.Button>{t('common:dialogs.manage_emailconfiguration.tab_errand_new')}</Tabs.Button>
+            <Tabs.Content>
+              <div className="grid-2-col left-padded-2">
+                <div className='small-text'>
+                  <span>{t('common:dialogs.manage_emailconfiguration.errand_new_email_sender')}</span>
+                  <Input
+                    invalid={!isValidEmailOrEmpty(futureEmailConfiguration?.errandNewEmailSender)}
+                    placeholder={t('common:dialogs.manage_emailconfiguration.errand_new_email_sender_placeholder')}
+                    value={futureEmailConfiguration?.errandNewEmailSender}
+                    onChange={(e) =>
+                      setFutureEmailConfiguration({
+                        ...futureEmailConfiguration,
+                        errandNewEmailSender: e.target.value.toLowerCase(),
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="small-text">
+                <div>{t('common:dialogs.manage_emailconfiguration.errand_new_email_template')}</div>
+                <Textarea
+                  placeholder={t('common:dialogs.manage_emailconfiguration.errand_new_email_template_placeholder')}
+                  value={futureEmailConfiguration?.errandNewEmailTemplate}
+                  className={'fill-available'}
                   onChange={(e) =>
                     setFutureEmailConfiguration({
                       ...futureEmailConfiguration,
-                      daysOfInactivityBeforeReject: onlyNumbers(e.target.value),
+                      errandNewEmailTemplate: e.target.value,
                     })
                   }
                 />
               </div>
-            </div>
-            <div className="grid-2-col">
-              <div>{t('common:dialogs.manage_emailconfiguration.errand_closed_email_sender')}</div>
-              <div>
-                <Input
-                  invalid={!isValidEmailOrEmpty(futureEmailConfiguration?.errandClosedEmailSender)}
-                  placeholder={t('common:dialogs.manage_emailconfiguration.errand_closed_email_sender_placeholder')}
-                  value={futureEmailConfiguration?.errandClosedEmailSender}
+            </Tabs.Content>
+          </Tabs.Item>
+  
+          {/* Section for rejection email */}
+          <Tabs.Item>
+            <Tabs.Button>{t('common:dialogs.manage_emailconfiguration.tab_errand_closed')}</Tabs.Button>
+            <Tabs.Content>
+              <div className="grid-2-col">
+                <div className="grid-2-col">
+                  <div>{t('common:dialogs.manage_emailconfiguration.errand_closed_email_sender')}</div>
+                  <div>
+                    <Input
+                      invalid={!isValidEmailOrEmpty(futureEmailConfiguration?.errandClosedEmailSender)}
+                      placeholder={t('common:dialogs.manage_emailconfiguration.errand_closed_email_sender_placeholder')}
+                      value={futureEmailConfiguration?.errandClosedEmailSender}
+                      onChange={(e) =>
+                        setFutureEmailConfiguration({
+                          ...futureEmailConfiguration,
+                          errandClosedEmailSender: e.target.value.toLowerCase(),
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="grid-2-col">
+                  <div>{t('common:dialogs.manage_emailconfiguration.days_of_inactivity_before_reject')}</div>
+                  <div>
+                    <Input
+                      className={'number-input'}
+                      value={futureEmailConfiguration?.daysOfInactivityBeforeReject?.toString()}
+                      onChange={(e) =>
+                        setFutureEmailConfiguration({
+                          ...futureEmailConfiguration,
+                          daysOfInactivityBeforeReject: onlyNumbers(e.target.value),
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="small-text">
+                <div>{t('common:dialogs.manage_emailconfiguration.errand_closed_email_template')}</div>
+                <Textarea
+                  placeholder={t('common:dialogs.manage_emailconfiguration.errand_closed_email_template_placeholder')}
+                  value={futureEmailConfiguration?.errandClosedEmailTemplate}
+                  className={'fill-available'}
                   onChange={(e) =>
                     setFutureEmailConfiguration({
                       ...futureEmailConfiguration,
-                      errandClosedEmailSender: e.target.value.toLowerCase(),
+                      errandClosedEmailTemplate: e.target.value,
                     })
                   }
                 />
               </div>
-            </div>
-          </div>
-
-          <div className="small-text">
-            <div>{t('common:dialogs.manage_emailconfiguration.errand_closed_email_template')}</div>
-            <Textarea
-              placeholder={t('common:dialogs.manage_emailconfiguration.errand_closed_email_template_placeholder')}
-              value={futureEmailConfiguration?.errandClosedEmailTemplate}
-              className={'fill-available'}
-              onChange={(e) =>
-                setFutureEmailConfiguration({
-                  ...futureEmailConfiguration,
-                  errandClosedEmailTemplate: e.target.value,
-                })
-              }
-            />
-          </div>
-        </div>
-
+            </Tabs.Content>
+          </Tabs.Item>
+        </Tabs>
+        
         {/* Section for status changes */}
         <div className="grid-4-col section">
           <div>{t('common:dialogs.manage_emailconfiguration.errand_channel')}</div>
@@ -383,6 +469,14 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
         >
           {emailConfiguration ? t('common:buttons.update') : t('common:buttons.create')}
         </Button>
+        {emailConfiguration &&
+          <Button
+            color={'juniskar'}
+            onClick={() => confirmDelete()}
+          >
+            {t('common:buttons.delete')}
+          </Button>
+        }
 
         <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnClose(false)}>
           {t('common:buttons.close')}

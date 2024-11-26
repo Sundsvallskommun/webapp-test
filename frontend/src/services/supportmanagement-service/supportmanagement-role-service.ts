@@ -1,6 +1,6 @@
 import { apiService } from '../api-service';
-import { Role, RolesApiResponse, RoleApiResponse, RoleCreateRequest } from '@data-contracts/backend/role-contracts';
-import { RoleInterface, RoleCreateRequestInterface } from '@interfaces/supportmanagement.role';
+import { Role, RolesApiResponse, RoleApiResponse, RoleCreateRequest, RoleUpdateRequest } from '@data-contracts/backend/role-contracts';
+import { RoleInterface, RoleCreateRequestInterface, RoleUpdateRequestInterface } from '@interfaces/supportmanagement.role';
 
 export const getRoles: (municipalityId: string, namespace: string) => Promise<RoleInterface[]> = async (municipalityId, namespace) => {
   const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/roles`;
@@ -21,6 +21,7 @@ const mapToRoleInterfaces: (data: any) => RoleInterface[] = (data) => {
 
 const mapToRoleInterface: (data: Role, i: number) => RoleInterface = (data, i) => ({
   name: data.name,
+  displayName: data.displayName,
   created: data.created,
   modified: data.modified,
   index: i,
@@ -45,10 +46,32 @@ export const isRoleAvailable: (municipalityId: string, namespace: string, role: 
 export const createRole: (municipalityId: string, namespace: string, request: RoleCreateRequestInterface) => Promise<void> = async (municipalityId, namespace, request) => {
   const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/roles`;
 
-  apiService
+  await apiService
     .post<RoleCreateRequest>(url, request)
     .catch((e) => {
       console.error('Error occurred when creating role', e);
+      throw e;
+    });
+};
+
+export const updateRole: (municipalityId: string, namespace: string, roleName: string, request: RoleUpdateRequestInterface) => Promise<void> = async (municipalityId, namespace, roleName, request) => {
+  const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/roles/${roleName}`;
+
+  await apiService
+    .patch<RoleUpdateRequest>(url, request)
+    .catch((e) => {
+      console.error('Error occurred when updating role', e);
+      throw e;
+    });
+};
+
+export const deleteRole: (municipalityId: string, namespace: string, roleName: string) => Promise<void> = async (municipalityId, namespace, roleName) => {
+  const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/roles/${roleName}`;
+
+  await apiService
+    .delete(url)
+    .catch((e) => {
+      console.error('Error occurred when deleting role', e);
       throw e;
     });
 };

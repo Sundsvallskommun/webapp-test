@@ -81,3 +81,14 @@ export const updateNamespace: (municipalityId: string, namespace: string, reques
       throw e;
     });
 };
+
+export const deleteNamespace: (municipalityId: string, namespace: string) => Promise<void> = async (municipalityId, namespace) => {
+  const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}`;
+
+  await apiService
+    .delete(url)
+    .catch((e) => {
+      console.error('Error occurred when deleting namespace', e);
+      throw e;
+    });
+};

@@ -1,4 +1,4 @@
-import { Button, Card, useSnackbar, Table, SortMode, Input, Pagination } from '@sk-web-gui/react';
+import { Button, Card, Icon, useSnackbar, Table, SortMode, Input, Pagination } from '@sk-web-gui/react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import { DialogManageRole } from '@components/dialogs/dialog_manage_role';
@@ -7,6 +7,7 @@ import { RoleInterface } from '@interfaces/supportmanagement.role';
 import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
 import { toReadableTimestamp } from '@utils/dateformat';
+import { v4 } from 'uuid';
 
 interface MainPageRolesProps {
   municipality: MunicipalityInterface;
@@ -16,17 +17,19 @@ interface MainPageRolesProps {
 export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipality, namespace }) => {
   const { t } = useTranslation();
   const [roles, setRoles] = useState<RoleInterface[]>([]);
-  const [displayedRoles, setDisplayedRoles] = useState([]);
+  const [displayedRoles, setDisplayedRoles] = useState<RoleInterface[]>([]);
   const [pageSize, setPageSize] = useState<number>(5);
   const [sortColumn, setSortColumn] = useState<string>('name');
   const [sortOrder, setSortOrder] = useState(SortMode.ASC);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isCreateRoleDialogOpen, setIsCreateRoleDialogOpen] = useState<boolean>(false);
+  const [isManageRoleDialogOpen, setIsManageRoleDialogOpen] = useState<boolean>(false);
+  const [selectedRole, setSelectedRole] = useState<RoleInterface>(null);
   const snackBar = useSnackbar();
 
   const headers = [
     { label: t('common:index'), property: 'index', isColumnSortable: true },
     { label: t('common:subpages.roles.table.headers.name'), property: 'name', isColumnSortable: true },
+    { label: t('common:subpages.roles.table.headers.displayName'), property: 'displayName', isColumnSortable: true },
     { label: t('common:subpages.roles.table.headers.created'), property: 'created', isColumnSortable: true },
     { label: t('common:subpages.roles.table.headers.modified'), property: 'mofified', isColumnSortable: true },
   ];
@@ -66,15 +69,24 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
   };
 
   const openCreateRoleDialog = () => {
-    setIsCreateRoleDialogOpen(true);
+	setSelectedRole(null);
+    setIsManageRoleDialogOpen(true);
   };
 
-  const closeCreateRoleDialog = (reloadTable: boolean) => {
-    if (reloadTable) {
+  const openModifyRoleDialog = (role: RoleInterface) => {
+    setSelectedRole(role);
+    setIsManageRoleDialogOpen(true);
+  };
+
+  const closeManageRoleDialog = () => {
+    setIsManageRoleDialogOpen(false);
+  };
+
+  useEffect(() => {
+    if (!isManageRoleDialogOpen) {
       loadRoles();
     }
-    setIsCreateRoleDialogOpen(false);
-  };
+  } ,[isManageRoleDialogOpen]);
 
   const getPaginationText = () => {
     const start = (currentPage - 1) * pageSize + 1;
@@ -105,10 +117,12 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
   return (
     <>
       <DialogManageRole
-        open={isCreateRoleDialogOpen}
+        key={v4()}
+        open={isManageRoleDialogOpen}
         municipality={municipality}
         namespace={namespace}
-        onClose={closeCreateRoleDialog}/>  
+        existingRole={selectedRole}
+        onClose={closeManageRoleDialog}/>  
       
       {roles && roles.length > 0 ? 
         <Table background={true}>
@@ -126,8 +140,18 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
           
           <Table.Body>
             {displayedRoles.map(m => <Table.Row key={m.name}>
-              <Table.Column>{m.index}</Table.Column>
+              <Table.Column>
+                <Button
+                  variant={'link'}
+                  color={'vattjom'}
+                  onClick={() => openModifyRoleDialog(m)}
+                >
+                  <Icon name={'wrench'} size={20} />
+                </Button>
+                {m.index}
+              </Table.Column>
               <Table.Column>{m.name}</Table.Column>
+              <Table.Column>{m.displayName}</Table.Column>
               <Table.Column>{m.created && toReadableTimestamp(m.created)}</Table.Column>
               <Table.Column>{m.modified && toReadableTimestamp(m.modified)}</Table.Column>
             </Table.Row>)}

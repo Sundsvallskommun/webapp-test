@@ -10,6 +10,12 @@ export class EmailConfigurationCreateRequest implements EmailConfigurationCreate
   @IsString()
   @IsOptional()
   errandClosedEmailTemplate?: string;
+  @IsString()
+  @IsOptional()
+  errandNewEmailSender?: string;
+  @IsString()
+  @IsOptional()
+  errandNewEmailTemplate?: string;
   @IsNumber()
   @IsOptional()
   daysOfInactivityBeforeReject?: number;
@@ -44,6 +50,12 @@ export class EmailConfigurationUpdateRequest implements EmailConfigurationUpdate
   @IsString()
   @IsOptional()
   errandClosedEmailTemplate?: string;
+  @IsString()
+  @IsOptional()
+  errandNewEmailSender?: string;
+  @IsString()
+  @IsOptional()
+  errandNewEmailTemplate?: string;
   @IsNumber()
   @IsOptional()
   daysOfInactivityBeforeReject?: number;

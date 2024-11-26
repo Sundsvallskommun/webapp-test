@@ -81,3 +81,14 @@ export const updateCategory: (municipalityId: string, namespace: string, request
 
   await new Promise(r => setTimeout(r, 500)); 
 };
+
+export const deleteCategory: (municipalityId: string, namespace: string, category: string) => Promise<void> = async (municipalityId, namespace, category) => {
+  const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/categories/${category}`;
+
+  await apiService
+    .delete(url)
+    .catch((e) => {
+      console.error('Error occurred when deleting category', e);
+      throw e;
+    });
+};

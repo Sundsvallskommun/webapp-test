@@ -12,48 +12,65 @@
     "labels": "Labels",
     "contactreasons":  "Contact reasons",
     "roles": "Roles",
-    "errandstatuses": "Errand statuses",
-    "emailconfiguration":  "Email configuration"
+    "errandstatuses": "Case statuses",
+    "emailconfiguration":  "E-mail configuration"
   },
   "dialogs": {
+    "confirm_header": "Confirm action",
     "manage_namespace": {
       "header_new_namespace": "Create new domain in",
       "header_update_namespace": "Update existing domain in",
       "domain_name_input_heading": "Domain name",
       "display_name_input_heading": "Display name",
       "displayname_placeholder": "Enter display name",
-      "short_code_input_heading": "Short code"
+      "short_code_input_heading": "Short code",
+      "confirm_delete": "Confirm removal of domain"
     },
     "manage_role": {
-      "header_prefix": "Create new role for domain",
-      "role_input_heading": "Role name"
+      "header_prefix_create": "Create new role for domain",
+      "header_prefix_modify": "Manage existing role for domain",
+      "role_input_heading": "Role name",
+      "display_name_input_heading": "Display name",
+      "displayname_placeholder": "Enter display name",
+      "confirm_delete": "Confirm removal of role"
     },
     "manage_status": {
-      "header_prefix": "Create new errand status for domain",
-      "status_input_heading": "Status name"
+      "header_prefix_create": "Create new case status for domain",
+      "header_prefix_modify": "Manage existing status for domain",
+      "status_input_heading": "Status name",
+      "confirm_delete": "Confirm removal of status"
     },
     "manage_contactreason": {
-      "header_prefix": "Create new contact reason for domain",
-      "contactreason_input_heading": "Contact reason"
+      "header_prefix_create": "Create new contact reason for domain",
+      "header_prefix_modify": "Manage existing contact reason for domain",
+      "contactreason_input_heading": "Contact reason",
+      "confirm_delete": "Confirm removal of contact reason"
     },
     "manage_emailconfiguration": {
-      "header_prefix": "Handle email configuration for domain",
+      "header_prefix": "Handle e-mail configuration for domain",
       "enable_configuration": "Active",
       "add_sender_as_stakeholder": "Add sender as stakeholder",
-      "days_of_inactivity_before_reject": "Number of days before incoming email is rejected",
-      "errand_closed_email_sender_placeholder": "Enter sender email",
-      "errand_closed_email_template_placeholder": "Enter message to send when rejecting incoming email",
-      "errand_channel": "Channel for created errands",
+      "days_of_inactivity_before_reject": "Number of days before incoming e-mail is rejected",
+      "errand_channel": "Channel for created cases",
       "errand_channel_placeholder": "Enter channel",
-      "errand_closed_email_sender": "Email sender address for rejected email",
-      "errand_closed_email_template": "Email response for rejected email",
+      "errand_closed_email_sender": "Sender address for rejected e-mail",
+      "errand_closed_email_template": "Response for rejected e-mail",
+      "errand_closed_email_sender_placeholder": "Enter sender e-mail",
+      "errand_closed_email_template_placeholder": "Enter message in e-mail reply when incoming e-mail is rejected",
+      "errand_new_email_sender": "Sender address for new case e-mail",
+      "errand_new_email_template": "Response for e-mail sent when new case is created",
+      "errand_new_email_sender_placeholder": "Enter sender e-mail",
+      "errand_new_email_template_placeholder": "Enter message in e-mail reply when new case is created",
       "stakeholder_role": "Role assigned to stakeholder",
       "select_stakeholder_role": "Choose role",
-      "status_for_new": "Status on created errands",
+      "status_for_new": "Status on created cases",
+      "tab_errand_closed": "Configuration of rejection mail",
+      "tab_errand_new": "Configuration of new case mail",
       "trigger_statuschange_on": "Status for triggering a status change",
-      "statuschange_to": "Status to set on errand when a status change is realized",
-      "inactive_status": "Status for inactive errands",
-      "select_status": "Choose status"
+      "statuschange_to": "Status to set on case when a status change is realized",
+      "inactive_status": "Status for inactive cases",
+      "select_status": "Choose status",
+      "confirm_delete": "Confirm removal of e-mail configuration"
     },
     "manage_category": {
       "create_header_prefix": "Create new category for domain",
@@ -66,8 +83,9 @@
       "categorytype_name_input_heading": "Type name",
       "type_name_placeholder": "Enter type name",
       "categorytype_display_name_input_heading": "Display name",
-      "categorytype_escalation_email_input_heading": "Escalation email",
-      "escalation_email_placeholder": "Enter optional escalation email"
+      "categorytype_escalation_email_input_heading": "Escalation e-mail",
+      "escalation_email_placeholder": "Enter optional escalation e-mail",
+      "confirm_delete": "Confirm removal of category"
     }
   },
   "buttons": {
@@ -75,10 +93,13 @@
     "verify": "Verify availability",
     "create": "Create",
     "update": "Update",
+    "delete": "Remove",
+    "confirm": "Proceed",
+    "abort": "Abort",
     "add_role": "New role",
     "add_contactreason": "New contact reason",
     "add_category": "New category",
-    "add_status": "New errand status",
+    "add_status": "New case status",
     "add_emailconfiguration": "New configuration",
     "modify_emailconfiguration": "Modify configuration",
 		"add_label": "New label"
@@ -89,22 +110,30 @@
     "errorVerifyingNamespaceName": "An error occurred when checking domain name availability",
     "errorCreatingNamespace": "An error occurred when creating namespace",
     "errorUpdatingNamespace": "An error occurred when updating namespace",
+    "errorDeletingNamespace": "An error occurred when deleting namespace",
     "errorLoadingLabels": "An error occurred when loading labels",
     "errorLoadingRoles": "An error occurred when loading roles",
     "errorVerifyingRolename": "An error occurred when checking role name availability",
     "errorCreatingRole": "An error occurred when creating role",
-    "errorLoadingStatuses": "An error occurred when loading errand statuses",
-    "errorVerifyingStatus": "An error occurred when checking errand status availability",
-    "errorCreatingStatus": "An error occurred when when creating errand status",
+    "errorUpdatingRole": "An error occurred when updating role",
+    "errorDeletingRole": "An error occurred when deleting role",
+    "errorLoadingStatuses": "An error occurred when loading case statuses",
+    "errorVerifyingStatus": "An error occurred when checking case status availability",
+    "errorCreatingStatus": "An error occurred when when creating case status",
+    "errorDeletingStatus": "An error occurred when deleting case status",
     "errorLoadingContactreasons": "An error occurred when loading contact reasons",
     "errorVerifyingContactreason": "An error occurred when checking contact reason availability",
     "errorCreatingContactreason": "An error occurred when creating contact reason",
+    "errorUpdatingContactreason": "An error occurred when updating contact reason",
+    "errorDeletingContactreason": "An error occurred when deleting contact reason",
     "errorLoadingCategories": "An error occurred when loading categories",
     "errorVerifyingCategory": "An error occurred when checking category name availability",
     "errorCreatingCategory": "An error occurred when creating category",
     "errorUpdatingCategory": "An error occurred when updating category",
-    "errorLoadingEmailconfiguration": "An error occurred when loading email configuration",
-    "errorSavingEmailconfiguration": "An error occurred when saving email configuration"
+    "errorDeletingCategory": "An error occurred when deleting category",
+    "errorLoadingEmailconfiguration": "An error occurred when loading e-mail configuration",
+    "errorSavingEmailconfiguration": "An error occurred when saving e-mail configuration",
+    "errorDeletingEmailconfiguration": "An error occurred when deleting e-mail configuration"
   },
   "subpages": {
     "categories": {
@@ -117,17 +146,22 @@
       "modified": "Modified"
     },
     "emailconfiguration": {
-      "missing": "Email configuration is missing",
-      "current_email_configuration": "Current email configuration",
+      "missing": "E-mail configuration is missing",
+      "current_email_configuration": "Current e-mail configuration",
+      "section_basic_settings": "Basic settings",
+      "section_email_settings": "E-mail settings",
+      "section_errand_settings": "Case settings",
       "configuration_enabled": "Configuration is active",
       "add_sender_as_stakeholder": "The sender is added as stakeholder",
-      "days_of_inactivity_before_reject": "Days of inactivity before emails are rejected",
+      "days_of_inactivity_before_reject": "Days of inactivity before incoming e-mails are rejected",
       "errand_channel": "Channel to set for created cases",
-      "errand_closed_email_sender": "Email sender used when sending reject email",
-      "errand_closed_email_template": "Email template to use when incoming email is rejected",
+      "errand_new_email_sender": "E-mail used when sending new case e-mail",
+      "errand_new_email_template": "Template to use when sending e-mail regarding created case",
+      "errand_closed_email_sender": "Email used when sending reject e-mail",
+      "errand_closed_email_template": "Template to use when incoming e-mail is rejected",
       "stakeholder_role": "Role to use when adding stakeholder",
       "status_for_new": "Status to set on a case when an email triggers a new case to be created",
-      "trigger_statuschange_on": "Status that will force a status change when an email is referring to an existing case",
+      "trigger_statuschange_on": "Status that will force a status change when an e-mail is referring to an existing case",
       "statuschange_to": "Status to set on a case when a change of status is performed",
       "inactive_status": "Status for an inactive case",
       "created": "Created",
@@ -138,6 +172,7 @@
       "table": {
         "headers": {
           "name": "Role name",
+          "displayName": "Display name",
           "created": "Created",
           "modified": "Modified"
         },

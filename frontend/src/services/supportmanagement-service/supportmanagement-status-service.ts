@@ -1,6 +1,6 @@
 import { apiService } from '../api-service';
-import { Status, StatusesApiResponse, StatusApiResponse, StatusCreateRequest } from '@data-contracts/backend/status-contracts';
-import { StatusInterface, StatusCreateRequestInterface } from '@interfaces/supportmanagement.status';
+import { Status, StatusesApiResponse, StatusApiResponse, StatusCreateRequest, StatusUpdateRequest } from '@data-contracts/backend/status-contracts';
+import { StatusInterface, StatusCreateRequestInterface, StatusUpdateRequestInterface } from '@interfaces/supportmanagement.status';
 
 export const getStatuses: (municipalityId: string, namespace: string) => Promise<StatusInterface[]> = async (municipalityId, namespace) => {
   const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/statuses`;
@@ -45,10 +45,32 @@ export const isStatusAvailable: (municipalityId: string, namespace: string, stat
 export const createStatus: (municipalityId: string, namespace: string, request: StatusCreateRequestInterface) => Promise<void> = async (municipalityId, namespace, request) => {
   const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/statuses`;
 
-  apiService
+  await apiService
     .post<StatusCreateRequest>(url, request)
     .catch((e) => {
       console.error('Error occurred when creating status', e);
+      throw e;
+    });
+};
+
+export const updateStatus: (municipalityId: string, namespace: string, roleName: string, request: StatusUpdateRequestInterface) => Promise<void> = async (municipalityId, namespace, statusName, request) => {
+  const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/statuses/${statusName}`;
+
+  await apiService
+    .patch<StatusUpdateRequest>(url, request)
+    .catch((e) => {
+      console.error('Error occurred when updating role', e);
+      throw e;
+    });
+};
+
+export const deleteStatus: (municipalityId: string, namespace: string, statusName: string) => Promise<void> = async (municipalityId, namespace, statusName) => {
+  const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/statuses/${statusName}`;
+
+  await apiService
+    .delete(url)
+    .catch((e) => {
+      console.error('Error occurred when deleting status', e);
       throw e;
     });
 };

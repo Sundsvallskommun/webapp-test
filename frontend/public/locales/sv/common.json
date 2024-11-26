@@ -16,44 +16,61 @@
     "emailconfiguration": "Konfiguration av E-post"
   },
   "dialogs": {
+    "confirm_header": "Bekräfta åtgärd",
     "manage_namespace": {
       "header_new_namespace": "Skapa ny domän för",
       "header_update_namespace": "Uppdatera domän för",
       "domain_name_input_heading": "Domännamn",
       "display_name_input_heading": "Visningsnamn",
       "displayname_placeholder": "Ange visningsnamn",
-      "short_code_input_heading": "Kort-kod"
+      "short_code_input_heading": "Kort-kod",
+      "confirm_delete": "Bekräfta borttag av domän"
     },
     "manage_role": {
-      "header_prefix": "Skapa ny roll för domän",
-      "role_input_heading": "Rollnamn"
+      "header_prefix_create": "Skapa ny roll för domän",
+      "header_prefix_modify": "Hantera befintlig roll för domän",
+      "role_input_heading": "Rollnamn",
+      "display_name_input_heading": "Visningsnamn",
+      "displayname_placeholder": "Ange visningsnamn",
+      "confirm_delete": "Bekräfta borttag av roll"
     },
     "manage_status": {
-      "header_prefix": "Skapa ny ärendestatus för domän",
-      "status_input_heading": "Statusnamn"
+      "header_prefix_create": "Skapa ny ärendestatus för domän",
+      "header_prefix_modify": "Hantera befintlig status för domän",
+      "status_input_heading": "Statusnamn",
+      "confirm_delete": "Bekräfta borttag av status"
     },
     "manage_contactreason": {
-      "header_prefix": "Skapa ny kontaktorsak för domän",
-      "contactreason_input_heading": "Kontaktorsak"
+      "header_prefix_create": "Skapa ny kontaktorsak för domän",
+      "header_prefix_modify": "Hantera befintlig kontaktorsak för domän",
+      "contactreason_input_heading": "Kontaktorsak",
+      "confirm_delete": "Bekräfta borttag av kontaktorsak"
     },
     "manage_emailconfiguration": {
-      "header_prefix": "Konfigurera epost-inställningar för domän",
+      "header_prefix": "Konfigurera inställningar för e-post avseende domän",
       "enable_configuration": "Aktiverad",
       "add_sender_as_stakeholder": "Lägg till avsändaren som intressent",
-      "days_of_inactivity_before_reject": "Antal dagar innan inkommen epost avvisas",
+      "days_of_inactivity_before_reject": "Antal dagar innan inkommen e-post avvisas",
       "errand_channel": "Kanal för skapade ärenden",
       "errand_channel_placeholder": "Ange kanal",
       "errand_closed_email_sender": "E-postavsändare för avvisad e-post",
       "errand_closed_email_template": "E-postsvar vid avvisad inkommande e-post",
       "errand_closed_email_sender_placeholder": "Ange avsändare",
-      "errand_closed_email_template_placeholder": "Ange meddelande i e-postsvar",
+      "errand_closed_email_template_placeholder": "Ange meddelande i e-postsvar vid avvisad inkommande e-post",
+      "errand_new_email_sender": "E-postavsändare för e-post vid nytt ärende",
+      "errand_new_email_template": "E-postsvar när nytt ärende skapas",
+      "errand_new_email_sender_placeholder": "Ange avsändare",
+      "errand_new_email_template_placeholder": "Ange meddelande i e-postsvar när nytt ärende har skapats",
       "stakeholder_role": "Roll att tilldela intressent",
       "select_stakeholder_role": "Välj roll",
       "status_for_new": "Status för skapade ärenden",
+      "tab_errand_closed": "Inställningar för avvisad e-post",
+      "tab_errand_new": "Inställningar för e-post vid nytt ärende",
       "trigger_statuschange_on": "Status för att påtvinga en statusändring",
       "statuschange_to": "Status som sätts på ärende när statusändring genomförs",
       "inactive_status": "Status för inaktivt ärende",
-      "select_status": "Välj status"
+      "select_status": "Välj status",
+      "confirm_delete": "Bekräfta borttag av inställningar för e-post"
     },
     "manage_category": {
       "create_header_prefix": "Skapa ny kategori för domän",
@@ -67,7 +84,8 @@
       "type_name_placeholder": "Ange typnamn",
       "categorytype_display_name_input_heading": "Visningsnamn",
       "categorytype_escalation_email_input_heading": "Mail vid eskalering",
-      "escalation_email_placeholder": "Ange eventuell eskaleringsmail"
+      "escalation_email_placeholder": "Ange eventuell eskaleringsmail",
+      "confirm_delete": "Bekräfta borttag av kategori"
     }
   },
   "buttons": {
@@ -75,6 +93,9 @@
     "verify": "Kontrollera tillgänglighet",
     "create": "Lägg till",
     "update": "Uppdatera",
+    "delete": "Ta bort",
+    "confirm": "Fortsätt",
+    "abort": "Avbryt",
     "add_role": "Ny roll",
     "add_contactreason": "Ny kontaktorsak",
     "add_category": "Ny kategori",
@@ -89,22 +110,30 @@
     "errorVerifyingNamespaceName": "Ett fel inträffade vid kontroll om domännamnet är tillgängligt",
     "errorCreatingNamespace": "Ett fel inträffade när domän skulle skapas",
     "errorUpdatingNamespace": "Ett fel inträffade när domän skulle uppdateras",
+    "errorDeletingNamespace": "Ett fel inträffade när domän skulle tas bort",
     "errorLoadingLabels": "Ett fel inträffade när etiketter skulle hämtas",
     "errorLoadingRoles": "Ett fel inträffade när roller skulle hämtas",
     "errorVerifyingRolename": "Ett fel inträffade vid kontroll om rollnamnet är tillgängligt",
     "errorCreatingRole": "Ett fel inträffade när roll skulle skapas",
+    "errorUpdatingRole": "Ett fel inträffade när roll skulle uppdateras",
+    "errorDeletingRole": "Ett fel inträffade när roll skulle tas bort",
     "errorLoadingStatuses": "Ett fel inträffade när ärendestatus skulle hämtas",
     "errorVerifyingStatus": "Ett fel inträffade vid kontroll om ärendestatus är tillgängligt",
     "errorCreatingStatus": "Ett fel inträffade när ärendestatus skulle skapas",
+    "errorDeletingStatus": "Ett fel inträffade när ärendestatus skulle tas bort",
     "errorLoadingContactreasons": "Ett fel inträffade när kontaktorsaker skulle hämtas",
     "errorVerifyingContactreason": "Ett fel inträffade vid kontroll om kontakorsak är tillgängligt",
     "errorCreatingContactreason": "Ett fel inträffade när kontaktorsak skulle skapas",
+    "errorUpdatingContactreason": "Ett fel inträffade när kontaktorsak skulle uppdateras",
+    "errorDeletingContactreason": "Ett fel inträffade när kontaktorsak skulle tas bort",
     "errorLoadingCategories": "Ett fel inträffade när kategorier skulle hämtas",
     "errorVerifyingCategory": "Ett fel inträffade vid kontroll om kategorinamnet är tillgängligt",
     "errorCreatingCategory": "Ett fel inträffade när kategori skulle skapas",
     "errorUpdatingCategory": "Ett fel inträffade när kategori skulle uppdateras",
-    "errorLoadingEmailconfiguration": "Ett fel inträffade när epostkonfiguration skulle hämtas",
-    "errorSavingEmailconfiguration": "Ett fel inträffade när epostkonfiguration skulle sparas"
+    "errorDeletingCategory": "Ett fel inträffade när kategori skulle tas bort",
+    "errorLoadingEmailconfiguration": "Ett fel inträffade när inställningar för e-post skulle hämtas",
+    "errorSavingEmailconfiguration": "Ett fel inträffade när inställningar för e-post skulle sparas",
+    "errorDeletingEmailconfiguration": "Ett fel inträffade när inställningar för e-post skulle tas bort"
   },
   "subpages": {
     "categories": {
@@ -117,14 +146,19 @@
       "missing": "Kategorier saknas"
     },
     "emailconfiguration": {
-      "missing": "Epost-konfiguration saknas",
-      "current_email_configuration": "Nuvarande epost-konfiguration",
+      "missing": "Konfiguration för e-post saknas",
+      "current_email_configuration": "Nuvarande konfiguration av e-post",
+      "section_basic_settings": "Grundläggande inställningar",
+      "section_email_settings": "E-post",
+      "section_errand_settings": "Ärenden",
       "configuration_enabled": "Konfigurationen är aktiverad",
       "add_sender_as_stakeholder": "Avsändaren läggs till som intressent",
       "days_of_inactivity_before_reject": "Antal dagar innan inkommen e-post avvisas",
       "errand_channel": "Kanal som sätts för skapade ärenden",
-      "errand_closed_email_sender": "E-postavsändare för avvisad e-post",
-      "errand_closed_email_template": "E-postsvar som skickas när inkommande e-post avvisas",
+      "errand_new_email_sender": "Avsändare för e-post vid nytt ärende",
+      "errand_new_email_template": "Svar som skickas när nytt ärende har skapats",
+      "errand_closed_email_sender": "Avsändare för avvisad e-post",
+      "errand_closed_email_template": "Svar som skickas när inkommande e-post avvisas",
       "stakeholder_role": "Roll som tilldelas intressent",
       "status_for_new": "Status satt på ärende när e-post resulterar i ett nytt ärende",
       "trigger_statuschange_on": "Status som kommer att påtvinga en statusändring när e-post hänvisar till ett befintligt ärende",
@@ -138,6 +172,7 @@
       "table": {
         "headers": {
           "name": "Rollnamn",
+          "displayName": "Visningsnamn",
           "created": "Skapad",
           "modified": "Uppdaterad"
         },
