@@ -115,16 +115,16 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({
   };
 
   const confirmDelete = () => {
-	setConfirmOpen(true);
+    setConfirmOpen(true);
   };
 
   const handleOnAbort = () => {
-	setConfirmOpen(false);
+    setConfirmOpen(false);
   };
     
   const handleDeleteContactreason = () => {
-	setConfirmOpen(false);
-	
+    setConfirmOpen(false);
+
     deleteContactreason(municipality.municipalityId, namespace.namespace, existingContactreason.id)
     .then(() => {
       setSaving(false);
@@ -160,8 +160,6 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({
   }, [escFunction]);
 
   useEffect(() => {
-	console.log(existingContactreason);
-	
     if (existingContactreason != null && existingContactreason != undefined) {
       setContactreasonInput(existingContactreason.reason);
     }

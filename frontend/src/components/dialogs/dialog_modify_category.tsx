@@ -104,16 +104,16 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({
   };
 
   const confirmDelete = () => {
-	setConfirmOpen(true);
+    setConfirmOpen(true);
   };
 
   const handleOnAbort = () => {
-	setConfirmOpen(false);
+    setConfirmOpen(false);
   };
-    
+
   const handleDeleteCategory = () => {
-	setConfirmOpen(false);
-	
+    setConfirmOpen(false);
+
     deleteCategory(municipality.municipalityId, namespace.namespace, category.name)
     .then(() => setSaving(false))
     .then(() => onClose())

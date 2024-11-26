@@ -104,16 +104,16 @@ export const DialogManageStatus: React.FC<ManageStatusProps> = ({ open, municipa
   };
 
   const confirmDelete = () => {
-	setConfirmOpen(true);
+    setConfirmOpen(true);
   };
 
   const handleOnAbort = () => {
-	setConfirmOpen(false);
+    setConfirmOpen(false);
   };
     
   const handleDeleteStatus = () => {
-	setConfirmOpen(false);
-	
+    setConfirmOpen(false);
+
     deleteStatus(municipality.municipalityId, namespace.namespace, currentStatusName)
     .then(() => {
       setSaving(false);

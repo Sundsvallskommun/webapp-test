@@ -80,16 +80,16 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
   };
 
   const confirmDelete = () => {
-	setConfirmOpen(true);
+    setConfirmOpen(true);
   };
 
   const handleOnAbort = () => {
-	setConfirmOpen(false);
+    setConfirmOpen(false);
   };
     
   const handleOnDelete = () => {
-	setConfirmOpen(false);
-	
+    setConfirmOpen(false);
+
     deleteEmailconfiguration(municipality.municipalityId, namespace.namespace)
     .then(() => handleOnClose(true))
     .catch((e) =>

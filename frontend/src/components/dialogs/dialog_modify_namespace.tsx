@@ -57,16 +57,16 @@ export const DialogModifyNamespace: React.FC<ModifyNamespaceProps> = ({ open, mu
   };
 
   const confirmDelete = () => {
-	setConfirmOpen(true);
+    setConfirmOpen(true);
   };
 
   const handleOnAbort = () => {
-	setConfirmOpen(false);
+    setConfirmOpen(false);
   };
-    
+
   const handleDeleteNamespace = () => {
-	setConfirmOpen(false);
-	
+    setConfirmOpen(false);
+
     deleteNamespace(municipality.municipalityId, namespace.namespace)
     .then(() => setSavingNamespace(false))
     .then(() => handleOnClose())

@@ -113,16 +113,16 @@ export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality
   };
 
   const confirmDelete = () => {
-	setConfirmOpen(true);
+    setConfirmOpen(true);
   };
 
   const handleOnAbort = () => {
-	setConfirmOpen(false);
+    setConfirmOpen(false);
   };
-    
+
   const handleDeleteRole = () => {
-	setConfirmOpen(false);
-	
+    setConfirmOpen(false);
+
     deleteRole(municipality.municipalityId, namespace.namespace, currentRoleName)
     .then(() => {
       setSaving(false);
@@ -219,15 +219,15 @@ export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality
         <div className="bottom-margin-50">
           <p>{t('common:dialogs.manage_role.display_name_input_heading')}:</p>
           <div>
-                <Input
-                  disabled={existingRole != null} // Right now existing role can not be updated, only deleted 
-                  className="fill-available"
-                  placeholder={t('common:dialogs.manage_role.displayname_placeholder')}
-                  maxLength={250}
-                  value={displayNameInput}
-                  onChange={(e) => setDisplayNameInput(e.target.value)}
-                  onKeyDown={(e) => handleEnter(e)}
-                />
+            <Input
+              disabled={existingRole != null} // Right now existing role can not be updated, only deleted 
+              className="fill-available"
+              placeholder={t('common:dialogs.manage_role.displayname_placeholder')}
+              maxLength={250}
+              value={displayNameInput}
+              onChange={(e) => setDisplayNameInput(e.target.value)}
+              onKeyDown={(e) => handleEnter(e)}
+            />
           </div>
         </div>
       </Dialog.Content>
