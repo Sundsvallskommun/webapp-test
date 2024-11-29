@@ -24,7 +24,9 @@
       "display_name_input_heading": "Display name",
       "displayname_placeholder": "Enter display name",
       "short_code_input_heading": "Short code",
-      "confirm_delete": "Confirm removal of domain"
+      "confirm_delete": "Confirm removal of domain",
+      "header_metadata_exists": "Domain contains metadata",
+      "metadata_exists": "The domain still contains metadata. All metadata must be removed before deleting the domain."
     },
     "manage_role": {
       "header_prefix_create": "Create new role for domain",

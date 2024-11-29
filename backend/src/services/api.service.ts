@@ -26,7 +26,7 @@ function getSuccessStatusMessage(status: number) {
 class ApiService {
   private apiTokenService = new ApiTokenService();
   private async request<T>(config: AxiosRequestConfig): Promise<ApiResponse<T>> {
-    const token = this.apiTokenService.getToken();
+    const token = await this.apiTokenService.getToken();
 
     const defaultHeaders = {
       'Authorization': `Bearer ${token}`,

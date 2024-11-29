@@ -24,7 +24,9 @@
       "display_name_input_heading": "Visningsnamn",
       "displayname_placeholder": "Ange visningsnamn",
       "short_code_input_heading": "Kort-kod",
-      "confirm_delete": "Bekräfta borttag av domän"
+      "confirm_delete": "Bekräfta borttag av domän",
+      "header_metadata_exists": "Domänen innehåller metadata",
+      "metadata_exists": "Domänen innehåller fortfarande metadata. All metadata måste tas bort för att domänen ska kunna tas bort."
     },
     "manage_role": {
       "header_prefix_create": "Skapa ny roll för domän",

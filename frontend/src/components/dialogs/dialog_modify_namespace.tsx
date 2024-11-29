@@ -5,6 +5,7 @@ import { MunicipalityInterface } from '@interfaces/supportmanagement.municipalit
 import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import {
   isShortCodeAvailable,
+  isMetadataPresent,
   updateNamespace,
   deleteNamespace,
 } from '@services/supportmanagement-service/supportmanagement-namespace-service';
@@ -21,6 +22,7 @@ export const DialogModifyNamespace: React.FC<ModifyNamespaceProps> = ({ open, mu
   const [displayNameInput, setDisplayNameInput] = useState<string>('');
   const [shortCodeAvailable, setShortCodeAvailable] = useState<boolean>(true);
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
+  const [problemOpen, setProblemOpen] = useState<boolean>(false);
   const [savingNamespace, setSavingNamespace] = useState<boolean>(false);
   const snackBar = useSnackbar();
   const { t } = useTranslation();
@@ -57,7 +59,8 @@ export const DialogModifyNamespace: React.FC<ModifyNamespaceProps> = ({ open, mu
   };
 
   const confirmDelete = () => {
-    setConfirmOpen(true);
+	isMetadataPresent(municipality.municipalityId, namespace.namespace)
+	.then((res) => res ? setProblemOpen(true) : setConfirmOpen(true) );
   };
 
   const handleOnAbort = () => {
@@ -132,6 +135,23 @@ export const DialogModifyNamespace: React.FC<ModifyNamespaceProps> = ({ open, mu
             </Button>
             <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnAbort()}>
               {t('common:buttons.abort')}
+            </Button>
+          </Dialog.Buttons>
+        </Dialog>      
+
+        <Dialog
+          label={t('common:dialogs.manage_namespace.header_metadata_exists')}
+          className="dialog"
+          show={problemOpen}
+        >
+          <Dialog.Content>
+            <div className="bottom-margin-50">
+              {t('common:dialogs.manage_namespace.metadata_exists')}
+            </div>
+          </Dialog.Content>
+          <Dialog.Buttons className={'container-right'}>
+            <Button variant={'tertiary'} color={'vattjom'} onClick={() => setProblemOpen(false)}>
+              {t('common:buttons.close')}
             </Button>
           </Dialog.Buttons>
         </Dialog>      

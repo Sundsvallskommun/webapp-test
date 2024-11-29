@@ -3,7 +3,7 @@ import { logger } from '@/utils/logger';
 
 import { OpenAPI } from 'routing-controllers-openapi';
 import { Controller, Get, Body, Post, Put, Delete, Param, HttpCode } from 'routing-controllers';
-import { NamespacesResponse, NamespaceResponse } from '@/responses/supportmanagement.namespace.response';
+import { NamespacesResponse, NamespaceResponse, MetadataResponse } from '@/responses/supportmanagement.namespace.response';
 import { NamespaceCreateRequest, NamespaceUpdateRequest } from '@/requests/supportmanagement.namespace.request';
 import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
 
@@ -23,6 +23,24 @@ export class SupportmanagementNamespaceController {
     });
 
     return res.data;
+  }
+
+  @Get('/supportmanagement/municipality/:municipality/namespaces/:namespace/is-metadata-present')
+  @OpenAPI({ summary: 'Returns boolean if namespace matching the provided municipalityId and namespace has metadata present or not' })
+  async isMetadataPresent(@Param('municipality') municipality: string, @Param('namespace') namespace: string): Promise<boolean> {
+    const url = this.baseUrl + `/${municipality}/${namespace}/metadata`;
+
+    const res = await this.apiService.get<MetadataResponse>({ url }).catch(e => {
+      logger.error('Error when retrieving metadata for namespace:', e);
+      throw e;
+    });
+
+    return (res.data.categories?.length) > 0 ||
+      res.data.contactReasons?.length > 0 ||
+      res.data.externalIdTypes?.length > 0 ||
+      res.data.labels?.length > 0 ||
+      res.data.roles?.length > 0 ||
+      res.data.statuses?.length > 0
   }
 
   @Get('/supportmanagement/municipality/:municipality/namespaces/:namespace')

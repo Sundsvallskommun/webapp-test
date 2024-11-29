@@ -21,3 +21,12 @@ export interface NamespaceUpdateRequestInterface {
   displayName: string;
   shortCode: string;
 }
+
+export interface MetadataInterface {
+  categories: object[];
+  externalIdTypes: object[];
+  labels: object[];
+  statuses: object[];
+  roles: object[];
+  contactReasons: object[];
+}

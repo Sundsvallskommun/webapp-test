@@ -1,5 +1,5 @@
 import ApiResponse from '@/interfaces/api-service.interface';
-import { MunicipalityInterface, NamespaceInterface } from '@/interfaces/supportmanagement.namespace.interface';
+import { MunicipalityInterface, NamespaceInterface, MetadataInterface } from '@/interfaces/supportmanagement.namespace.interface';
 import { Type } from 'class-transformer';
 import { IsString, ValidateNested } from 'class-validator';
 
@@ -47,4 +47,13 @@ export class NamespaceResponse implements ApiResponse<Namespace> {
   data: Namespace;
   @IsString()
   message: string;
+}
+
+export class MetadataResponse implements MetadataInterface {
+  categories: object[];
+  externalIdTypes: object[];
+  labels: object[];
+  statuses: object[];
+  roles: object[];
+  contactReasons: object[];
 }
