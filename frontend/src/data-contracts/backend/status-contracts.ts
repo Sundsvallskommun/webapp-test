@@ -17,3 +17,7 @@ export interface StatusApiResponse {
 export interface StatusCreateRequest {
   name: string;
 }
+
+export interface StatusUpdateRequest {
+  name?: string;
+}

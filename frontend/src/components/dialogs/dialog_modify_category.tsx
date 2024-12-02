@@ -4,7 +4,7 @@ import { useTranslation } from 'next-i18next';
 import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
 import { CategoryInterface, CategoryUpdateRequestInterface } from '@interfaces/supportmanagement.category';
-import { updateCategory } from '@services/supportmanagement-service/supportmanagement-category-service';
+import { updateCategory, deleteCategory } from '@services/supportmanagement-service/supportmanagement-category-service';
 
 interface ModifyCategoryProps {
   open: boolean;
@@ -25,6 +25,7 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({
     /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
   const snackBar = useSnackbar();
   const [categoryProspect, setCategoryProspect] = useState<CategoryUpdateRequestInterface>();
+  const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
   const [saving, setSaving] = useState<boolean>(false);
   const { t } = useTranslation();
   const escFunction = useCallback((event) => {
@@ -95,12 +96,31 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({
   const handleUpdateCategory = () => {
     setSaving(true);
     updateCategory(municipality.municipalityId, namespace.namespace, categoryProspect)
-      .then(() => onClose())
-      .catch((e) => {
-        handleError('Error when updating category:', e, t('common:errors.errorUpdatingCategory'));
-      })
-      .finally(() => setSaving(false));
+    .then(() => onClose())
+    .catch((e) => {
+      handleError('Error when updating category:', e, t('common:errors.errorUpdatingCategory'));
+    })
+    .finally(() => setSaving(false));
   };
+
+  const confirmDelete = () => {
+    setConfirmOpen(true);
+  };
+
+  const handleOnAbort = () => {
+    setConfirmOpen(false);
+  };
+
+  const handleDeleteCategory = () => {
+    setConfirmOpen(false);
+
+    deleteCategory(municipality.municipalityId, namespace.namespace, category.name)
+    .then(() => setSaving(false))
+    .then(() => onClose())
+    .catch((e) => {
+      handleError('Error when deleting category:', e, t('common:errors.errorDeletingCategory'));
+    });
+  }
 
   const validEmail = (email: string) => {
     return !email || email.length === 0 || RegExp(emailRegex).exec(email);
@@ -164,6 +184,26 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({
       className="md:min-w-[120rem] dialog"
     >
       <Dialog.Content>
+        <Dialog
+          label={t('common:dialogs.confirm_header')}
+          className="dialog"
+          show={confirmOpen}
+        >
+          <Dialog.Content>
+            <div className="bottom-margin-50">
+              {t('common:dialogs.manage_category.confirm_delete')}
+            </div>
+          </Dialog.Content>
+          <Dialog.Buttons className={'container-right'}>
+            <Button color={'vattjom'} onClick={() => handleDeleteCategory()}>
+              {t('common:buttons.confirm')}
+            </Button>
+            <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnAbort()}>
+              {t('common:buttons.abort')}
+            </Button>
+          </Dialog.Buttons>
+        </Dialog>      
+
         <div className="d-flex">
           <div>
             <p>{t('common:dialogs.manage_category.category_name_input_heading')}:</p>
@@ -279,6 +319,12 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({
           onClick={() => handleUpdateCategory()}
         >
           {t('common:buttons.update')}
+        </Button>
+        <Button
+          color={'juniskar'}
+          onClick={() => confirmDelete()}
+        >
+          {t('common:buttons.delete')}
         </Button>
 
         <Button variant={'tertiary'} color={'vattjom'} onClick={() => onClose()}>

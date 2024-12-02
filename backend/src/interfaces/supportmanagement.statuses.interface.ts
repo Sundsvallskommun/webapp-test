@@ -7,3 +7,7 @@ export interface StatusInterface {
 export interface StatusCreateRequestInterface {
   name: string;
 }
+
+export interface StatusUpdateRequestInterface {
+  name?: string;
+}

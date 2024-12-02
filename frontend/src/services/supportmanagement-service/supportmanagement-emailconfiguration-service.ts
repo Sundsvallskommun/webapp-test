@@ -22,6 +22,8 @@ const mapToEmailconfigurationInterface: (data: EmailconfigurationResponse) => Em
   enabled: data.enabled,
   errandClosedEmailSender: data.errandClosedEmailSender,
   errandClosedEmailTemplate: data.errandClosedEmailTemplate,
+  errandNewEmailSender: data.errandNewEmailSender,
+  errandNewEmailTemplate: data.errandNewEmailTemplate,
   daysOfInactivityBeforeReject: data.daysOfInactivityBeforeReject,
   statusForNew: data.statusForNew,
   triggerStatusChangeOn: data.triggerStatusChangeOn,
@@ -52,6 +54,17 @@ export const updateEmailconfiguration: (municipalityId: string, namespace: strin
     .put<EmailconfigurationUpdateRequest>(url, request)
     .catch((e) => {
       console.error('Error occurred when updating email comfiguration', e);
+      throw e;
+    });
+};
+
+export const deleteEmailconfiguration: (municipalityId: string, namespace: string) => Promise<void> = async (municipalityId, namespace) => {
+  const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/emailconfiguration`;
+
+  await apiService
+    .delete<EmailconfigurationUpdateRequest>(url)
+    .catch((e) => {
+      console.error('Error occurred when deleting email comfiguration', e);
       throw e;
     });
 };

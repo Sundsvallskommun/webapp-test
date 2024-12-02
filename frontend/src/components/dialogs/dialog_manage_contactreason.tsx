@@ -4,38 +4,44 @@ import { useTranslation } from 'next-i18next';
 import {
   isContactreasonAvailable,
   createContactreason,
+  updateContactreason,
+  deleteContactreason
 } from '@services/supportmanagement-service/supportmanagement-contactreason-service';
 import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
+import { ContactreasonInterface } from '@interfaces/supportmanagement.contactreason';
 
 interface ManageContactreasonProps {
   open: boolean;
   municipality: MunicipalityInterface;
   namespace: NamespaceInterface;
-  onClose: (reloadPage: boolean) => void;
+  existingContactreason: ContactreasonInterface;
+  onClose: () => void;
 }
 
 export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({
   open,
   municipality,
   namespace,
+  existingContactreason,
   onClose,
 }) => {
   const [contactreasonInput, setContactreasonInput] = useState<string>('');
   const [contactreasonAvailable, setContactreasonAvailable] = useState<boolean>(false);
   const [verified, setVerified] = useState<boolean>(false);
   const [saving, setSaving] = useState<boolean>(false);
+  const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
   const snackBar = useSnackbar();
   const { t } = useTranslation();
   const escFunction = useCallback((event) => {
     if (event.key === 'Escape') {
-      handleOnClose(false);
+      handleOnClose();
     }
   }, []);
 
-  const handleOnClose = (reloadPage: boolean) => {
+  const handleOnClose = () => {
     setContactreasonInput('');
-    onClose(reloadPage);
+    onClose();
   };
 
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -60,7 +66,7 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({
           })
             .then(() => {
               setSaving(false);
-              handleOnClose(true);
+              handleOnClose();
             })
             .catch((e) => {
               handleError('Error when creating contactreason:', e, t('common:errors.errorCreatingContactreason'));
@@ -74,6 +80,20 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({
           t('common:errors.errorVerifyingContactreason')
         );
       });
+  };
+
+  const handleUpdateContactreason = () => {
+    setSaving(true);
+    updateContactreason(municipality.municipalityId, namespace.namespace, existingContactreason.id, {
+      reason: contactreasonInput.trim(),
+    })
+    .then(() => {
+      setSaving(false);
+      handleOnClose();
+    })
+    .catch((e) => {
+      handleError('Error when updating contactreason:', e, t('common:errors.errorUpdatingContactreason'));
+    });
   };
 
   const handleVerifyContactreason = () => {
@@ -93,6 +113,27 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({
         });
     }
   };
+
+  const confirmDelete = () => {
+    setConfirmOpen(true);
+  };
+
+  const handleOnAbort = () => {
+    setConfirmOpen(false);
+  };
+    
+  const handleDeleteContactreason = () => {
+    setConfirmOpen(false);
+
+    deleteContactreason(municipality.municipalityId, namespace.namespace, existingContactreason.id)
+    .then(() => {
+      setSaving(false);
+      handleOnClose();
+    })
+    .catch((e) => {
+      handleError('Error when deleting contactreason:', e, t('common:errors.errorDeletingContactreason'));
+    });
+  }
 
   const handleError = (errorDescription: string, e: Error, message: string) => {
     console.error(errorDescription, e);
@@ -119,6 +160,10 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({
   }, [escFunction]);
 
   useEffect(() => {
+    if (existingContactreason != null && existingContactreason != undefined) {
+      setContactreasonInput(existingContactreason.reason);
+    }
+
     setContactreasonAvailable(true);
     setVerified(false);
     setSaving(false);
@@ -127,10 +172,31 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({
   return (
     <Dialog
       show={open}
-      label={`${t('common:dialogs.manage_contactreason.header_prefix')} ${namespace?.displayName} ${t('common:in')} ${municipality?.name}`}
+      label={existingContactreason ? `${t('common:dialogs.manage_contactreason.header_prefix_modify')} ${namespace?.displayName} ${t('common:in')} ${municipality?.name}` : 
+         `${t('common:dialogs.manage_contactreason.header_prefix_create')} ${namespace?.displayName} ${t('common:in')} ${municipality?.name}`}
       className="md:min-w-[60rem] dialog"
     >
       <Dialog.Content>
+        <Dialog
+          label={t('common:dialogs.confirm_header')}
+          className="dialog"
+          show={confirmOpen}
+        >
+          <Dialog.Content>
+            <div className="bottom-margin-50">
+              {t('common:dialogs.manage_contactreason.confirm_delete')}
+            </div>
+          </Dialog.Content>
+          <Dialog.Buttons className={'container-right'}>
+            <Button color={'vattjom'} onClick={() => handleDeleteContactreason()}>
+              {t('common:buttons.confirm')}
+            </Button>
+            <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnAbort()}>
+              {t('common:buttons.abort')}
+            </Button>
+          </Dialog.Buttons>
+        </Dialog>      
+
         <div className="d-flex bottom-margin-50">
           <p>{t('common:dialogs.manage_contactreason.contactreason_input_heading')}:</p>
           <div className="fill-available">
@@ -151,15 +217,22 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({
       </Dialog.Content>
       <Dialog.Buttons className={'container-right'}>
         <Button
-          disabled={contactreasonInput.length === 0 || !contactreasonAvailable}
+          disabled={contactreasonInput.length === 0 || !contactreasonAvailable ||(existingContactreason && existingContactreason.reason == contactreasonInput)}
           loading={saving}
           color={'vattjom'}
-          onClick={() => handleCreateContactreason()}
+          onClick={() => existingContactreason ? handleUpdateContactreason() : handleCreateContactreason()}
         >
-          {t('common:buttons.create')}
+          {existingContactreason ? t('common:buttons.update') : t('common:buttons.create')}
         </Button>
-
-        <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnClose(false)}>
+        {existingContactreason &&
+          <Button
+            color={'juniskar'}
+            onClick={() => confirmDelete()}
+          >
+            {t('common:buttons.delete')}
+          </Button>
+        }
+        <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnClose()}>
           {t('common:buttons.close')}
         </Button>
       </Dialog.Buttons>

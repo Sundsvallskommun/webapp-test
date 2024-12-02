@@ -11,6 +11,10 @@ export class EmailConfiguration implements EmailConfigurationInterface {
   @IsString()
   errandClosedEmailTemplate?: string;
   @IsString()
+  errandNewEmailSender?: string;
+  @IsString()
+  errandNewEmailTemplate?: string;
+  @IsString()
   daysOfInactivityBeforeReject?: number;
   @IsString()
   statusForNew: string;

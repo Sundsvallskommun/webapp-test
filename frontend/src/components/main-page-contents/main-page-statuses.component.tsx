@@ -1,4 +1,4 @@
-import { Button, Card, useSnackbar, Table, SortMode, Input, Pagination } from '@sk-web-gui/react';
+import { Button, Card, useSnackbar, Table, SortMode, Icon, Input, Pagination } from '@sk-web-gui/react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import { DialogManageStatus } from '@components/dialogs/dialog_manage_status';
@@ -7,6 +7,7 @@ import { StatusInterface } from '@interfaces/supportmanagement.status';
 import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
 import { toReadableTimestamp } from '@utils/dateformat';
+import { v4 } from 'uuid';
 
 interface MainPageStatusesProps {
   municipality: MunicipalityInterface;
@@ -21,7 +22,8 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
   const [sortColumn, setSortColumn] = useState<string>('name');
   const [sortOrder, setSortOrder] = useState(SortMode.ASC);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isCreateStatusDialogOpen, setIsCreateStatusDialogOpen] = useState<boolean>(false);
+  const [isManageStatusDialogOpen, setIsManageStatusDialogOpen] = useState<boolean>(false);
+  const [selectedStatus, setSelectedStatus] = useState<StatusInterface>(null);
   const snackBar = useSnackbar();
 
   const headers = [
@@ -66,15 +68,24 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
   };
 
   const openCreateStatusDialog = () => {
-    setIsCreateStatusDialogOpen(true);
+    setSelectedStatus(null);
+    setIsManageStatusDialogOpen(true);
   };
 
-  const closeCreateStatusDialog = (reloadTable: boolean) => {
-    if (reloadTable) {
+  const openModifyStatusDialog = (status: StatusInterface) => {
+    setSelectedStatus(status);
+    setIsManageStatusDialogOpen(true);
+  };
+
+  const closeManageStatusDialog = () => {
+    setIsManageStatusDialogOpen(false);
+  };
+
+  useEffect(() => {
+    if (!isManageStatusDialogOpen) {
       loadStatuses();
     }
-    setIsCreateStatusDialogOpen(false);
-  };
+  } ,[isManageStatusDialogOpen]);
 
   const getPaginationText = () => {
     const start = (currentPage - 1) * pageSize + 1;
@@ -105,10 +116,12 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
   return (
     <>
       <DialogManageStatus
-        open={isCreateStatusDialogOpen}
+        key={v4()}
+        open={isManageStatusDialogOpen}
         municipality={municipality}
         namespace={namespace}
-        onClose={closeCreateStatusDialog}/>  
+        existingStatus={selectedStatus}
+        onClose={closeManageStatusDialog}/>  
       
       {statuses && statuses.length > 0 ? 
         <Table background={true}>
@@ -126,7 +139,16 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
           
           <Table.Body>
             {displayedStatuses.map(m => <Table.Row key={m.name}>
-              <Table.Column>{m.index}</Table.Column>
+              <Table.Column>
+                <Button
+                  variant={'link'}
+                  color={'vattjom'}
+                  onClick={() => openModifyStatusDialog(m)}
+                >
+                  <Icon name={'wrench'} size={20} />
+                </Button>
+                {m.index}
+              </Table.Column>
               <Table.Column>{m.name}</Table.Column>
               <Table.Column>{m.created && toReadableTimestamp(m.created)}</Table.Column>
               <Table.Column>{m.modified && toReadableTimestamp(m.modified)}</Table.Column>

@@ -1,8 +1,8 @@
 import ApiService from '@/services/api.service';
 import { logger } from '@/utils/logger';
 import { OpenAPI } from 'routing-controllers-openapi';
-import { Controller, Get, Body, Post, Param, HttpCode } from 'routing-controllers';
-import { RoleCreateRequest } from '@/requests/supportmanagement.roles.request';
+import { Controller, Get, Body, Post, Patch, Delete, Param, HttpCode } from 'routing-controllers';
+import { RoleCreateRequest, RoleUpdateRequest } from '@/requests/supportmanagement.roles.request';
 import { RolesResponse, RoleResponse } from '@/responses/supportmanagement.roles.response';
 import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
 
@@ -53,6 +53,43 @@ export class SupportmanagementRolesController {
 
     await this.apiService.post<undefined>({ url: url, data: request }).catch(e => {
       logger.error('Error when creating role:', e);
+      throw e;
+    });
+
+    return true;
+  }
+
+  @Patch('/supportmanagement/municipality/:municipality/namespace/:namespace/roles/:rolename')
+  @OpenAPI({ summary: 'Updates a role for the provided municipality and namespace' })
+  @HttpCode(201)
+  async updateRole(
+    @Param('municipality') municipality: string,
+    @Param('namespace') namespace: string,
+    @Param('rolename') rolename: string,
+    @Body() request: RoleUpdateRequest,
+  ): Promise<boolean> {
+    const url = this.baseUrl + `/${municipality}/${namespace}/metadata/roles/${rolename}`;
+
+    await this.apiService.patch<undefined>({ url: url, data: request }).catch(e => {
+      logger.error('Error when updating role:', e);
+      throw e;
+    });
+
+    return true;
+  }
+
+  @Delete('/supportmanagement/municipality/:municipality/namespace/:namespace/roles/:rolename')
+  @OpenAPI({ summary: 'Deletes a role from the provided municipality and namespace' })
+  @HttpCode(204)
+  async deleteRole(
+    @Param('municipality') municipality: string,
+    @Param('namespace') namespace: string,
+    @Param('rolename') rolename: string,
+  ): Promise<boolean> {
+    const url = this.baseUrl + `/${municipality}/${namespace}/metadata/roles/${rolename}`;
+
+    await this.apiService.delete({ url: url }).catch(e => {
+      logger.error('Error when deleting role:', e);
       throw e;
     });
 

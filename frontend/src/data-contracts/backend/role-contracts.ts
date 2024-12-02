@@ -1,5 +1,6 @@
 export interface Role {
   name: string;
+  displayName?: string;
   created: string;
   modified?: string;
 }
@@ -16,4 +17,9 @@ export interface RoleApiResponse {
 
 export interface RoleCreateRequest {
   name: string;
+  displayName?: string;
+}
+
+export interface RoleUpdateRequest {
+  displayName?: string;
 }

@@ -1,9 +1,11 @@
 import ApiResponse from '@/interfaces/api-service.interface';
 import { ContactreasonInterface } from '@/interfaces/supportmanagement.contactreasons.interface';
 import { Type } from 'class-transformer';
-import { IsString, ValidateNested } from 'class-validator';
+import { IsString, IsNumber, ValidateNested } from 'class-validator';
 
 export class Contactreason implements ContactreasonInterface {
+  @IsNumber()
+  id: number;
   @IsString()
   reason: string;
   @IsString()
@@ -16,14 +18,6 @@ export class ContactreasonsResponse implements ApiResponse<Contactreason[]> {
   @ValidateNested()
   @Type(() => Contactreason)
   data: Contactreason[];
-  @IsString()
-  message: string;
-}
-
-export class ContactreasonResponse implements ApiResponse<Contactreason> {
-  @ValidateNested()
-  @Type(() => Contactreason)
-  data: Contactreason;
   @IsString()
   message: string;
 }

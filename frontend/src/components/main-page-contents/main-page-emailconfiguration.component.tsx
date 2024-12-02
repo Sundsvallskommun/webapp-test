@@ -1,4 +1,4 @@
-import { Button, useSnackbar, Card, Header, Text } from '@sk-web-gui/react';
+import { Button, useSnackbar, Card, Divider, Text } from '@sk-web-gui/react';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
@@ -48,6 +48,12 @@ export const MainPageEmailConfigurationContent: React.FC<MainPageEmailsettingsPr
   };
 
   useEffect(() => {
+    if (!isHandleEmailconfigurationDialogOpen) {
+      loadEmailconfiguration();
+    }
+  } ,[isHandleEmailconfigurationDialogOpen]);
+
+  useEffect(() => {
     loadEmailconfiguration();
   } ,[]);
   
@@ -70,62 +76,75 @@ export const MainPageEmailConfigurationContent: React.FC<MainPageEmailsettingsPr
             </span>
           </Card.Header>
           <Card.Body>
-            <div className="section" >
-              <div className="grid-2-col no-borders">
-                <div>
-                  {t('common:subpages.emailconfiguration.configuration_enabled')}
-                </div>
-                <div>
-                  <span className="capitalize-first">{emailconfiguration.enabled && t('common:yes')}{!emailconfiguration.enabled && t('common:no')}</span>
-                </div>
+            <Divider.Section size="sm">{t('common:subpages.emailconfiguration.section_basic_settings')}</Divider.Section>
+            <div className="grid-2-col no-borders bottom-margin-50">
+              <div>
+                {t('common:subpages.emailconfiguration.configuration_enabled')}
+              </div>
+              <div>
+                <span className="capitalize-first">{emailconfiguration.enabled && t('common:yes')}{!emailconfiguration.enabled && t('common:no')}</span>
+              </div>
 
-                <div>
-                  {t('common:subpages.emailconfiguration.add_sender_as_stakeholder')}
-                </div>
-                <div>
-                  <span className="capitalize-first">{emailconfiguration.addSenderAsStakeholder && t('common:yes')}{!emailconfiguration.addSenderAsStakeholder && t('common:no')}</span>
-                </div>
+              <div>
+                {t('common:subpages.emailconfiguration.add_sender_as_stakeholder')}
+              </div>
+              <div>
+                <span className="capitalize-first">{emailconfiguration.addSenderAsStakeholder && t('common:yes')}{!emailconfiguration.addSenderAsStakeholder && t('common:no')}</span>
+              </div>
 
-                <div>
-                  {t('common:subpages.emailconfiguration.stakeholder_role')}
-                </div>
-                <div>
-                  {emailconfiguration.stakeholderRole}
-                </div>
+              <div>
+                {t('common:subpages.emailconfiguration.stakeholder_role')}
+              </div>
+              <div>
+                {emailconfiguration.stakeholderRole}
               </div>
             </div>
             
-            <div className="section" >
-              <div className="grid-2-col no-borders">
-                <div>
-                  {t('common:subpages.emailconfiguration.days_of_inactivity_before_reject')}
-                </div>
-                <div>
-                  {emailconfiguration.daysOfInactivityBeforeReject}
-                </div>
-              
-                <div>
-                  {t('common:subpages.emailconfiguration.errand_closed_email_sender')}
-                </div>
-                <div>
-                  {emailconfiguration.errandClosedEmailSender}
-                </div>
-              
-                <div>
-                  {t('common:subpages.emailconfiguration.errand_closed_email_template')}
-                </div>
-                <div>
-                  <Text 
-                    className={'sk-max-width-40'}
-                  >
-                    {emailconfiguration.errandClosedEmailTemplate}
-                  </Text>
-                </div>
+            <Divider.Section size="sm">{t('common:subpages.emailconfiguration.section_email_settings')}</Divider.Section>
+            <div className="grid-2-col no-borders bottom-margin-50">
+              <div>
+                {t('common:subpages.emailconfiguration.errand_new_email_sender')}
               </div>
+              <div>
+                {emailconfiguration.errandNewEmailSender}
+              </div>
+              
+              <div className="bottom-margin-100">
+                {t('common:subpages.emailconfiguration.errand_new_email_template')}
+              </div>
+              <div>
+                <Text className={'sk-max-width-40'}>
+                  {emailconfiguration.errandNewEmailTemplate}
+                </Text>
+              </div>
+
+              <div>
+                {t('common:subpages.emailconfiguration.days_of_inactivity_before_reject')}
+              </div>
+              <div>
+                {emailconfiguration.daysOfInactivityBeforeReject}
+              </div>
+              
+              <div>
+                {t('common:subpages.emailconfiguration.errand_closed_email_sender')}
+              </div>
+              <div>
+                {emailconfiguration.errandClosedEmailSender}
+              </div>
+              
+              <div>
+                {t('common:subpages.emailconfiguration.errand_closed_email_template')}
+              </div>
+              <div>
+                <Text className={'sk-max-width-40'}>
+                  {emailconfiguration.errandClosedEmailTemplate}
+                </Text>
+              </div>
+
             </div>
 
-            <div className="section" >
-              <div className="grid-2-col no-borders">
+            <Divider.Section size="sm">{t('common:subpages.emailconfiguration.section_errand_settings')}</Divider.Section>
+            <div className="grid-2-col no-borders bottom-margin-50">
                 <div>
                   {t('common:subpages.emailconfiguration.errand_channel')}
                 </div>
@@ -154,14 +173,14 @@ export const MainPageEmailConfigurationContent: React.FC<MainPageEmailsettingsPr
                   {emailconfiguration.statusChangeTo}
                 </div>
 
-                <div>
+                <div className="bottom-margin-100">
                   {t('common:subpages.emailconfiguration.inactive_status')}
                 </div>
                 <div>
                   {emailconfiguration.inactiveStatus}
                 </div>
               </div>
-            </div>
+
             <span className="capitalize-first created-span">
               {t('common:subpages.emailconfiguration.created')} {toReadableTimestamp(emailconfiguration.created)}
               {emailconfiguration.modified &&

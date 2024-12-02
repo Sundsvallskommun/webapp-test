@@ -1,14 +1,18 @@
 import ApiResponse from '@/interfaces/api-service.interface';
 import { RoleInterface } from '@/interfaces/supportmanagement.roles.interface';
 import { Type } from 'class-transformer';
-import { IsString, ValidateNested } from 'class-validator';
+import { IsString, IsOptional, ValidateNested } from 'class-validator';
 
 export class Role implements RoleInterface {
   @IsString()
   name: string;
   @IsString()
+  @IsOptional()
+  displayName?: string;
+  @IsString()
   created: string;
   @IsString()
+  @IsOptional()
   modified?: string;
 }
 

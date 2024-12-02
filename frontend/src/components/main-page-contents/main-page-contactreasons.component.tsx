@@ -1,4 +1,4 @@
-import { Button, Card, useSnackbar, Table, SortMode, Input, Pagination } from '@sk-web-gui/react';
+import { Button, Card, useSnackbar, Table, SortMode, Icon, Input, Pagination } from '@sk-web-gui/react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import { DialogManageContactreason } from '@components/dialogs/dialog_manage_contactreason';
@@ -7,6 +7,7 @@ import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
 import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
 import { toReadableTimestamp } from '@utils/dateformat';
 import { ContactreasonInterface } from '@interfaces/supportmanagement.contactreason';
+import { v4 } from 'uuid';
 
 interface MainPageRolesProps {
   municipality: MunicipalityInterface;
@@ -21,7 +22,8 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
   const [sortColumn, setSortColumn] = useState<string>('name');
   const [sortOrder, setSortOrder] = useState(SortMode.ASC);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isCreateContactreasonDialogOpen, setIsCreateContactreasonDialogOpen] = useState<boolean>(false);
+  const [isManageContactreasonDialogOpen, setIsManageContactreasonDialogOpen] = useState<boolean>(false);
+  const [selectedContactreason, setSelectedContactreason] = useState<ContactreasonInterface>(null);
   const snackBar = useSnackbar();
 
   const headers = [
@@ -64,17 +66,26 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
       setPageSize(newPageSize);
 	}
   };
-  
+
   const openCreateContactreasonDialog = () => {
-    setIsCreateContactreasonDialogOpen(true);
+    setSelectedContactreason(null);
+    setIsManageContactreasonDialogOpen(true);
   };
 
-  const closeCreateContactreasonDialog = (reloadTable: boolean) => {
-    if (reloadTable) {
+  const openModifyContactreasonDialog = (contactreason: ContactreasonInterface) => {
+    setSelectedContactreason(contactreason);
+    setIsManageContactreasonDialogOpen(true);
+  };
+
+  const closeManageContactreasonDialog = () => {
+    setIsManageContactreasonDialogOpen(false);
+  };
+
+  useEffect(() => {
+    if (!isManageContactreasonDialogOpen) {
       loadContactreasons();
     }
-    setIsCreateContactreasonDialogOpen(false);
-  };
+  } ,[isManageContactreasonDialogOpen]);
 
   const getPaginationText = () => {
     const start = (currentPage - 1) * pageSize + 1;
@@ -106,10 +117,12 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
   return (
     <>
       <DialogManageContactreason
-        open={isCreateContactreasonDialogOpen}
+        key={v4()}
+        open={isManageContactreasonDialogOpen}
         municipality={municipality}
         namespace={namespace}
-        onClose={closeCreateContactreasonDialog}/>  
+        existingContactreason={selectedContactreason}
+        onClose={closeManageContactreasonDialog}/>  
 
       
       {contactreasons && contactreasons.length > 0 ? 
@@ -128,7 +141,16 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
           
           <Table.Body>
             {displayedContactreasons.map(m => <Table.Row key={m.reason}>
-              <Table.Column>{m.index}</Table.Column>
+              <Table.Column>
+                <Button
+                  variant={'link'}
+                  color={'vattjom'}
+                  onClick={() => openModifyContactreasonDialog(m)}
+                >
+                  <Icon name={'wrench'} size={20} />
+                </Button>
+                {m.index}
+                </Table.Column>
               <Table.Column>{m.reason}</Table.Column>
               <Table.Column>{m.created && toReadableTimestamp(m.created)}</Table.Column>
               <Table.Column>{m.modified && toReadableTimestamp(m.modified) !== toReadableTimestamp(m.created) && toReadableTimestamp(m.modified)}</Table.Column>

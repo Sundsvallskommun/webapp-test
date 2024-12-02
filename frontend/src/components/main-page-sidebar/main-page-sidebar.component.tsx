@@ -1,11 +1,12 @@
-import { Button, Divider, Link, Logo, Header, Combobox , Avatar, Image, MenuVertical, useSnackbar } from '@sk-web-gui/react';
+import { Button, Divider, Link, Logo, Header, Combobox , Avatar, Icon, Image, MenuVertical, useSnackbar, Tooltip } from '@sk-web-gui/react';
 import NextLink from 'next/link';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import { useUserStore } from '@services/user-service/user-service';
 import { shallow } from 'zustand/shallow';
 import { useRouter } from 'next/router';
-import { DialogManageNamespace } from '@components/dialogs/dialog_manage_namespace';
+import { DialogCreateNamespace } from '@components/dialogs/dialog_create_namespace';
+import { DialogModifyNamespace } from '@components/dialogs/dialog_modify_namespace';
 import { MainPageLabelsContent } from '@components/main-page-contents/main-page-labels.component';
 import { MainPageCategoriesContent } from '@components/main-page-contents/main-page-categories.component';
 import { MainPageContactreasonsContent } from '@components/main-page-contents/main-page-contactreasons.component';
@@ -14,6 +15,7 @@ import { MainPageStatusesContent } from '@components/main-page-contents/main-pag
 import { MainPageEmailConfigurationContent } from '@components/main-page-contents/main-page-emailconfiguration.component';
 import { getMunicipalities } from '@services/supportmanagement-service/supportmanagement-municipality-service';
 import { getNamespaces } from '@services/supportmanagement-service/supportmanagement-namespace-service';
+import { v4 } from 'uuid';
 
 export const MainPageSidebar: React.FC = () => {
   const user = useUserStore((s) => s.user, shallow);
@@ -25,15 +27,17 @@ export const MainPageSidebar: React.FC = () => {
   const [selectedMunicipality, setSelectedMunicipality] = useState(null);
   const [selectedNamespace, setSelectedNamespace] = useState(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState<boolean>(false);
+  const [isModifyDialogOpen, setIsModifyDialogOpen] = useState<boolean>(false);
   const { pathname, asPath, query } = router;  
   const [selectedSubMenu, setSelectedSubMenu] = useState(null);
+  const [hover, setHover] = useState<boolean[]>([false]);
   const menuItems = [
-    {id: 2, displayName: t('common:submenu.labels')},
     {id: 1, displayName: t('common:submenu.categories')},
-    {id: 6, displayName: t('common:submenu.emailconfiguration')},
+    {id: 2, displayName: t('common:submenu.labels')},
     {id: 3, displayName: t('common:submenu.contactreasons')},
     {id: 4, displayName: t('common:submenu.roles')},
     {id: 5, displayName: t('common:submenu.errandstatuses')},
+    {id: 6, displayName: t('common:submenu.emailconfiguration')},
   ];
 
   const handleSelectedMunicipalityId: React.ComponentProps<typeof Combobox.Input>['onChange'] = e => {
@@ -52,12 +56,21 @@ export const MainPageSidebar: React.FC = () => {
     setIsCreateDialogOpen(true);
   };
 
+  const openModifyDialogHandler = () => {
+    setIsModifyDialogOpen(true);
+  };
+
   const closeCreateDialogHandler = (confirm: boolean, reloadDropdown: boolean) => {
     if (reloadDropdown) {
       reloadNamespaceDropdown();
     }
     setIsCreateDialogOpen(false);
   };
+  
+  const closeModifyDialogHandler = () => {
+	setIsModifyDialogOpen(false);
+	reloadNamespaceDropdown();
+  }
 
   const handleLanguageChange = (langValue: string) => {
     router.push({ pathname, query }, asPath, { locale: langValue });
@@ -127,6 +140,16 @@ export const MainPageSidebar: React.FC = () => {
     });
   };
 
+  const handleHover = (index: number) => {
+    const newHover = [...hover];
+    newHover[index] = true;
+    setHover(newHover);
+  };
+  
+  const resetHover = () => {
+    setHover([false]);
+  };
+  
   useEffect(() => {
     getMunicipalities()
       .then((res) => setMunicipalities(res))
@@ -145,10 +168,18 @@ export const MainPageSidebar: React.FC = () => {
 
   return (
   <>
-    <DialogManageNamespace
+    <DialogCreateNamespace
       open={isCreateDialogOpen}
       municipality={selectedMunicipality}
       onClose={closeCreateDialogHandler}/>  
+
+    <DialogModifyNamespace
+      key={v4()}
+      open={isModifyDialogOpen}
+      municipality={selectedMunicipality}
+      namespace={selectedNamespace}
+      onClose={closeModifyDialogHandler}/>  
+
     <aside
       data-cy="overview-aside"
       className="flex-none z-10 bg-vattjom-background-200 h-full min-h-screen max-w-full w-full sm:w-[32rem] sm:min-w-[32rem] rounded"
@@ -170,20 +201,37 @@ export const MainPageSidebar: React.FC = () => {
         </div>
         <div className="py-24 h-fit flex gap-12 items-center justify-between">
           <div className="flex gap-12 justify-between items-center">
-            <Avatar
-              data-cy="avatar-aside"
-              className="flex-none upper-case"
-              size="md"
-              initials={`${user.givenName.charAt(0)}${user.surname.charAt(0)}`}
-              color="vattjom"
-            />
-            <span className="leading-tight h-fit font-bold mb-0" data-cy="userinfo">
-              {user.givenName} {user.surname}
-            </span>
+            {selectedNamespace && 
+            <>
+              <Avatar
+                onMouseEnter={(e) => handleHover(0)}
+                onMouseLeave={(e) => resetHover()}
+                data-cy="avatar-aside"
+                className="flex-none upper-case"
+                size="md"
+                initials={`${selectedNamespace.shortCode}`}
+                color="vattjom"
+              />
+              <span className="leading-tight h-fit font-bold mb-0" data-cy="domaininfo">
+                {selectedNamespace.displayName}
+              </span>
+                <Button
+                  variant={'link'}
+                  color={'vattjom'}
+                  onClick={() => openModifyDialogHandler()}
+                >
+                 <Icon name={'wrench'} size={20} color="vattjom"/>
+              </Button>
+              <Tooltip className={`${hover[0] ? 'namespace' : 'hidden'}`}>
+                {selectedNamespace.namespace}
+              </Tooltip>
+            </>
+            }
           </div>
         </div>
-        <Divider />
-
+        {selectedNamespace && 
+          <Divider />
+        }
         <div className="flex flex-col gap-4">
           {selectedMunicipality && selectedNamespace && 
           <MenuVertical.Provider current={selectedSubMenu} setCurrent={handleSelectedSubMenu}>
@@ -231,6 +279,7 @@ export const MainPageSidebar: React.FC = () => {
 
                 <Combobox className="left-padded-10">
                   <Combobox.Input
+                    key={v4()}
                     disabled={selectedMunicipality === null}
                     placeholder={t('common:mainmenu.select-namespace')}
                     searchPlaceholder={t('common:mainmenu.search-placeholder')}

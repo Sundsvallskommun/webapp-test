@@ -2,6 +2,8 @@ export interface EmailconfigurationInterface {
   enabled: boolean;
   errandClosedEmailSender?: string;
   errandClosedEmailTemplate?: string;
+  errandNewEmailSender?: string;
+  errandNewEmailTemplate?: string;
   daysOfInactivityBeforeReject?: number;
   statusForNew: string;
   triggerStatusChangeOn?: string;
@@ -18,6 +20,8 @@ export interface EmailconfigurationCreateRequestInterface {
   enabled: boolean;
   errandClosedEmailSender?: string;
   errandClosedEmailTemplate?: string;
+  errandNewEmailSender?: string;
+  errandNewEmailTemplate?: string;
   daysOfInactivityBeforeReject?: number;
   statusForNew: string;
   triggerStatusChangeOn?: string;
@@ -32,6 +36,8 @@ export interface EmailconfigurationUpdateRequestInterface {
   enabled: boolean;
   errandClosedEmailSender?: string;
   errandClosedEmailTemplate?: string;
+  errandNewEmailSender?: string;
+  errandNewEmailTemplate?: string;
   daysOfInactivityBeforeReject?: number;
   statusForNew: string;
   triggerStatusChangeOn?: string;

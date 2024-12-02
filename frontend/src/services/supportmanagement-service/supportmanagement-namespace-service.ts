@@ -81,3 +81,26 @@ export const updateNamespace: (municipalityId: string, namespace: string, reques
       throw e;
     });
 };
+
+export const isMetadataPresent: (municipalityId: string, namespace: string) => Promise<boolean> = async (municipalityId, namespace) => {
+  const url = `supportmanagement/municipality/${municipalityId}/namespaces/${namespace}/is-metadata-present`;
+
+  return apiService
+    .get(url)
+    .then((res) => !!res.data)
+    .catch((e) => {
+      console.error('Error occurred when checking if metadata is present in namespace', e);
+      throw e;
+    });
+};
+
+export const deleteNamespace: (municipalityId: string, namespace: string) => Promise<void> = async (municipalityId, namespace) => {
+  const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}`;
+
+  await apiService
+    .delete(url)
+    .catch((e) => {
+      console.error('Error occurred when deleting namespace', e);
+      throw e;
+    });
+};

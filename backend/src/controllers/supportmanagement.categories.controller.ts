@@ -2,7 +2,7 @@ import ApiService from '@/services/api.service';
 import { logger } from '@/utils/logger';
 
 import { OpenAPI } from 'routing-controllers-openapi';
-import { Controller, Get, Body, Post, Patch, Param, HttpCode } from 'routing-controllers';
+import { Controller, Get, Body, Post, Patch, Delete, Param, HttpCode } from 'routing-controllers';
 import { CategoryCreateRequest, CategoryUpdateRequest } from '@/requests/supportmanagement.categories.request';
 import { CategoriesResponse, CategoryResponse } from '@/responses/supportmanagement.categories.response';
 import { BASE_URL_SUPPORTMANAGEMENT } from '@/config/service-endpoints';
@@ -73,6 +73,24 @@ export class SupportmanagementCategoriesController {
 
     await this.apiService.patch<undefined>({ url: url, data: request }).catch(e => {
       logger.error('Error when updating category:', e);
+      throw e;
+    });
+
+    return true;
+  }
+
+  @Delete('/supportmanagement/municipality/:municipality/namespace/:namespace/categories/:category')
+  @OpenAPI({ summary: 'Delete a category matching the provided municipality, namespace and category' })
+  @HttpCode(204)
+  async deleteCategory(
+    @Param('municipality') municipality: string,
+    @Param('namespace') namespace: string,
+    @Param('category') category: string,
+  ): Promise<boolean> {
+    const url = this.baseUrl + `/${municipality}/${namespace}/metadata/categories/${category}`;
+
+    await this.apiService.delete({ url: url }).catch(e => {
+      logger.error('Error when deleting category:', e);
       throw e;
     });
 
