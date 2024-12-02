@@ -37,7 +37,7 @@ export const DialogModifyNamespace: React.FC<ModifyNamespaceProps> = ({ open, mu
   };
 
   const handleVerifyShortCode = () => {
-    if (shortCodeInput.length > 0 && shortCodeInput.toUpperCase() !== namespace?.shortCode) {
+    if (shortCodeInput.length > 0 && shortCodeInput.toUpperCase() !== namespace?.shortCode.toUpperCase()) {
       isShortCodeAvailable(municipality.municipalityId, shortCodeInput)
       .then((res) => setShortCodeAvailable(res));
     } else {
