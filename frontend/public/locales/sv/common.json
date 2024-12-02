@@ -57,7 +57,7 @@
       "errand_channel_placeholder": "Ange kanal",
       "errand_closed_email_sender": "E-postavsändare för avvisad e-post",
       "errand_closed_email_template": "E-postsvar vid avvisad inkommande e-post",
-      "errand_closed_email_sender_placeholder": "Ange avsändare",
+      "errand_closed_email_sender_placeholder": "Ange e-postavsändare",
       "errand_closed_email_template_placeholder": "Ange meddelande i e-postsvar vid avvisad inkommande e-post",
       "errand_new_email_sender": "E-postavsändare för e-post vid nytt ärende",
       "errand_new_email_template": "E-postsvar när nytt ärende skapas",
@@ -85,8 +85,8 @@
       "categorytype_name_input_heading": "Typnamn",
       "type_name_placeholder": "Ange typnamn",
       "categorytype_display_name_input_heading": "Visningsnamn",
-      "categorytype_escalation_email_input_heading": "Mail vid eskalering",
-      "escalation_email_placeholder": "Ange eventuell eskaleringsmail",
+      "categorytype_escalation_email_input_heading": "E-post vid eskalering",
+      "escalation_email_placeholder": "Ange eventuell e-postadress för eskaleringar",
       "confirm_delete": "Bekräfta borttag av kategori"
     }
   },
