@@ -57,7 +57,6 @@ export class SupportmanagementLabelController {
     @Body() request: LabelSaveRequest,
   ): Promise<boolean> {
     const url = this.baseUrl + `/${municipality}/${namespace}/metadata/labels`;
-console.log(request);
 
     await this.apiService.put<undefined>({ url: url, data: request.labels }).catch(e => {
       logger.error('Error when updating label structure:', e);
