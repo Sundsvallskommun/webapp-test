@@ -57,7 +57,7 @@ export const isShortCodeAvailable: (municipalityId: string, shortCode: string) =
 
 const shortCodePresent: (data: any, shortCode: string) => boolean = (data, shortCode) => {
   const existingShortCode = data.find(m => m.shortCode.toLocaleUpperCase() === shortCode.toLocaleUpperCase())?.shortCode || null;
-  return existingShortCode !== null;	
+  return existingShortCode !== null;
 };
 
 export const createNamespace: (municipalityId: string, namepspace: string, request: NamespaceCreateRequest) => Promise<void> = async (municipalityId, namespace, request) => {

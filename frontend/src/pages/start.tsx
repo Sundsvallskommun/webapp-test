@@ -4,7 +4,7 @@ import DefaultLayout from '@layouts/default-layout/default-layout.component';
 
 export const Startpage: React.FC = () => {
   return (
-    <DefaultLayout title={'SupportMgmnt Admin'} />
+    <DefaultLayout title={'SMAUG'} />
   );
 };
 

@@ -1,4 +1,5 @@
-import { Button, Card, useSnackbar, Table, SortMode, Icon, Input, Pagination } from '@sk-web-gui/react';
+import { Button, Card, useSnackbar, Table, SortMode, Input, Pagination } from '@sk-web-gui/react';
+import LucideIcon from '@sk-web-gui/lucide-icon';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import { DialogManageContactreason } from '@components/dialogs/dialog_manage_contactreason';
@@ -64,7 +65,7 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
   const handlePageSizeChanged = (newPageSize: number) => {
     if (newPageSize > 0) {
       setPageSize(newPageSize);
-	}
+    }
   };
 
   const openCreateContactreasonDialog = () => {
@@ -107,7 +108,7 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
   }, [sortColumn, sortOrder])
 
   useEffect(() => {
-	setCurrentPage(1);
+    setCurrentPage(1);
   }, [pageSize]);
 
   useEffect(() => {
@@ -147,7 +148,7 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
                   color={'vattjom'}
                   onClick={() => openModifyContactreasonDialog(m)}
                 >
-                  <Icon name={'wrench'} size={20} />
+                  <LucideIcon name={'folder-pen'} size={18} />
                 </Button>
                 {m.index}
                 </Table.Column>
@@ -202,6 +203,7 @@ export const MainPageContactreasonsContent: React.FC<MainPageRolesProps> = ({ mu
       }
         
       <Button
+        leftIcon={<LucideIcon name={'square-plus'} />} 
         color={'vattjom'}
         onClick={() => openCreateContactreasonDialog()}>
         {t('common:buttons.add_contactreason')}

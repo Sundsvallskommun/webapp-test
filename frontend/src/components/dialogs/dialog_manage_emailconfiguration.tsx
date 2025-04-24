@@ -1,3 +1,4 @@
+import LucideIcon from '@sk-web-gui/lucide-icon';
 import {
   Button,
   Dialog,
@@ -186,10 +187,17 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
             </div>
           </Dialog.Content>
           <Dialog.Buttons className={'container-right'}>
-            <Button color={'vattjom'} onClick={() => handleOnDelete()}>
+            <Button 
+              leftIcon={<LucideIcon name={'check-square'} />} 
+              color={'vattjom'} 
+              onClick={() => handleOnDelete()}>
               {t('common:buttons.confirm')}
             </Button>
-            <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnAbort()}>
+            <Button 
+              variant={'tertiary'} 
+              leftIcon={<LucideIcon name={'square-x'} />} 
+              color={'vattjom'} 
+              onClick={() => handleOnAbort()}>
               {t('common:buttons.abort')}
             </Button>
           </Dialog.Buttons>
@@ -257,13 +265,13 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
         <Tabs 
           color={'vattjom'}
           size='sm'
-          showBackground={true}>
+          underline={true}>
 
           {/* Section for incoming email reply*/}
           <Tabs.Item>
             <Tabs.Button>{t('common:dialogs.manage_emailconfiguration.tab_errand_new')}</Tabs.Button>
             <Tabs.Content>
-              <div className="grid-2-col left-padded-2">
+              <div className="grid-2-col left-padded-2 tab-content">
                 <div className='small-text'>
                   <span>{t('common:dialogs.manage_emailconfiguration.errand_new_email_sender')}</span>
                   <Input
@@ -300,7 +308,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
           <Tabs.Item>
             <Tabs.Button>{t('common:dialogs.manage_emailconfiguration.tab_errand_closed')}</Tabs.Button>
             <Tabs.Content>
-              <div className="grid-2-col">
+              <div className="grid-2-col tab-content">
                 <div className="grid-2-col">
                   <div>{t('common:dialogs.manage_emailconfiguration.errand_closed_email_sender')}</div>
                   <div>
@@ -463,6 +471,7 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
             !futureEmailConfiguration?.statusForNew ||
             !isValidEmailOrEmpty(futureEmailConfiguration?.errandClosedEmailSender)
           }
+          leftIcon={<LucideIcon name={'save'} />} 
           color={'vattjom'}
           loading={saving}
           onClick={() => handleOnSave()}
@@ -472,13 +481,18 @@ export const DialogManageEmailconfiguration: React.FC<ManageEmailconfigurationPr
         {emailConfiguration &&
           <Button
             color={'juniskar'}
+            leftIcon={<LucideIcon name={'trash-2'} />} 
             onClick={() => confirmDelete()}
           >
             {t('common:buttons.delete')}
           </Button>
         }
 
-        <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnClose(false)}>
+        <Button 
+          variant={'tertiary'} 
+          leftIcon={<LucideIcon name={'folder-output'} />} 
+          color={'vattjom'} 
+          onClick={() => handleOnClose(false)}>
           {t('common:buttons.close')}
         </Button>
       </Dialog.Buttons>

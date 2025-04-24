@@ -1,4 +1,5 @@
-import { Button, Dialog, Input, useSnackbar, Icon, SnackbarProps, IconProps } from '@sk-web-gui/react';
+import { Button, Dialog, Input, useSnackbar, SnackbarProps, IconProps } from '@sk-web-gui/react';
+import LucideIcon from '@sk-web-gui/lucide-icon';
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'next-i18next';
 import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
@@ -42,7 +43,7 @@ export const DialogModifyNamespace: React.FC<ModifyNamespaceProps> = ({ open, mu
       .then((res) => setShortCodeAvailable(res));
     } else {
       setShortCodeAvailable(true);
-	}
+    }
   };
 
   const handleUpdate = () => {
@@ -59,8 +60,8 @@ export const DialogModifyNamespace: React.FC<ModifyNamespaceProps> = ({ open, mu
   };
 
   const confirmDelete = () => {
-	isMetadataPresent(municipality.municipalityId, namespace.namespace)
-	.then((res) => res ? setProblemOpen(true) : setConfirmOpen(true) );
+    isMetadataPresent(municipality.municipalityId, namespace.namespace)
+      .then((res) => res ? setProblemOpen(true) : setConfirmOpen(true) );
   };
 
   const handleOnAbort = () => {
@@ -93,9 +94,9 @@ export const DialogModifyNamespace: React.FC<ModifyNamespaceProps> = ({ open, mu
     });
   };
 
-  const showDisplayIcon = (icon: string): React.ComponentPropsWithoutRef<IconProps['Component']>['name'] => {
+  const showDisplayIcon = (icon: string): React.ComponentPropsWithoutRef<IconProps['Component']>['id'] => {
     if (icon === '') return undefined;
-    return icon as React.ComponentPropsWithoutRef<IconProps['Component']>['name'];
+    return icon;
   };
 
   useEffect(() => {
@@ -107,8 +108,8 @@ export const DialogModifyNamespace: React.FC<ModifyNamespaceProps> = ({ open, mu
   }, [escFunction]);
 
   useEffect(() => {
-	setShortCodeInput(namespace?.shortCode || '');
-	setDisplayNameInput(namespace?.displayName || '');
+    setShortCodeInput(namespace?.shortCode || '');
+    setDisplayNameInput(namespace?.displayName || '');
   }, []);
   
   return (
@@ -130,10 +131,17 @@ export const DialogModifyNamespace: React.FC<ModifyNamespaceProps> = ({ open, mu
             </div>
           </Dialog.Content>
           <Dialog.Buttons className={'container-right'}>
-            <Button color={'vattjom'} onClick={() => handleDeleteNamespace()}>
+            <Button 
+              color={'vattjom'} 
+              leftIcon={<LucideIcon name={'check-square'} />} 
+              onClick={() => handleDeleteNamespace()}>
               {t('common:buttons.confirm')}
             </Button>
-            <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnAbort()}>
+            <Button 
+              variant={'tertiary'} 
+              color={'vattjom'} 
+              leftIcon={<LucideIcon name={'square-x'} />} 
+              onClick={() => handleOnAbort()}>
               {t('common:buttons.abort')}
             </Button>
           </Dialog.Buttons>
@@ -150,7 +158,11 @@ export const DialogModifyNamespace: React.FC<ModifyNamespaceProps> = ({ open, mu
             </div>
           </Dialog.Content>
           <Dialog.Buttons className={'container-right'}>
-            <Button variant={'tertiary'} color={'vattjom'} onClick={() => setProblemOpen(false)}>
+            <Button 
+              variant={'tertiary'} 
+              color={'vattjom'} 
+              leftIcon={<LucideIcon name={'folder-output'} />} 
+              onClick={() => setProblemOpen(false)}>
               {t('common:buttons.close')}
             </Button>
           </Dialog.Buttons>
@@ -184,7 +196,7 @@ export const DialogModifyNamespace: React.FC<ModifyNamespaceProps> = ({ open, mu
                   onChange={(e) => setShortCodeInput(e.target.value)}
                   onBlur={() => handleVerifyShortCode()}
                 />
-                <Icon
+                <LucideIcon
                   name={
                     shortCodeAvailable ? showDisplayIcon('') : showDisplayIcon('shield-alert')
                   }
@@ -205,17 +217,25 @@ export const DialogModifyNamespace: React.FC<ModifyNamespaceProps> = ({ open, mu
       </Dialog.Content>
       <Dialog.Buttons className={'container-right'}>
         <Button 
-        disabled={!shortCodeInput || !shortCodeAvailable}
-        loading={savingNamespace} color={'vattjom'} onClick={() => handleUpdate()}>
+          disabled={!shortCodeInput || !shortCodeAvailable}
+          leftIcon={<LucideIcon name={'save'} />} 
+          loading={savingNamespace} 
+          color={'vattjom'} 
+          onClick={() => handleUpdate()}>
           {t('common:buttons.update')}
         </Button>
         <Button
           color={'juniskar'}
+          leftIcon={<LucideIcon name={'trash-2'} />} 
           onClick={() => confirmDelete()}
         >
           {t('common:buttons.delete')}
         </Button>
-        <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnClose()}>
+        <Button 
+          variant={'tertiary'} 
+          color={'vattjom'} 
+          leftIcon={<LucideIcon name={'folder-output'} />} 
+          onClick={() => handleOnClose()}>
           {t('common:buttons.close')}
         </Button>
       </Dialog.Buttons>

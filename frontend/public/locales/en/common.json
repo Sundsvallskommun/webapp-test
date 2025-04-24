@@ -20,7 +20,7 @@
     "manage_namespace": {
       "header_new_namespace": "Create new domain in",
       "header_update_namespace": "Update existing domain in",
-      "domain_name_input_heading": "Domain name",
+      "domain_name_input_heading": "Domain ID",
       "display_name_input_heading": "Display name",
       "displayname_placeholder": "Enter display name",
       "short_code_input_heading": "Short code",
@@ -31,7 +31,7 @@
     "manage_role": {
       "header_prefix_create": "Create new role for domain",
       "header_prefix_modify": "Manage existing role for domain",
-      "role_input_heading": "Role name",
+      "role_input_heading": "Role ID",
       "display_name_input_heading": "Display name",
       "displayname_placeholder": "Enter display name",
       "confirm_delete": "Confirm removal of role"
@@ -39,7 +39,7 @@
     "manage_status": {
       "header_prefix_create": "Create new case status for domain",
       "header_prefix_modify": "Manage existing status for domain",
-      "status_input_heading": "Status name",
+      "status_input_heading": "Status",
       "confirm_delete": "Confirm removal of status"
     },
     "manage_contactreason": {
@@ -77,17 +77,31 @@
     "manage_category": {
       "create_header_prefix": "Create new category for domain",
       "modify_header_prefix": "Modify category",
-      "category_name_input_heading": "Category name",
-      "name_placeholder": "Enter category name",
+      "category_name_input_heading": "Category ID",
+      "name_placeholder": "Enter category ID",
       "category_display_name_input_heading": "Display name",
       "displayname_placeholder": "Enter display name",
       "add_categorytype": "Add type",
-      "categorytype_name_input_heading": "Type name",
-      "type_name_placeholder": "Enter type name",
+      "categorytype_name_input_heading": "Type ID",
+      "type_name_placeholder": "Enter type ID",
       "categorytype_display_name_input_heading": "Display name",
       "categorytype_escalation_email_input_heading": "Escalation e-mail",
       "escalation_email_placeholder": "Enter optional escalation e-mail",
       "confirm_delete": "Confirm removal of category"
+    },
+    "manage_label": {
+      "duplicate_names_header": "Action required",
+      "duplicates_found_prefix": "The label tree contains members with identical ids. The following ids are used more than once:",
+      "duplicates_found_suffix": "The violations above must be addressed in order for the labels to be saved.",
+      "header_prefix_create": "Create new label for domain",
+      "header_prefix_modify": "Modify label",
+      "name_input_heading": "Label ID",
+      "classification_input_heading": "Classification",
+      "display_name_input_heading": "Display name",
+      "name_placeholder": "Enter label ID",
+      "classification_placeholder": "Enter classification",
+      "displayname_placeholder": "Enter display name",
+      "add_child": "Add child label"
     }
   },
   "buttons": {
@@ -104,7 +118,7 @@
     "add_status": "New case status",
     "add_emailconfiguration": "New configuration",
     "modify_emailconfiguration": "Modify configuration",
-		"add_label": "New label"
+    "add_label": "New label"
   },
   "errors": {
     "errorLoadingMunicipalities": "An error occurred when loading municipalities",
@@ -114,6 +128,8 @@
     "errorUpdatingNamespace": "An error occurred when updating namespace",
     "errorDeletingNamespace": "An error occurred when deleting namespace",
     "errorLoadingLabels": "An error occurred when loading labels",
+    "errorCreatingLabels": "An error occurred when creating labels",
+    "errorUpdatingLabels": "An error occurred when updating labels",
     "errorLoadingRoles": "An error occurred when loading roles",
     "errorVerifyingRolename": "An error occurred when checking role name availability",
     "errorCreatingRole": "An error occurred when creating role",
@@ -141,8 +157,8 @@
     "categories": {
       "missing": "Categories are missing",
       "menuheader": "Categories and types",
-      "category_name": "Category name",
-      "category_type_name": "Type name",
+      "category_name": "Category ID",
+      "category_type_name": "Type ID",
       "escalation_mail": "Mail for escalation",
       "created": "Created",
       "modified": "Modified"
@@ -173,7 +189,7 @@
       "missing": "Roles are missing",
       "table": {
         "headers": {
-          "name": "Role name",
+          "name": "Role ID",
           "displayName": "Display name",
           "created": "Created",
           "modified": "Modified"
@@ -185,7 +201,7 @@
       "missing": "Case statuses are missing",
       "table": {
         "headers": {
-          "name": "Status name",
+          "name": "Status",
           "created": "Created",
           "modified": "Modified"
         },
@@ -207,13 +223,13 @@
       "missing": "No labels to display",
       "label": {
         "classification": "Classification",
-        "name": "Label name",
+        "name": "Label ID",
         "displayName": "Display name"
       }
     }
   },
   "title": "SupportManagement",
-  "subtitle": "Administration",
+  "subtitle": "Administrator User Gui",
   "welcome": "Welcome",
   "login": "log in",
   "domain": "domain",

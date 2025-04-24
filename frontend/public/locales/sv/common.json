@@ -20,9 +20,9 @@
     "manage_namespace": {
       "header_new_namespace": "Skapa ny domän för",
       "header_update_namespace": "Uppdatera domän för",
-      "domain_name_input_heading": "Domännamn",
-      "display_name_input_heading": "Visningsnamn",
-      "displayname_placeholder": "Ange visningsnamn",
+      "domain_name_input_heading": "Domän-ID",
+      "display_name_input_heading": "Namn",
+      "displayname_placeholder": "Ange namn",
       "short_code_input_heading": "Kort-kod",
       "confirm_delete": "Bekräfta borttag av domän",
       "header_metadata_exists": "Domänen innehåller metadata",
@@ -31,15 +31,15 @@
     "manage_role": {
       "header_prefix_create": "Skapa ny roll för domän",
       "header_prefix_modify": "Hantera befintlig roll för domän",
-      "role_input_heading": "Rollnamn",
-      "display_name_input_heading": "Visningsnamn",
-      "displayname_placeholder": "Ange visningsnamn",
+      "role_input_heading": "Roll-ID",
+      "display_name_input_heading": "Namn",
+      "displayname_placeholder": "Ange namn",
       "confirm_delete": "Bekräfta borttag av roll"
     },
     "manage_status": {
       "header_prefix_create": "Skapa ny ärendestatus för domän",
       "header_prefix_modify": "Hantera befintlig status för domän",
-      "status_input_heading": "Statusnamn",
+      "status_input_heading": "Status",
       "confirm_delete": "Bekräfta borttag av status"
     },
     "manage_contactreason": {
@@ -77,17 +77,31 @@
     "manage_category": {
       "create_header_prefix": "Skapa ny kategori för domän",
       "modify_header_prefix": "Uppdatera kategori",
-      "category_name_input_heading": "Kategorinamn",
-      "name_placeholder": "Ange kategorinamn",
-      "category_display_name_input_heading": "Visningsnamn",
-      "displayname_placeholder": "Ange visningsnamn",
-      "add_categorytype": "Addera typ",
-      "categorytype_name_input_heading": "Typnamn",
-      "type_name_placeholder": "Ange typnamn",
-      "categorytype_display_name_input_heading": "Visningsnamn",
+      "category_name_input_heading": "Kategori-ID",
+      "name_placeholder": "Ange kategori-ID",
+      "category_display_name_input_heading": "Namn",
+      "displayname_placeholder": "Ange namn",
+      "add_categorytype": "Lägg till typ",
+      "categorytype_name_input_heading": "Typ-ID",
+      "type_name_placeholder": "Ange typ-ID",
+      "categorytype_display_name_input_heading": "Namn",
       "categorytype_escalation_email_input_heading": "E-post vid eskalering",
-      "escalation_email_placeholder": "Ange eventuell e-postadress för eskaleringar",
+      "escalation_email_placeholder": "Ange e-postadress för eskalering",
       "confirm_delete": "Bekräfta borttag av kategori"
+    },
+    "manage_label": {
+      "duplicate_names_header": "Åtgärd krävs",
+      "duplicates_found_prefix": "Trädet med etiketter innehåller medlemmar med identiska id. Följande id:n används mer än en gång:",
+      "duplicates_found_suffix": "Överträdelserna ovan måste åtgärdas för att etiketterna ska kunna sparas.",
+      "header_prefix_create": "Skapa ny etikett för domän",
+      "header_prefix_modify": "Uppdatera etikett",
+      "name_input_heading": "Etikett-ID",
+      "classification_input_heading": "Klassificering",
+      "display_name_input_heading": "Namn",
+      "name_placeholder": "Ange etikett-ID",
+      "classification_placeholder": "Ange klassificering",
+      "displayname_placeholder": "Ange namn",
+      "add_child": "Lägg till underordnad etikett"
     }
   },
   "buttons": {
@@ -104,7 +118,7 @@
     "add_status": "Ny ärendestatus",
     "add_emailconfiguration": "Ny konfiguration",
     "modify_emailconfiguration": "Ändra konfiguration",
-		"add_label": "Ny etikett"
+    "add_label": "Ny etikett"
   },
   "errors": {
     "errorLoadingMunicipalities": "Ett fel inträffade när kommuner skulle hämtas",
@@ -114,6 +128,8 @@
     "errorUpdatingNamespace": "Ett fel inträffade när domän skulle uppdateras",
     "errorDeletingNamespace": "Ett fel inträffade när domän skulle tas bort",
     "errorLoadingLabels": "Ett fel inträffade när etiketter skulle hämtas",
+    "errorCreatingLabels": "Ett fel inträffade när etiketter skulle skapas",
+    "errorUpdatingLabels": "Ett fel inträffade när etiketter skulle uppdateras",
     "errorLoadingRoles": "Ett fel inträffade när roller skulle hämtas",
     "errorVerifyingRolename": "Ett fel inträffade vid kontroll om rollnamnet är tillgängligt",
     "errorCreatingRole": "Ett fel inträffade när roll skulle skapas",
@@ -140,8 +156,8 @@
   "subpages": {
     "categories": {
       "menuheader": "Kategorier och typer",
-      "category_name": "Kategorinamn",
-      "category_type_name": "Typnamn",
+      "category_name": "Kategori-ID",
+      "category_type_name": "Typ-ID",
       "escalation_mail": "Mail vid eskalering",
       "created": "Skapad",
       "modified": "Uppdaterad",
@@ -173,8 +189,8 @@
       "missing": "Roller saknas",
       "table": {
         "headers": {
-          "name": "Rollnamn",
-          "displayName": "Visningsnamn",
+          "name": "Roll-ID",
+          "displayName": "Namn",
           "created": "Skapad",
           "modified": "Uppdaterad"
         },
@@ -185,7 +201,7 @@
       "missing": "Ärendestatusar saknas",
       "table": {
         "headers": {
-          "name": "Statusnamn",
+          "name": "Status",
           "created": "Skapad",
           "modified": "Uppdaterad"
         },
@@ -207,13 +223,13 @@
       "missing": "Etiketter saknas",
       "label": {
         "classification": "Klassificering",
-        "name": "Etikettnamn",
-        "displayName": "Visningsnamn"
+        "name": "Etikett-ID",
+        "displayName": "Namn"
       }
     }
   },
   "title": "SupportManagement",
-  "subtitle": "Administration",
+  "subtitle": "Administrator User Gui",
   "welcome": "välkommen",
   "login": "logga in",
   "domain": "domän",

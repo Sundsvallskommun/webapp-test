@@ -1,4 +1,5 @@
-import { Button, Dialog, Input, useSnackbar, Icon, SnackbarProps, IconProps } from '@sk-web-gui/react';
+import { Button, Dialog, Input, useSnackbar, SnackbarProps, IconProps } from '@sk-web-gui/react';
+import LucideIcon from '@sk-web-gui/lucide-icon';
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'next-i18next';
 import { MunicipalityInterface } from '@interfaces/supportmanagement.municipality';
@@ -109,12 +110,12 @@ export const DialogCreateNamespace: React.FC<CreateNamespaceProps> = ({ open, mu
     });
   };
 
-  const showDisplayIcon = (icon: string): React.ComponentPropsWithoutRef<IconProps['Component']>['name'] => {
+  const showDisplayIcon = (icon: string): React.ComponentPropsWithoutRef<IconProps['Component']>['id'] => {
     if (namespaceInputChanged) {
       return undefined;
     }
     if (icon === '') return undefined;
-    return icon as React.ComponentPropsWithoutRef<IconProps['Component']>['name'];
+    return icon;
   };
 
   useEffect(() => {
@@ -148,7 +149,7 @@ export const DialogCreateNamespace: React.FC<CreateNamespaceProps> = ({ open, mu
                   onChange={(e) => handleInputChange(e.target.value)}
                   onBlur={() => handleVerifyNamespace()}
                 />
-                <Icon
+                <LucideIcon
                   name={namespaceAvailable ? showDisplayIcon('shield-check') : showDisplayIcon('shield-alert')}
                   color={namespaceAvailable ? 'gronsta' : 'warning'}
                 />
@@ -172,7 +173,7 @@ export const DialogCreateNamespace: React.FC<CreateNamespaceProps> = ({ open, mu
                   onChange={(e) => {setShortCodeInput(e.target.value); setShortCodeInputChanged(true);}}
                   onBlur={() => handleVerifyShortCode()}
                 />
-                <Icon
+                <LucideIcon
                   name={
                     shortCodeAvailable || !namespaceAvailable ? showDisplayIcon('') : showDisplayIcon('shield-alert')
                   }
@@ -196,6 +197,7 @@ export const DialogCreateNamespace: React.FC<CreateNamespaceProps> = ({ open, mu
 
         <Button
           color={'vattjom'}
+          leftIcon={<LucideIcon name={'save'} />} 
           disabled={!namespaceAvailable || shortCodeInput.length === 0 || displayNameInput.length === 0 || shortCodeInputChanged || !shortCodeAvailable}
           loading={savingNamespace}
           onClick={() => handleCreate()}
@@ -204,7 +206,11 @@ export const DialogCreateNamespace: React.FC<CreateNamespaceProps> = ({ open, mu
         </Button>
 
 
-        <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnClose(false)}>
+        <Button 
+          variant={'tertiary'} 
+          leftIcon={<LucideIcon name={'folder-output'} />} 
+          color={'vattjom'} 
+          onClick={() => handleOnClose(false)}>
           {t('common:buttons.close')}
         </Button>
       </Dialog.Buttons>

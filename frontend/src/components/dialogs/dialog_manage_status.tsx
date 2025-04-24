@@ -1,4 +1,5 @@
-import { Button, Dialog, Input, useSnackbar, Icon, SnackbarProps } from '@sk-web-gui/react';
+import { Button, Dialog, Input, useSnackbar, SnackbarProps } from '@sk-web-gui/react';
+import LucideIcon from '@sk-web-gui/lucide-icon';
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'next-i18next';
 import { isStatusAvailable, createStatus, updateStatus, deleteStatus } from '@services/supportmanagement-service/supportmanagement-status-service';
@@ -178,10 +179,17 @@ export const DialogManageStatus: React.FC<ManageStatusProps> = ({ open, municipa
             </div>
           </Dialog.Content>
           <Dialog.Buttons className={'container-right'}>
-            <Button color={'vattjom'} onClick={() => handleDeleteStatus()}>
+            <Button 
+              leftIcon={<LucideIcon name={'check-square'} />} 
+              color={'vattjom'} 
+              onClick={() => handleDeleteStatus()}>
               {t('common:buttons.confirm')}
             </Button>
-            <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnAbort()}>
+            <Button 
+              variant={'tertiary'} 
+              leftIcon={<LucideIcon name={'square-x'} />} 
+              color={'vattjom'} 
+              onClick={() => handleOnAbort()}>
               {t('common:buttons.abort')}
             </Button>
           </Dialog.Buttons>
@@ -201,7 +209,7 @@ export const DialogManageStatus: React.FC<ManageStatusProps> = ({ open, municipa
                   onKeyDown={(e) => handleEnter(e)}
                   onBlur={() => handleVerifyStatus()}
                 />
-                <Icon name={statusAvailable ? undefined : 'shield-x'} color={'error'} />
+                <LucideIcon name={statusAvailable ? undefined : 'shield-x'} color={'error'} />
               </Input.RightAddin>
             </Input.Group>
           </div>
@@ -210,6 +218,7 @@ export const DialogManageStatus: React.FC<ManageStatusProps> = ({ open, municipa
       <Dialog.Buttons className={'container-right'}>
         <Button
           className={existingStatus ? 'hidden' : ''} /* Update is hidden until patch is supported by backing api-service */
+          leftIcon={<LucideIcon name={'save'} />} 
           disabled={statusInput.length === 0 || !statusAvailable}
           loading={saving}
           color={'vattjom'}
@@ -219,13 +228,18 @@ export const DialogManageStatus: React.FC<ManageStatusProps> = ({ open, municipa
         </Button>
         {existingStatus &&
           <Button
+            leftIcon={<LucideIcon name={'trash-2'} />} 
             color={'juniskar'}
             onClick={() => confirmDelete()}
           >
             {t('common:buttons.delete')}
           </Button>
         }
-        <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnClose()}>
+        <Button 
+          variant={'tertiary'} 
+          leftIcon={<LucideIcon name={'folder-output'} />} 
+          color={'vattjom'} 
+          onClick={() => handleOnClose()}>
           {t('common:buttons.close')}
         </Button>
       </Dialog.Buttons>
