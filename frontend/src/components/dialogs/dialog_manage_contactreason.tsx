@@ -1,4 +1,5 @@
-import { Button, Dialog, Input, useSnackbar, Icon, SnackbarProps } from '@sk-web-gui/react';
+import { Button, Dialog, Input, useSnackbar, SnackbarProps } from '@sk-web-gui/react';
+import LucideIcon from '@sk-web-gui/lucide-icon';
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'next-i18next';
 import {
@@ -188,10 +189,17 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({
             </div>
           </Dialog.Content>
           <Dialog.Buttons className={'container-right'}>
-            <Button color={'vattjom'} onClick={() => handleDeleteContactreason()}>
+            <Button 
+              color={'vattjom'} 
+              leftIcon={<LucideIcon name={'check-square'} />} 
+              onClick={() => handleDeleteContactreason()}>
               {t('common:buttons.confirm')}
             </Button>
-            <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnAbort()}>
+            <Button 
+              variant={'tertiary'} 
+              color={'vattjom'} 
+              leftIcon={<LucideIcon name={'square-x'} />} 
+              onClick={() => handleOnAbort()}>
               {t('common:buttons.abort')}
             </Button>
           </Dialog.Buttons>
@@ -209,7 +217,7 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({
                   onKeyDown={(e) => handleEnter(e)}
                   onBlur={() => handleVerifyContactreason()}
                 />
-                <Icon name={contactreasonAvailable ? undefined : 'shield-x'} color={'error'} />
+                <LucideIcon name={contactreasonAvailable ? undefined : 'shield-x'} color={'error'} />
               </Input.RightAddin>
             </Input.Group>
           </div>
@@ -217,6 +225,7 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({
       </Dialog.Content>
       <Dialog.Buttons className={'container-right'}>
         <Button
+          leftIcon={<LucideIcon name={'save'} />} 
           disabled={contactreasonInput.length === 0 || !contactreasonAvailable ||(existingContactreason && existingContactreason.reason == contactreasonInput)}
           loading={saving}
           color={'vattjom'}
@@ -227,12 +236,17 @@ export const DialogManageContactreason: React.FC<ManageContactreasonProps> = ({
         {existingContactreason &&
           <Button
             color={'juniskar'}
+            leftIcon={<LucideIcon name={'trash-2'} />} 
             onClick={() => confirmDelete()}
           >
             {t('common:buttons.delete')}
           </Button>
         }
-        <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnClose()}>
+        <Button 
+          variant={'tertiary'} 
+          leftIcon={<LucideIcon name={'folder-output'} />} 
+          color={'vattjom'} 
+          onClick={() => handleOnClose()}>
           {t('common:buttons.close')}
         </Button>
       </Dialog.Buttons>

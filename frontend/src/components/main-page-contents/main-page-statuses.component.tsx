@@ -1,4 +1,5 @@
-import { Button, Card, useSnackbar, Table, SortMode, Icon, Input, Pagination } from '@sk-web-gui/react';
+import { Button, Card, useSnackbar, Table, SortMode, Input, Pagination } from '@sk-web-gui/react';
+import LucideIcon from '@sk-web-gui/lucide-icon';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import { DialogManageStatus } from '@components/dialogs/dialog_manage_status';
@@ -64,7 +65,7 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
   const handlePageSizeChanged = (newPageSize: number) => {
     if (newPageSize > 0) {
       setPageSize(newPageSize);
-	}
+    }
   };
 
   const openCreateStatusDialog = () => {
@@ -106,7 +107,7 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
   }, [sortColumn, sortOrder])
 
   useEffect(() => {
-	setCurrentPage(1);
+    setCurrentPage(1);
   }, [pageSize]);
   
   useEffect(() => {
@@ -142,10 +143,9 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
               <Table.Column>
                 <Button
                   variant={'link'}
-                  color={'vattjom'}
                   onClick={() => openModifyStatusDialog(m)}
                 >
-                  <Icon name={'wrench'} size={20} />
+                  <LucideIcon color={'vattjom'} name={'folder-pen'} size={18} />
                 </Button>
                 {m.index}
               </Table.Column>
@@ -200,6 +200,7 @@ export const MainPageStatusesContent: React.FC<MainPageStatusesProps> = ({ munic
       }
         
       <Button
+        leftIcon={<LucideIcon name={'square-plus'} />} 
         color={'vattjom'}
         onClick={() => openCreateStatusDialog()}>
         {t('common:buttons.add_status')}

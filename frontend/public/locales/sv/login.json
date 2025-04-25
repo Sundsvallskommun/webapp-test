@@ -1,5 +1,5 @@
 {
-  "description": "Administration av metadata för SupportManagement-tjänsten",
+  "description": "Administration av metadata för Drakenapplikationerna",
   "errors": {
     "SAML_MISSING_GROUP": "Användaren saknar rätt grupper",
     "SAML_MISSING_ATTRIBUTES": "Användaren saknar rätt attribut",

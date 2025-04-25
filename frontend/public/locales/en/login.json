@@ -1,5 +1,5 @@
 {
-  "description": "Administration of metadata for SupportManagement service",
+  "description": "Administration of metadata for Draken applications",
   "errors": {
     "SAML_MISSING_GROUP": "The user is missing the correct groups",
     "SAML_MISSING_ATTRIBUTES": "The user is missing the correct attributes",

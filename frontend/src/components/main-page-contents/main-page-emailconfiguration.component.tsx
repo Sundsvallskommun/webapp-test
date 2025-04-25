@@ -1,4 +1,5 @@
 import { Button, useSnackbar, Card, Divider, Text } from '@sk-web-gui/react';
+import LucideIcon from '@sk-web-gui/lucide-icon';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
@@ -190,6 +191,7 @@ export const MainPageEmailConfigurationContent: React.FC<MainPageEmailsettingsPr
           </Card.Body>
         </Card>
         <Button
+          leftIcon={<LucideIcon name={'folder-pen'} />} 
           color={'vattjom'}
           onClick={() => setIsHandleEmailconfigurationDialogOpen(true)}>
           {t('common:buttons.modify_emailconfiguration')}
@@ -207,6 +209,7 @@ export const MainPageEmailConfigurationContent: React.FC<MainPageEmailsettingsPr
           </Card.Body>
         </Card>
         <Button
+          leftIcon={<LucideIcon name={'square-plus'} />} 
           color={'vattjom'}
           onClick={() => setIsHandleEmailconfigurationDialogOpen(true)}>
           {t('common:buttons.add_emailconfiguration')}

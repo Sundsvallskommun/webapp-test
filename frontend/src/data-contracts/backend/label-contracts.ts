@@ -8,7 +8,9 @@ export interface Label {
   classification: string;
   displayName?: string;
   name: string;
-  uuid: string;
-  isActualLabel: boolean;
   labels?: Label[];
+}
+
+export interface LabelSaveRequest {
+  labelStructure?: Label[];
 }

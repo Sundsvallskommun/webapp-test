@@ -1,4 +1,5 @@
-import { Button, Dialog, Input, useSnackbar, Icon, SnackbarProps } from '@sk-web-gui/react';
+import { Button, Dialog, Input, useSnackbar, SnackbarProps } from '@sk-web-gui/react';
+import LucideIcon from '@sk-web-gui/lucide-icon';
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'next-i18next';
 import { isRoleAvailable, createRole, updateRole, deleteRole } from '@services/supportmanagement-service/supportmanagement-role-service';
@@ -99,7 +100,7 @@ export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality
       setVerified(true);
       return;
     }
-	
+
     if (municipality && namespace && !verified && roleInput.length > 0) {
       isRoleAvailable(municipality.municipalityId, namespace.namespace, roleInput)
       .then((res) => {
@@ -163,7 +164,7 @@ export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality
       setRoleInput(existingRole.name);
       setDisplayNameInput(existingRole.displayName);
     }
-	
+
     setRoleAvailable(true);
     setVerified(false);
     setSaving(false);
@@ -188,10 +189,17 @@ export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality
             </div>
           </Dialog.Content>
           <Dialog.Buttons className={'container-right'}>
-            <Button color={'vattjom'} onClick={() => handleDeleteRole()}>
+            <Button 
+              leftIcon={<LucideIcon name={'check-square'} />} 
+              color={'vattjom'} 
+              onClick={() => handleDeleteRole()}>
               {t('common:buttons.confirm')}
             </Button>
-            <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnAbort()}>
+            <Button 
+              variant={'tertiary'} 
+              leftIcon={<LucideIcon name={'square-x'} />} 
+              color={'vattjom'} 
+              onClick={() => handleOnAbort()}>
               {t('common:buttons.abort')}
             </Button>
           </Dialog.Buttons>
@@ -211,7 +219,7 @@ export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality
                   onKeyDown={(e) => handleEnter(e)}
                   onBlur={() => handleVerifyRole()}
                 />
-                <Icon name={roleAvailable ? undefined : 'shield-x'} color={'error'} />
+                <LucideIcon name={roleAvailable ? undefined : 'shield-x'} color={'error'} />
               </Input.RightAddin>
             </Input.Group>
           </div>
@@ -236,6 +244,7 @@ export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality
           className={existingRole ? 'hidden' : ''} /* Update is hidden until patch is supported by backing api-service */
           disabled={roleInput.length === 0 || !roleAvailable}
           loading={saving}
+          leftIcon={<LucideIcon name={'save'} />} 
           color={'vattjom'}
           onClick={() => existingRole ? handleUpdateRole() : handleCreateRole()}
         >
@@ -244,12 +253,17 @@ export const DialogManageRole: React.FC<ManageRoleProps> = ({ open, municipality
         {existingRole &&
           <Button
             color={'juniskar'}
+            leftIcon={<LucideIcon name={'trash-2'} />} 
             onClick={() => confirmDelete()}
           >
             {t('common:buttons.delete')}
           </Button>
         }
-        <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnClose()}>
+        <Button 
+          variant={'tertiary'} 
+          leftIcon={<LucideIcon name={'folder-output'} />} 
+          color={'vattjom'} 
+          onClick={() => handleOnClose()}>
           {t('common:buttons.close')}
         </Button>
       </Dialog.Buttons>

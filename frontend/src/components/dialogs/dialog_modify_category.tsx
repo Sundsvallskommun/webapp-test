@@ -1,4 +1,5 @@
-import { Button, Dialog, Input, useSnackbar, Icon, Table, SnackbarProps } from '@sk-web-gui/react';
+import { Button, Dialog, Input, useSnackbar, Table, SnackbarProps } from '@sk-web-gui/react';
+import LucideIcon from '@sk-web-gui/lucide-icon';
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'next-i18next';
 import { NamespaceInterface } from '@interfaces/supportmanagement.namespace';
@@ -195,10 +196,17 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({
             </div>
           </Dialog.Content>
           <Dialog.Buttons className={'container-right'}>
-            <Button color={'vattjom'} onClick={() => handleDeleteCategory()}>
+            <Button 
+              leftIcon={<LucideIcon name={'check-square'} />} 
+              color={'vattjom'} 
+              onClick={() => handleDeleteCategory()}>
               {t('common:buttons.confirm')}
             </Button>
-            <Button variant={'tertiary'} color={'vattjom'} onClick={() => handleOnAbort()}>
+            <Button 
+              leftIcon={<LucideIcon name={'square-x'} />} 
+              variant={'tertiary'} 
+              color={'vattjom'} 
+              onClick={() => handleOnAbort()}>
               {t('common:buttons.abort')}
             </Button>
           </Dialog.Buttons>
@@ -235,15 +243,12 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({
               <Table.HeaderColumn key={'header_name'}>
                 {t('common:dialogs.manage_category.categorytype_name_input_heading')}
               </Table.HeaderColumn>
-              )
               <Table.HeaderColumn key={'header_display_name'}>
                 {t('common:dialogs.manage_category.categorytype_display_name_input_heading')}
               </Table.HeaderColumn>
-              )
               <Table.HeaderColumn key={'header_escalation_email'}>
                 {t('common:dialogs.manage_category.categorytype_escalation_email_input_heading')}
               </Table.HeaderColumn>
-              )
             </Table.Header>
             <Table.Body>
               {categoryProspect?.types.map((m, idx) => (
@@ -286,7 +291,7 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({
                           onChange={(e) => handleTypeEscalationEmailInputChange(idx, e.target.value)}
                         />
 
-                        <Icon name={validEmail(m.escalationEmail) ? undefined : 'shield-x'} color={'error'} />
+                        <LucideIcon name={validEmail(m.escalationEmail) ? undefined : 'shield-x'} color={'error'} />
                       </Input.RightAddin>
                     </Input.Group>
 
@@ -298,7 +303,7 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({
                       iconButton
                       onClick={() => handleTypeRemoval(idx)}
                     >
-                      <Icon name={'trash-2'} />
+                      <LucideIcon size={20} name={'trash-2'} />
                     </Button>
                   </Table.Column>
                 </Table.Row>
@@ -308,13 +313,18 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({
         )}
       </Dialog.Content>
       <Dialog.Buttons className={'container-right'}>
-        <Button disabled={saving} color={'vattjom'} onClick={() => handleAddCategoryType()}>
+        <Button 
+          disabled={saving} 
+          leftIcon={<LucideIcon name={'square-plus'} />} 
+          color={'vattjom'} 
+          onClick={() => handleAddCategoryType()}>
           {t('common:dialogs.manage_category.add_categorytype')}
         </Button>
 
         <Button
           loading={saving}
           disabled={!(categoryProspect?.name.length > 0 && categoryProspect?.displayName.length > 0 && validTypes())}
+          leftIcon={<LucideIcon name={'save'} />} 
           color={'vattjom'}
           onClick={() => handleUpdateCategory()}
         >
@@ -322,12 +332,17 @@ export const DialogModifyCategory: React.FC<ModifyCategoryProps> = ({
         </Button>
         <Button
           color={'juniskar'}
+          leftIcon={<LucideIcon name={'trash-2'} />} 
           onClick={() => confirmDelete()}
         >
           {t('common:buttons.delete')}
         </Button>
 
-        <Button variant={'tertiary'} color={'vattjom'} onClick={() => onClose()}>
+        <Button 
+          variant={'tertiary'} 
+          leftIcon={<LucideIcon name={'folder-output'} />} 
+          color={'vattjom'} 
+          onClick={() => onClose()}>
           {t('common:buttons.close')}
         </Button>
       </Dialog.Buttons>

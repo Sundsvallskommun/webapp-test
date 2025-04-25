@@ -1,4 +1,5 @@
-import { Button, Divider, Link, Logo, Header, Combobox , Avatar, Icon, Image, MenuVertical, useSnackbar, Tooltip } from '@sk-web-gui/react';
+import { Button, Divider, Link, Logo, Header, Combobox , Avatar, Image, MenuVertical, useSnackbar, Tooltip } from '@sk-web-gui/react';
+import LucideIcon from '@sk-web-gui/lucide-icon';
 import NextLink from 'next/link';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
@@ -68,8 +69,8 @@ export const MainPageSidebar: React.FC = () => {
   };
   
   const closeModifyDialogHandler = () => {
-	setIsModifyDialogOpen(false);
-	reloadNamespaceDropdown();
+    setIsModifyDialogOpen(false);
+    reloadNamespaceDropdown();
   }
 
   const handleLanguageChange = (langValue: string) => {
@@ -220,7 +221,7 @@ export const MainPageSidebar: React.FC = () => {
                   color={'vattjom'}
                   onClick={() => openModifyDialogHandler()}
                 >
-                 <Icon name={'wrench'} size={20} color="vattjom"/>
+                 <LucideIcon name={'folder-pen'} size={18} color="vattjom"/>
               </Button>
               <Tooltip className={`${hover[0] ? 'namespace' : 'hidden'}`}>
                 {selectedNamespace.namespace}
@@ -295,6 +296,7 @@ export const MainPageSidebar: React.FC = () => {
                 </Combobox>
                 <div className={'left-padded-10'}>
                   <Button
+                    leftIcon={<LucideIcon name={'square-plus'} />} 
                     key={'button-create-namespace'}
                     disabled={selectedMunicipality === null}
                     color={'vattjom'}

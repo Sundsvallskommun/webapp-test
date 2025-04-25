@@ -1,73 +1,112 @@
 import { apiService } from '../api-service';
-import { Label, LabelsApiResponse } from '@data-contracts/backend/label-contracts';
+import { Label, LabelSaveRequest, LabelsApiResponse } from '@data-contracts/backend/label-contracts';
+import { LabelInterface, LabelSaveRequestInterface } from '@interfaces/supportmanagement.label';
 import { v4 } from 'uuid';
 
-
-const sortLabels = (labelStructure: Label[]) => {
-  labelStructure?.forEach((label: Label) => {
-    if (!label.isActualLabel) {
+const sortLabels = (labelStructure: LabelInterface[]) => {
+  labelStructure?.forEach((label: LabelInterface) => {
+    if (!label.isLeaf) {
       label.labels = sortLabels(label.labels);
     }
   });
 
   if (labelStructure) {
-	labelStructure = labelStructure.toSorted((a, b) => compareLabels(a, b));
+    labelStructure = labelStructure.toSorted((a, b) => compareLabels(a, b));
   }
   return labelStructure;
 };
 
-const compareLabels = (a: Label, b: Label) => {
-	const labelDiff = Number(b.isActualLabel) - Number(a.isActualLabel); // Sort actual labels to be displayed before members with children
-	if (labelDiff != 0) {
-		return labelDiff;
-	}  
-	return a.displayName.localeCompare(b.displayName); // If no differense then sort on display name
+const compareLabels = (a: LabelInterface, b: LabelInterface): number => {
+  const labelDiff = Number(b.isLeaf) - Number(a.isLeaf); // Sort leafs to be displayed before members with children
+  if (labelDiff != 0) {
+    return labelDiff;
+  }  
+  return a.displayName.localeCompare(b.displayName); // If no differense then sort on display name
 };
 
-/**
-  * Adds a uuid to each label object so we can keep track of them
- * @param labels the labels to add uuid to
- */
-const addUuidToAllLabels = (labels: Label[]) => {
-  if (!labels) {
-      return;
-  } 
-
-  labels.map((label) => {
-    label.uuid = v4();
-    if (label.labels != null) {
-      addUuidToAllLabels(label.labels);
-    }
-  });
+const mapToLabelInterfaces: (data: Label[]) => LabelInterface[] = (data) => {
+  return data?.map(mapToLabelInterface);
 };
 
-const markActualLabels = (labelStructure: Label[]) => {
-  labelStructure?.forEach((label: Label) => {
-    if (label.labels === undefined || label.labels.length == 0) {
-      label.isActualLabel = true;
-    } else {
-      label.isActualLabel = false;
-      markActualLabels(label.labels);
-    }
-  });
-}
+const mapToLabelInterface: (data: Label) => LabelInterface = (data) => ({
+  uuid: v4(),
+  classification: data.classification,
+  prefix: extractPrefix(data.name),
+  name: extractName(data.name),
+  displayName: data.displayName,
+  isLeaf: data.labels === undefined || data.labels.length == 0,
+  isNew: false,
+  labels: mapToLabelInterfaces(data.labels)
+});
 
-export const getLabels: (municipality: string, namespace: string) => Promise<LabelsApiResponse> = async (municipality, namespace) => {
+const extractName = (name: string): string => {
+  if (name && name.lastIndexOf('.') != -1) {
+    return name.substring(name.lastIndexOf('.') + 1);
+  }
+  return name;
+};
+
+const extractPrefix = (name: string): string => {
+  if (name && name.lastIndexOf('.') != -1) {
+    return name.substring(0, name.lastIndexOf('.'));
+  }
+  return null;
+};
+
+export const getLabels: (municipality: string, namespace: string) => Promise<LabelInterface[]> = async (municipality, namespace) => {
   const url = `/supportmanagement/municipality/${municipality}/namespace/${namespace}/labels`;
-
-  console.log('Fetching labels from', url);
-
   const result = apiService
     .get<LabelsApiResponse>(url)
-    .then((res) => res.data)
+    .then((res) => mapToLabelInterfaces(res.data.labelStructure))
     .catch((e) => {
       console.error('Error occurred when fetching labels', e);
       throw e;
     });
 
-  result.then((labels) => markActualLabels(labels.labelStructure))
-  result.then((labels) => addUuidToAllLabels(labels.labelStructure));
-  result.then((labels) => sortLabels(labels.labelStructure));
-  
+  result.then((labels) => {
+    sortLabels(labels);
+  })
+
   return result;
+};
+
+const mapToLabels: (data: LabelInterface[]) => Label[] = (data) => {
+  return data?.map(mapToLabel);
+};
+
+const mapToLabel: (data: LabelInterface) => Label = (data) => ({
+  classification: data.classification,
+  name: data.prefix ? data.prefix + '.' + data.name : data.name,
+  displayName: data.displayName,
+  labels: mapToLabels(data.labels)
+});
+
+export const createLabels: (municipalityId: string, namespace: string, request: LabelSaveRequestInterface) => Promise<void> = async (municipalityId, namespace, request) => {
+  const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/labels`;
+
+  await apiService
+    .post<LabelSaveRequest>(url, {
+      labels: mapToLabels(request.labels)
+    })
+    .catch((e) => {
+      console.error('Error occurred when creating labels', e);
+      throw e;
+    });
+
+  await new Promise(r => setTimeout(r, 500)); 
+};
+
+export const updateLabels: (municipalityId: string, namespace: string, request: LabelSaveRequestInterface) => Promise<void> = async (municipalityId, namespace, request) => {
+  const url = `supportmanagement/municipality/${municipalityId}/namespace/${namespace}/labels`;
+
+  await apiService
+    .put<LabelSaveRequest>(url, {
+      labels: mapToLabels(request.labels)
+    })
+    .catch((e) => {
+      console.error('Error occurred when updating labels', e);
+      throw e;
+    });
+
+  await new Promise(r => setTimeout(r, 500)); 
 };

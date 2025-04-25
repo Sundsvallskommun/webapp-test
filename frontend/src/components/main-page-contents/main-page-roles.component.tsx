@@ -1,4 +1,5 @@
-import { Button, Card, Icon, useSnackbar, Table, SortMode, Input, Pagination } from '@sk-web-gui/react';
+import { Button, Card, useSnackbar, Table, SortMode, Input, Pagination } from '@sk-web-gui/react';
+import LucideIcon from '@sk-web-gui/lucide-icon';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import { DialogManageRole } from '@components/dialogs/dialog_manage_role';
@@ -65,11 +66,11 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
   const handlePageSizeChanged = (newPageSize: number) => {
     if (newPageSize > 0) {
       setPageSize(newPageSize);
-	}
+    }
   };
 
   const openCreateRoleDialog = () => {
-	setSelectedRole(null);
+    setSelectedRole(null);
     setIsManageRoleDialogOpen(true);
   };
 
@@ -107,7 +108,7 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
   }, [sortColumn, sortOrder])
 
   useEffect(() => {
-	setCurrentPage(1);
+    setCurrentPage(1);
   }, [pageSize]);
 
   useEffect(() => {
@@ -143,10 +144,9 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
               <Table.Column>
                 <Button
                   variant={'link'}
-                  color={'vattjom'}
                   onClick={() => openModifyRoleDialog(m)}
                 >
-                  <Icon name={'wrench'} size={20} />
+                  <LucideIcon color={'vattjom'} name={'folder-pen'} size={18} />
                 </Button>
                 {m.index}
               </Table.Column>
@@ -202,6 +202,7 @@ export const MainPageRolesContent: React.FC<MainPageRolesProps> = ({ municipalit
       }
         
       <Button
+        leftIcon={<LucideIcon name={'square-plus'} />} 
         color={'vattjom'}
         onClick={() => openCreateRoleDialog()}>
         {t('common:buttons.add_role')}
