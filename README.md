@@ -1,10 +1,10 @@
-# Sundsvalls kommun - SupporManagement Admin-UI
+# Sundsvalls kommun - Suppor Management Admin User Gui
 
 ## APIer som används
 
 | API               | Version |
 | ----------------- | ------: |
-| SupportManagement |     9.0 |
+| SupportManagement |    10.2 |
 
 ## Utveckling
 
