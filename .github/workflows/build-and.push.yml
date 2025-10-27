@@ -1,0 +1,166 @@
+name: Publish Frontend & Backend to GHCR
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'frontend/**'
+      - 'backend/**'
+      - '.github/workflows/publish-frontend-and-backend.yml'
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  meta:
+    runs-on: ubuntu-latest
+    outputs:
+      owner_lc: ${{ steps.owner.outputs.owner_lc }}
+      repo_lc:  ${{ steps.repo.outputs.repo_lc }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - id: owner
+        run: echo "owner_lc=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_OUTPUT
+
+      - id: repo
+        run: |
+          name="${GITHUB_REPOSITORY##*/}"
+          echo "repo_lc=${name,,}" >> $GITHUB_OUTPUT
+
+  build:
+    needs: meta
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - app: frontend
+            context: frontend
+            dockerfile: frontend/Dockerfile
+            image_suffix: frontend
+          - app: backend
+            context: backend
+            dockerfile: backend/Dockerfile
+            image_suffix: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node (read versions)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Read app version
+        id: ver
+        working-directory: ${{ matrix.context }}
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          logout: false
+
+      - name: Build & push (amd64)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./${{ matrix.context }}
+          file: ./${{ matrix.dockerfile }}
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-${{ matrix.image_suffix }}:${{ steps.ver.outputs.version }}-amd64
+            ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-${{ matrix.image_suffix }}:latest-amd64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: false
+          sbom: false
+          labels: |
+            org.opencontainers.image.source=${{ github.repository }}
+            org.opencontainers.image.version=${{ steps.ver.outputs.version }}
+            org.opencontainers.image.title=${{ matrix.image_suffix }}
+            
+      - name: Build & push (arm64)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./${{ matrix.context }}
+          file: ./${{ matrix.dockerfile }}
+          platforms: linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-${{ matrix.image_suffix }}:${{ steps.ver.outputs.version }}-arm64
+            ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-${{ matrix.image_suffix }}:latest-arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: false
+          sbom: false
+          labels: |
+            org.opencontainers.image.source=${{ github.repository }}
+            org.opencontainers.image.version=${{ steps.ver.outputs.version }}
+            org.opencontainers.image.title=${{ matrix.image_suffix }}
+
+      - name: Export version output
+        id: export
+        run: echo "${{ matrix.app }}_version=${{ steps.ver.outputs.version }}" >> $GITHUB_OUTPUT
+
+  manifest:
+    needs: [meta, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: ver_front
+        run: echo "version=$(node -p "require('./frontend/package.json').version")" >> $GITHUB_OUTPUT
+      - id: ver_back
+        run: echo "version=$(node -p "require('./backend/package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Manifest :<version> (frontend)
+        run: |
+          docker buildx imagetools create \
+            -t ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-frontend:${{ steps.ver_front.outputs.version }} \
+            ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-frontend:${{ steps.ver_front.outputs.version }}-amd64 \
+            ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-frontend:${{ steps.ver_front.outputs.version }}-arm64
+
+      - name: Manifest :latest (frontend) on main & stable
+        if: ${{ github.ref == 'refs/heads/main' && !contains(steps.ver_front.outputs.version, '-') }}
+        run: |
+          docker buildx imagetools create \
+            -t ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-frontend:latest \
+            ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-frontend:latest-amd64 \
+            ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-frontend:latest-arm64
+
+      - name: Manifest :<version> (backend)
+        run: |
+          docker buildx imagetools create \
+            -t ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-backend:${{ steps.ver_back.outputs.version }} \
+            ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-backend:${{ steps.ver_back.outputs.version }}-amd64 \
+            ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-backend:${{ steps.ver_back.outputs.version }}-arm64
+
+      - name: Manifest :latest (backend) on main & stable
+        if: ${{ github.ref == 'refs/heads/main' && !contains(steps.ver_back.outputs.version, '-') }}
+        run: |
+          docker buildx imagetools create \
+            -t ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-backend:latest \
+            ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-backend:latest-amd64 \
+            ghcr.io/${{ needs.meta.outputs.owner_lc }}/${{ needs.meta.outputs.repo_lc }}-backend:latest-arm64
