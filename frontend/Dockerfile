@@ -1,30 +1,40 @@
-FROM node:20-alpine AS build
-WORKDIR /app
-
+FROM node:16-alpine AS deps
 RUN apk add --no-cache libc6-compat
+WORKDIR /app
 
 COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
-RUN --mount=type=cache,target=/root/.yarn \
-    yarn install --frozen-lockfile
-
-COPY . .
-ENV NEXT_TELEMETRY_DISABLED=1
-RUN yarn build
-
-FROM node:20-alpine AS runner
+FROM node:16-alpine AS builder
 WORKDIR /app
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
-ENV PORT=3000
-ENV HOST=0.0.0.0
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 
-RUN addgroup -S nextjs && adduser -S nextjs -G nextjs
+ENV NEXT_TELEMETRY_DISABLED 1
+
+RUN yarn build
+RUN rm -rf node_modules
+RUN yarn install --production --frozen-lockfile --ignore-scripts --prefer-offline
+
+FROM node:16-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
 USER nextjs
 
-COPY --from=build /app/public ./public
-COPY --from=build /app/.next/standalone ./
-COPY --from=build /app/.next/static ./.next/static
-
 EXPOSE 3000
+ENV PORT 3000
+
 CMD ["node", "server.js"]
