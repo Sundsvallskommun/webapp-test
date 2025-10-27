@@ -1,43 +1,49 @@
-# Install dependencies only when needed
-FROM node:18-slim AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-#RUN apk add --no-cache libc6-compat
-RUN apt-get update
-RUN apt-get install -y openssl
+FROM node:20-slim AS deps
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates openssl \
+  && rm -rf /var/lib/apt/lists/*
+
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN --mount=type=cache,target=/root/.yarn \
+    yarn install --frozen-lockfile
 
-# If using npm with a `package-lock.json` comment out above and use below instead
-# COPY package.json package-lock.json ./
-# RUN npm ci
-
-# Rebuild the source code only when needed
-FROM node:18-slim AS builder
+FROM node:20-slim AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
 RUN yarn build
 
-# Production image, copy all the files and run next
-FROM node:18-slim AS runner
-RUN apt-get update
-RUN apt-get install -y openssl
+FROM node:20-slim AS proddeps
 WORKDIR /app
 
-ENV NODE_ENV production
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates openssl \
+  && rm -rf /var/lib/apt/lists/*
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nodejs
+COPY package.json yarn.lock ./
+RUN --mount=type=cache,target=/root/.yarn \
+    yarn install --frozen-lockfile --production --ignore-scripts
 
-COPY --from=builder --chown=nodejs:nodejs /app/ ./
+COPY prisma ./prisma
+RUN npx prisma generate
+
+FROM node:20-slim AS runtime
+ENV NODE_ENV=production
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates openssl \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN groupadd -r nodejs && useradd -r -g nodejs nodejs
+
+COPY --from=proddeps /app/node_modules ./node_modules
+COPY --from=proddeps /app/prisma ./prisma
+
+COPY --from=build /app/dist ./dist
 
 USER nodejs
 
 EXPOSE 3000
-ENV PORT 3000
+ENV PORT=3000
 
-RUN yarn run prisma:generate
-RUN yarn run prisma:migrate
-CMD ["node", "./dist/server.js"]
+CMD ["node", "dist/server.js"]
