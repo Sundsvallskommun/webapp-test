@@ -1,14 +1,7 @@
 name: Publish Frontend & Backend to GHCR
 
 on:
-  workflow_call:
   workflow_dispatch:
-  push:
-    branches: [ main ]
-    paths:
-      - 'frontend/**'
-      - 'backend/**'
-      - '.github/workflows/publish-frontend-and-backend.yml'
 
 permissions:
   contents: read
