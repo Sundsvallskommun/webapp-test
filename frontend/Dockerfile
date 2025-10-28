@@ -7,7 +7,7 @@ ENV npm_config_ignore_scripts=true
 
 COPY package.json yarn.lock ./
 
-RUN yarn install --frozen-lockfile --ignore-scripts
+RUN yarn install --ignore-scripts --non-interactive
 
 FROM node:18-alpine AS builder
 WORKDIR /app
