@@ -2,9 +2,12 @@ FROM node:18-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+ENV CYPRESS_INSTALL_BINARY=0
+ENV npm_config_ignore_scripts=true
+
 COPY package.json yarn.lock ./
 
-RUN yarn install
+RUN yarn install --frozen-lockfile --ignore-scripts
 
 FROM node:18-alpine AS builder
 WORKDIR /app
@@ -32,6 +35,6 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
-
 EXPOSE 3000
+
 CMD ["node", "server.js"]
